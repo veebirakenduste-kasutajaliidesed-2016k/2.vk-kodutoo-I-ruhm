@@ -8,6 +8,7 @@ Võttes aluseks tunnis tehtud Moosipurgi rakenduse, tee ise sarnane rakendus, mi
 1. Rakendus on üles ehitatud objektorienteeritult (ei pea olema singleton, võib kasutada ka muid JS pattern'e)
 2. Andmeid saab lisada, kustutuda ja muuta
 3. Andmeid näidatakse välja või kasutatakse mingi tulemuse välja näitamiseks
+4. Andmeid salvestatakse lokaalselt (kasuta localStorage'it)
 
 ## Mõned ideed (lihtsalt, et mõte hakkaks jooksma)
 
