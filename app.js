@@ -1,16 +1,16 @@
 (function(){
    "use strict";
 
-   var Moosipurk = function(){
+   var Trenniplaan = function(){
 
      // SEE ON SINGLETON PATTERN
-     if(Moosipurk.instance){
-       return Moosipurk.instance;
+     if(Trenniplaan.instance){
+       return Trenniplaan.instance;
      }
-     //this viitab Moosipurk fn
-     Moosipurk.instance = this;
+     //this viitab Trenniplaan fn
+     Trenniplaan.instance = this;
 
-     this.routes = Moosipurk.routes;
+     this.routes = Trenniplaan.routes;
      // this.routes['home-view'].render()
 
      console.log('moosipurgi sees');
@@ -20,16 +20,16 @@
      this.currentRoute = null;
      console.log(this);
 	 
-	 // hakkan hoidma koiki purke
+	 // hakkan hoidma koiki andmed
 	 this.jars = [];
 
-     // Kui tahan Moosipurgile referenci siis kasutan THIS = MOOSIPURGI RAKENDUS ISE
+     // Kui tahan plaanile referenci siis kasutan THIS = TRENNIPLAAN RAKENDUS ISE
      this.init();
    };
 
-   window.Moosipurk = Moosipurk; // Paneme muuutja külge
+   window.Trenniplaan = Trenniplaan; // Paneme muuutja külge
 
-   Moosipurk.routes = {
+   Trenniplaan.routes = {
      'home-view': {
        'render': function(){
          // käivitame siis kui lehte laeme
@@ -39,7 +39,7 @@
      'list-view': {
        'render': function(){
          // käivitame siis kui lehte laeme
-         console.log('>>>>loend');
+         console.log('>>>>trenniplaan');
 		 
 		 //simulatsioon laeb kaua
 		 window.setTimeout(function(){
@@ -49,13 +49,14 @@
      },
      'manage-view': {
        'render': function(){
-         // käivitame siis kui lehte laeme
+		   // käivitame siis kui lehte laeme
+		   console.log('>>>>plaani_loomine')
        }
      }
    };
 
-   // Kõik funktsioonid lähevad Moosipurgi külge
-   Moosipurk.prototype = {
+   // Kõik funktsioonid lähevad Trenniplaan külge
+   Trenniplaan.prototype = {
 
      init: function(){
        console.log('Rakendus läks tööle');
@@ -72,7 +73,7 @@
 	   this.routeChange();
 	   }
 	   
-	   //saan katte purgid localStorage kui on
+	   //saan katte plaanid localStorage kui on
 	   if(localStorage.jars){
 		   //vottan stringi ja teen tagasi objektideks
 		   this.jars = JSON.parse(localStorage.jars);
@@ -80,7 +81,7 @@
 		   
 		   //tekitan loendi htmli
 		   this.jars.forEach(function(jar){
-			  var new_jar = new Jar(jar.title, jar.ingredients);
+			  var new_jar = new Jar(jar.title, jar.repeats);
 			  
 			  var li = new_jar.createHtmlElement();
 			  document.querySelector('.list-of-jars').appendChild(li);
@@ -126,15 +127,15 @@
 	 
 
      addNewClick: function(event){
-		 //salvestame purgi
+		 //salvestame plaani
 		 //console.log(event);
 		 
 		 var title = document.querySelector('.title').value;
-		 var ingredients = document.querySelector('.ingredients').value;
+		 var repeats = document.querySelector('.repeats').value;
 		 
 		 //console.log(title + '' + ingredients);
 		 //1. tekitan uue Jar'i
-		 var new_jar = new Jar(title, ingredients);
+		 var new_jar = new Jar(title, repeats);
 		 
 		 // lisan massiivi purgi
 		 this.jars.push(new_jar);
@@ -182,23 +183,23 @@
 
      }
 
-   }; //MOOSIPURGI LOPP
+   }; //TRENNIPLAANI LOPP
    
-   var Jar = function(title, ingredients){
+   var Jar = function(title, repeats){
 	   this.title = title;
-	   this.ingredients = ingredients;
+	   this.repeats = repeats;
 	   console.log('created new jar');
    };
    
    Jar.prototype = {
 	   createHtmlElement: function(){
-		   //vottes title ja ingredients -> 
+		   //vottes title ja repeats -> 
 		   /*
 		   li
 			span.letter
 				M<- title esimene taht
 			span.content
-				title / ingredients
+				title / repeats
 		   */
 		   
 		   var li = document.createElement('li');
@@ -214,7 +215,7 @@
 		   var span_with_content = document.createElement('span');
 		   span_with_content.className = 'content';
 		   
-		   var content = document.createTextNode(this.title + ' | ' + this.ingredients);
+		   var content = document.createTextNode(this.title + ' | ' + this.repeats);
 		   span_with_content.appendChild(content);
 		   
 		   li.appendChild(span_with_content);
@@ -231,7 +232,7 @@
 
    // kui leht laetud käivitan Moosipurgi rakenduse
    window.onload = function(){
-     var app = new Moosipurk();
+     var app = new Trenniplaan();
    };
 
 })();
