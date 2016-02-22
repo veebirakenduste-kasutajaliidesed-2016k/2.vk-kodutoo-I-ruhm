@@ -9,7 +9,7 @@ Võttes aluseks tunnis tehtud Moosipurgi rakenduse, tee ise sarnane rakendus, mi
 2. Andmeid saab lisada, kustutuda ja muuta
 3. Andmeid näidatakse välja või kasutatakse mingi tulemuse välja näitamiseks
 
-## Mõned ideed võimalikeks täiendusteks (lihtsalt, et mõte hakkaks jooksma)
+## Mõned ideed (lihtsalt, et mõte hakkaks jooksma)
 
 * Võta aluseks esimese iseseisva tööna valminud kell, lase kasutajal luua endale ekraanile mitu kella erinevate sätetega (ajatsoon, värv, vms)
 * Koosta meelespea rakendus
