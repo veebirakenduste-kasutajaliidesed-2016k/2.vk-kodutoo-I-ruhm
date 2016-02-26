@@ -4,12 +4,15 @@ main > * {
     display: none;
     padding: 10px;
 }
+
 main > *:last-child {
     display: block;
 }
+
 main > *:target {
     display: block;
 }
+
 main > *:target ~ * {
     display: none;
 }

@@ -6,7 +6,8 @@
       return Meelespea.instance;
     }
     Meelespea.instance = this;
-
+    this.routes = Meelespea.routes;
+    this.currentRoute = null;
     this.clock_year = document.querySelector("#clock_year");
     this.clock_month = document.querySelector("#clock_month");
     this.clock_date = document.querySelector("#clock_date");
@@ -14,9 +15,6 @@
     this.clock_hour = document.querySelector("#clock_hour");
     this.clock_minute = document.querySelector("#clock_minute");
     this.clock_second = document.querySelector("#clock_second");
-
-    this.routes = Meelespea.routes;
-    this.currentRoute = null;
     this.init();
   };
 
@@ -37,18 +35,14 @@
   Meelespea.prototype = {
 
     init: function(){
-
       this.writeTime();
       window.setInterval(this.writeTime.bind(this), 1000);
-
       window.addEventListener('hashchange', this.routeChange.bind(this));
-
       if(!window.location.hash){
         window.location.hash = 'home-view';
       }else{
         this.routeChange();
       }
-
     },
 
     writeTime: function(){
