@@ -15,6 +15,7 @@
     this.clock_hour = document.querySelector("#clock_hour");
     this.clock_minute = document.querySelector("#clock_minute");
     this.clock_second = document.querySelector("#clock_second");
+    this.events = [];
     this.init();
   };
 
@@ -43,6 +44,20 @@
       }else{
         this.routeChange();
       }
+      this.clickOnButton();
+    },
+
+    clickOnButton: function(){
+      document.querySelector('#add_new_event').addEventListener('click', this.newClick.bind(this));
+    },
+
+    newClick: function(event){
+      var event_date = document.querySelector('#event_time').value;
+      var event_description = document.querySelector('#event_description').value;
+      var new_event = new Event(event_date, event_description);
+      this.events.push(new_event);
+      console.log(JSON.stringify(this.events));
+      localStorage.setItem('events', JSON.stringify(this.events));
     },
 
     writeTime: function(){
@@ -146,6 +161,11 @@
        document.querySelector('.'+this.currentRoute).className += ' active-menu';
     }
 
+  };
+
+  var Event = function(new_event_date, new_event_description){
+    this.event_date = new_event_date;
+    this.event_description = new_event_description;
   };
 
   window.onload = function(){
