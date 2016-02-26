@@ -44,6 +44,14 @@
       }else{
         this.routeChange();
       }
+      if(localStorage.events){
+        this.events = JSON.parse(localStorage.events);
+        this.events.forEach(function(event){
+          var new_event = new Event(event.event_date, event.event_description);
+          var li = new_event.createHtmlElement();
+          document.querySelector('#list_of_events').appendChild(li);
+        });
+      }
       this.clickOnButton();
     },
 
@@ -54,11 +62,16 @@
     newClick: function(event){
       var event_date = document.querySelector('#event_time').value;
       var event_description = document.querySelector('#event_description').value;
-      var new_event = new Event(event_date, event_description);
-      this.events.push(new_event);
-      console.log(JSON.stringify(this.events));
-      localStorage.setItem('events', JSON.stringify(this.events));
+      if(event_date && event_description){
+        var new_event = new Event(event_date, event_description);
+        this.events.push(new_event);
+        console.log(JSON.stringify(this.events));
+        localStorage.setItem('events', JSON.stringify(this.events));
+        var li = new_event.createHtmlElement();
+        document.querySelector('#list_of_events').appendChild(li);
+      }
     },
+
 
     writeTime: function(){
 
@@ -166,6 +179,19 @@
   var Event = function(new_event_date, new_event_description){
     this.event_date = new_event_date;
     this.event_description = new_event_description;
+  };
+
+  Event.prototype = {
+    createHtmlElement: function(){
+      var li = document.createElement('li');
+      var span_with_content = document.createElement('span');
+      span_with_content.className = 'content';
+      var content = document.createTextNode(this.event_date + ' | ' + this.event_description);
+      span_with_content.appendChild(content);
+      li.appendChild(span_with_content);
+      return li;
+    }
+
   };
 
   window.onload = function(){

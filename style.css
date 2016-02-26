@@ -65,3 +65,7 @@ body {
 .menu-link.active-menu {
     background-color: #111;
 }
+
+#list_of_events {
+  list-style-type: none;
+}
