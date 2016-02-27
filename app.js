@@ -15,6 +15,7 @@
     this.clock_hour = document.querySelector("#clock_hour");
     this.clock_minute = document.querySelector("#clock_minute");
     this.clock_second = document.querySelector("#clock_second");
+    this.rundown = document.querySelector("#rundown");
     this.events = [];
     this.init();
   };
@@ -37,7 +38,9 @@
 
     init: function(){
       this.writeTime();
+      this.writeRunDown();
       window.setInterval(this.writeTime.bind(this), 1000);
+      window.setInterval(this.writeRunDown.bind(this), 1000);
       window.addEventListener('hashchange', this.routeChange.bind(this));
       if(!window.location.hash){
         window.location.hash = 'home-view';
@@ -62,7 +65,8 @@
     newClick: function(event){
       var event_date = document.querySelector('#event_time').value;
       var event_description = document.querySelector('#event_description').value;
-      if(event_date && event_description){
+      /* Siin kontrollitakse ära, et väärtused on sisestatud ja et sisestatud kell ja kuupäev on käesolevast uurem */
+      if(event_date && event_description && Date.parse(event_date) > Date.parse(Date())){
         var new_event = new Event(event_date, event_description);
         this.events.push(new_event);
         console.log(JSON.stringify(this.events));
@@ -71,7 +75,6 @@
         document.querySelector('#list_of_events').appendChild(li);
       }
     },
-
 
     writeTime: function(){
 
@@ -159,6 +162,45 @@
         number = '0' + number;
       }
       return number;
+    },
+
+    writeRunDown: function(){
+
+      if(localStorage.events){
+
+        /* Leian ajaliselt lähima sündmuse */
+        var closestDate = "2100-01-01 01:00";
+        for(var i = 0; i < JSON.parse(localStorage.events).length; i++){
+          if(Date.parse(JSON.parse(localStorage.events)[i].event_date) > Date.parse(Date()) && JSON.parse(localStorage.events)[i].event_date < closestDate){
+            closestDate = JSON.parse(localStorage.events)[i].event_date;
+          }
+        }
+
+        /* Leian vahe sündmuse ja hetkeaja vahel ning prindin selle välja */
+        if(closestDate != "2100-01-01 01:00"){
+          var today = new Date();
+          var minute = today.getMinutes();
+          var seconds = ((Date.parse(closestDate) - Date.parse(today))/1000);
+          var minutes = Math.floor(seconds/60);
+          var hours = Math.floor(minutes/60);
+          minutes = minutes - (hours*60);
+          seconds = seconds - (minutes*60) - (hours*60*60);
+          rundown.innerHTML = this.setZeroBefore(hours) + ":" + this.setZeroBefore(minutes) + ":" + this.setZeroBefore(seconds);
+        }else{
+          rundown.innerHTML = "Kõik sündmused on möödas";
+        }
+
+      }else{
+        rundown.innerHTML = "Ühtegi sündmust pole sisestatud";
+      }
+
+      //JA KUI SAABUB 0 MOMENT, SIIS VISKAB ETTE SÜNDMUSE NIMETUSE
+      //JA EKRAAN HAKKAB
+      //PUNASELT VILKUMA
+
+
+
+
     },
 
     routeChange: function(){
