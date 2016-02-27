@@ -165,17 +165,16 @@
     },
 
     writeRunDown: function(){
-
       if(localStorage.events){
-
         /* Leian ajaliselt lähima sündmuse */
         var closestDate = "2100-01-01 01:00";
+        var closestEvent = "";
         for(var i = 0; i < JSON.parse(localStorage.events).length; i++){
           if(Date.parse(JSON.parse(localStorage.events)[i].event_date) > Date.parse(Date()) && JSON.parse(localStorage.events)[i].event_date < closestDate){
             closestDate = JSON.parse(localStorage.events)[i].event_date;
+            closestEvent = JSON.parse(localStorage.events)[i].event_description;
           }
         }
-
         /* Leian vahe sündmuse ja hetkeaja vahel ning prindin selle välja */
         if(closestDate != "2100-01-01 01:00"){
           var today = new Date();
@@ -186,21 +185,15 @@
           minutes = minutes - (hours*60);
           seconds = seconds - (minutes*60) - (hours*60*60);
           rundown.innerHTML = this.setZeroBefore(hours) + ":" + this.setZeroBefore(minutes) + ":" + this.setZeroBefore(seconds);
+          if(hours === 0 && minutes === 0 && seconds === 1){
+            alert(closestEvent);
+          }
         }else{
           rundown.innerHTML = "Kõik sündmused on möödas";
         }
-
       }else{
         rundown.innerHTML = "Ühtegi sündmust pole sisestatud";
       }
-
-      //JA KUI SAABUB 0 MOMENT, SIIS VISKAB ETTE SÜNDMUSE NIMETUSE
-      //JA EKRAAN HAKKAB
-      //PUNASELT VILKUMA
-
-
-
-
     },
 
     routeChange: function(){
