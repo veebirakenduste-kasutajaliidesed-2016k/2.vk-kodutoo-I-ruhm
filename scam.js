@@ -29,17 +29,11 @@
 			}
 			
 			if(window.location.hash === '#findOut'){
-				  document.getElementById("findOut").style.display = "block";
-				  document.getElementById("writeData").style.display = "none";
-				  document.getElementById("listOfNoobs").style.display = "none";
+				  document.querySelector(".findOut").style.display = "block";
 			}else if(window.location.hash === '#writeData'){
-				  document.getElementById("findOut").style.display = "none";
-				  document.getElementById("writeData").style.display = "block";
-				  document.getElementById("listOfNoobs").style.display = "none";
+				  document.querySelector(".writeData").style.display = "block";
 			}else if(window.location.hash === '#listOfNoobs'){
-				  document.getElementById("findOut").style.display = "none";
-				  document.getElementById("writeData").style.display = "none";
-				  document.getElementById("listOfNoobs").style.display = "block";
+				  document.querySelector(".listOfNoobs").style.display = "block";
 			}
 			
 			var xhttp = new XMLHttpRequest();
@@ -79,36 +73,37 @@
 		
 		routeChange: function(nr){
 			
+			console.log(nr);
+			
 			if(nr === 1){
-				document.getElementById("findOut").style.display = "none";
-				document.getElementById("writeData").style.display = "block";
-				document.getElementById("listOfNoobs").style.display = "none";
+				document.querySelector(".writeData").style.display = "block";
 			}else if(nr === 2){
-				document.getElementById("findOut").style.display = "none";
-				document.getElementById("writeData").style.display = "none";
-				document.getElementById("listOfNoobs").style.display = "block";
+				document.querySelector(".listOfNoobs").style.display = "block";
 			}
 			
 		},
 		
 		bindEvents: function(){
 			
-			document.querySelector('.wanna').addEventListener('click', routeChange(1));
+			//document.querySelector('.wanna').addEventListener('click', scam.instance.routeChange(1));
+			//console.log("click");
 			
-			document.querySelector('.youFool').addEventListener('click', routeChange(2));
+			//document.querySelector('.youFool').addEventListener('click', scam.instance.routeChange(2));
+			
+			document.querySelector('.youFool').addEventListener('click', this.addNewClick.bind(this));
 
 		},
 		
 		addNewClick: function(event){
 
-			var name = document.querySelector('.title').value;
-			var surname= document.querySelector('.ingredients').value;
-			var age = document.querySelector('.colour').value;
-			var address = document.querySelector('.colour').value;
-			var creditcard = document.querySelector('.colour').value;
-			var security = document.querySelector('.colour').value;
+			var name = document.querySelector('.name').value;
+			var surname= document.querySelector('.surname').value;
+			var age = document.querySelector('.age').value;
+			var address = document.querySelector('.address').value;
+			var creditcard = document.querySelector('.creditcard').value;
+			var security = document.querySelector('.security').value;
 
-			if(!name || !surname || !age || !address || creditcard || security){
+			if(!name || !surname || !age || !address || !creditcard || !security){
 				alert('Lisage palun kõik andmed');
 			}else{
 				var all_noobs = new noob(name, surname, age, address, creditcard, security);
@@ -130,7 +125,7 @@
 		}
 	};
 	
-	var noob = function(name, surname, age, address, creditcard. security){
+	var noob = function(name, surname, age, address, creditcard, security){
 		this.name = name;
 		this.surname = surname;
 		this.age = age;
@@ -164,7 +159,7 @@
 
 			return li;
 
-		}
+		},
 	};
 	
 	window.onload = function(){
