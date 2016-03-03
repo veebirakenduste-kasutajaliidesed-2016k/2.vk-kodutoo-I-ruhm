@@ -8,6 +8,7 @@
     Meelespea.instance = this;
     this.routes = Meelespea.routes;
     this.currentRoute = null;
+    this.to_hide = document.querySelector("#to_hide");
     this.clock_year = document.querySelector("#clock_year");
     this.clock_month = document.querySelector("#clock_month");
     this.clock_date = document.querySelector("#clock_date");
@@ -17,6 +18,8 @@
     this.clock_second = document.querySelector("#clock_second");
     this.rundown = document.querySelector("#rundown");
     this.alert = document.querySelector("#error");
+    this.event_message = document.querySelector("#event_message");
+    this.menu = document.querySelector(".menu");
     this.events = [];
     this.init();
   };
@@ -57,6 +60,16 @@
         });
       }
       this.clickOnButton();
+      window.addEventListener('keydown', this.newKeyPress.bind(this));
+    },
+
+    newKeyPress: function(event){
+      if(event.keyCode === 32){
+        this.to_hide.style.visibility = "visible";
+        this.menu.style.visibility = "visible";
+        document.body.style.backgroundColor = "white";
+        event_message.innerHTML = "";
+      }
     },
 
     clickOnButton: function(){
@@ -76,9 +89,9 @@
         document.querySelector('#list_of_events').appendChild(li);
         error.innerHTML = "";
       }else if(Date.parse(event_date) < Date.parse(Date())){
-        error.innerHTML = "Kuupäev peab olema tulevikus!";
+        error.innerHTML = "<br>Kuupäev peab olema tulevikus!";
       }else{
-        error.innerHTML = "Tekst või kuupäev puudub!";
+        error.innerHTML = "<br>Tekst või kuupäev puudub!";
       }
     },
 
@@ -192,7 +205,7 @@
           seconds = seconds - (minutes*60) - (hours*60*60);
           rundown.innerHTML = this.setZeroBefore(hours) + ":" + this.setZeroBefore(minutes) + ":" + this.setZeroBefore(seconds);
           if(hours === 0 && minutes === 0 && seconds === 1){
-            alert(closestEvent);
+            this.alertUser(closestEvent);
           }
         }else{
           rundown.innerHTML = "Kõik sündmused on möödas";
@@ -200,6 +213,13 @@
       }else{
         rundown.innerHTML = "Ühtegi sündmust pole sisestatud";
       }
+    },
+
+    alertUser: function(closestEvent){
+      this.to_hide.style.visibility = "hidden";
+      this.menu.style.visibility = "hidden";
+      document.body.style.backgroundColor = "red";
+      event_message.innerHTML = closestEvent;
     },
 
     routeChange: function(){

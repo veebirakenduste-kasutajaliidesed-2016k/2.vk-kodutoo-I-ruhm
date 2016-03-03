@@ -15,21 +15,23 @@
   </nav>
   <main role="main">
     <div id="home-view">
-      <div class="clock" id="clock_year"></div>
-      <div class="clock" id="clock_month"></div>
-      <div class="clock" id="clock_date"></div>
-      <div class="clock" id="clock_hour"></div>
-      <div class="clock" id="clock_minute"></div>
-      <div class="clock" id="clock_second"></div>
-
-      <div id="rundown"></div>
-      <div id="rundown_text"></div>
-
+      <div id="to_hide">
+        <div class="clock" id="clock_year"></div>
+        <div class="clock" id="clock_month"></div>
+        <div class="clock" id="clock_date"></div>
+        <div class="clock" id="clock_hour"></div>
+        <div class="clock" id="clock_minute"></div>
+        <div class="clock" id="clock_second"></div>
+        <br><br><br>
+        <div id="rundown"></div>
+        <div id="rundown_text"></div>
+      </div>
+      <div id="event_message"></div>
     </div>
     <div id="insert-view">
       <input type='datetime-local' id='event_time'><br><br>
       <textarea style="resize:none" id='event_description' rows="5" cols="28"></textarea><br><br>
-      <button id='add_new_event'>Lisa uus sündmus kalendrisse</button>
+      <button id='add_new_event'>Lisa uus sündmus</button>
       <div id="error"></div>
     </div>
    <div id="list-view">
