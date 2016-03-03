@@ -28,8 +28,9 @@
     </div>
     <div id="insert-view">
       <input type='datetime-local' id='event_time'><br><br>
-      <input type='text' id='event_description'><br><br>
+      <textarea style="resize:none" id='event_description' rows="5" cols="28"></textarea><br><br>
       <button id='add_new_event'>Lisa uus sündmus kalendrisse</button>
+      <div id="error"></div>
     </div>
    <div id="list-view">
      <ul id="list_of_events"></ul>

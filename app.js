@@ -16,6 +16,7 @@
     this.clock_minute = document.querySelector("#clock_minute");
     this.clock_second = document.querySelector("#clock_second");
     this.rundown = document.querySelector("#rundown");
+    this.alert = document.querySelector("#error");
     this.events = [];
     this.init();
   };
@@ -65,7 +66,7 @@
     newClick: function(event){
       var event_date = document.querySelector('#event_time').value;
       var event_description = document.querySelector('#event_description').value;
-      /* Siin kontrollitakse ära, et väärtused on sisestatud ja et sisestatud kell ja kuupäev on käesolevast uurem */
+      /* Siin kontrollitakse ära, et väärtused on sisestatud ja et sisestatud kell ja kuupäev on käesolevast suurem */
       if(event_date && event_description && Date.parse(event_date) > Date.parse(Date())){
         var new_event = new Event(event_date, event_description);
         this.events.push(new_event);
@@ -73,6 +74,11 @@
         localStorage.setItem('events', JSON.stringify(this.events));
         var li = new_event.createHtmlElement();
         document.querySelector('#list_of_events').appendChild(li);
+        error.innerHTML = "";
+      }else if(Date.parse(event_date) < Date.parse(Date())){
+        error.innerHTML = "Kuupäev peab olema tulevikus!";
+      }else{
+        error.innerHTML = "Tekst või kuupäev puudub!";
       }
     },
 
