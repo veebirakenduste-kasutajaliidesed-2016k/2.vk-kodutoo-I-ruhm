@@ -53,9 +53,9 @@
       }else{
         this.routeChange();
       }
+      window.addEventListener('keydown', this.newKeyPress.bind(this));
       this.show();
       this.clickOnButton();
-      window.addEventListener('keydown', this.newKeyPress.bind(this));
     },
 
     show: function(){
@@ -99,22 +99,16 @@
       }
     },
 
-    /*
-     * Mul on hetkel selline probleem, et ma ei saa clickOnButton funktsioonist
-     * võtta listielementide id-sid. Listielementidel on oma klass, aga ma ei saa
-     * selle abil võtta id-d välja, et funktsioonid remove ja change ilusti töötaksid
-     */
-
-    remove: function(){
-      var index = 1;
+    remove: function(event){
+      var index = event.target.id;
       this.events = JSON.parse(localStorage.events);
       this.events.splice(index, 1);
       localStorage.setItem('events', JSON.stringify(this.events));
       this.show();
     },
 
-    change: function(){
-      var index = 1;
+    change: function(event){
+      var index = event.target.id;
       this.events = JSON.parse(localStorage.events);
       this.events[index].event_description = prompt("Uus meeldetuletus");
       localStorage.setItem('events', JSON.stringify(this.events));
@@ -136,7 +130,9 @@
         console.log(JSON.stringify(this.events));
         localStorage.setItem('events', JSON.stringify(this.events));
         var li = new_event.createHtmlElement();
-        document.querySelector('#list_of_events').appendChild(li);
+        var item = this.list_of_events.appendChild(li);
+        item.innerHTML += " <button class='remove' id='" + (this.events.length - 1) + "'>&#10540</button>";
+        item.innerHTML += " <button class='change' id='" + (this.events.length - 1) + "'>&#10227</button>";
         error.innerHTML = "";
       }else if(Date.parse(event_date) < Date.parse(Date())){
         error.innerHTML = "<br>Kuupäev peab olema tulevikus!";
