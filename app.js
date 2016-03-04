@@ -55,13 +55,13 @@
       }
       window.addEventListener('keydown', this.newKeyPress.bind(this));
       this.show();
-      this.clickOnButton();
+      this.clickOnButton_1();
     },
 
     show: function(){
       /*
-       * Alumisega teen div-i kõigepealt puhtaks, et kui toimub uuendamine, siis hakkab
-       * kõik otsast peale ning ei lisata elemente olemasolevale listile juurde
+       * Alumise while-tsükliga teen div-i kõigepealt puhtaks, et kui toimub uuendamine, siis hakkab
+       * kõik otsast peale ning ei lisata elemente olemasolevale listile juurde.
        */
       while(this.list_of_events.firstChild){
         this.list_of_events.removeChild(this.list_of_events.firstChild);
@@ -89,8 +89,12 @@
       }
     },
 
-    clickOnButton: function(){
+    clickOnButton_1: function(){
       document.querySelector('#add_new_event').addEventListener('click', this.newClick.bind(this));
+      this.clickOnButton_2();
+    },
+
+    clickOnButton_2: function(){
       var buttons_remove = document.getElementsByClassName('remove');
       var buttons_change = document.getElementsByClassName('change');
       for(var i = 0; i < buttons_remove.length; i++) {
@@ -105,6 +109,7 @@
       this.events.splice(index, 1);
       localStorage.setItem('events', JSON.stringify(this.events));
       this.show();
+      this.clickOnButton_2();
     },
 
     change: function(event){
@@ -113,6 +118,7 @@
       this.events[index].event_description = prompt("Uus meeldetuletus");
       localStorage.setItem('events', JSON.stringify(this.events));
       this.show();
+      this.clickOnButton_2();
     },
 
     newClick: function(event){
@@ -133,6 +139,10 @@
         var item = this.list_of_events.appendChild(li);
         item.innerHTML += " <button class='remove' id='" + (this.events.length - 1) + "'>&#10540</button>";
         item.innerHTML += " <button class='change' id='" + (this.events.length - 1) + "'>&#10227</button>";
+        var buttons_remove = document.getElementsByClassName('remove');
+        var buttons_change = document.getElementsByClassName('change');
+        buttons_remove[this.events.length - 1].addEventListener('click', this.remove.bind(this));
+        buttons_change[this.events.length - 1].addEventListener('click', this.change.bind(this));
         error.innerHTML = "";
       }else if(Date.parse(event_date) < Date.parse(Date())){
         error.innerHTML = "<br>Kuupäev peab olema tulevikus!";
