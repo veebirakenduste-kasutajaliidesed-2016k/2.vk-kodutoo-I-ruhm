@@ -13,6 +13,8 @@
 		
 		this.noobs = [];
 		
+		this.count = 0;
+		
 		this.init();
 		
 	};
@@ -42,8 +44,9 @@
 				  document.querySelector(".writeData").style.display = "none";
 			}
 			
-			//this.showData();
+			this.showData();
 			this.bindEvents();
+			//this.showData();
 			
 		},
 		
@@ -98,11 +101,19 @@
 					scam.instance.showData();
 					
 				}
-
 			});
 			
-			//document.querySelector('.youFool').addEventListener('click', this.addNewClick.bind(this));
 
+		},
+		
+		bindSecEvents: function(){
+			
+			document.querySelector('.delete').addEventListener('click', function(){
+				console.log('aylmao')
+				var x = document.querySelector('.delete').getAttribute('data-id');
+				console.log(x);
+				
+			});
 		},
 		
 		addNewClick: function(event){
@@ -160,6 +171,7 @@
 			xhttp.open("GET", "saveData.php", true);
 			xhttp.send();
 			
+			window.setTimeout(function(){scam.instance.bindSecEvents()}, 5000);
 		}
 	};
 	
@@ -177,25 +189,59 @@
 	noob.prototype = {
 		
 		createHtmlElement: function(){
+			
+			/*scam.instance.count += 1;
+			console.log(scam.instance.count);*/
 			 
-			var li = document.createElement('li');
+			var tr = document.createElement('tr');
 
-			var span1 = document.createElement('span');
-			span1.className = 'content';
+			var td1 = document.createElement('td');
+			td1.className = 'content1';
+			var td2 = document.createElement('td');
+			td2.className = 'content2';
+			var td3 = document.createElement('td');
+			td3.className = 'content3';
+			var td4 = document.createElement('td');
+			td4.className = 'content4';
+			var td5 = document.createElement('td');
+			td5.className = 'content5';
+			var td6 = document.createElement('td');
+			td6.className = 'content6';
+			var td7 = document.createElement('td');
+			td7.className = 'content7';
 
 			var del = document.createElement('button');
 			del.appendChild(document.createTextNode('X'));
-			del.className = 'delete-btn';
-			del.setAttribute('data_id', this.id);
-			del.name = 'X';
+			//del.setAttribute("id", "delete");
+			del.className = 'delete';
+			del.setAttribute('data-id', this.id);
+			
+			var content1 = document.createTextNode(this.name);
+			var content2 = document.createTextNode(this.surname);
+			var content3 = document.createTextNode(this.age);
+			var content4 = document.createTextNode(this.address);
+			var content5 = document.createTextNode(this.creditcard);
+			var content6 = document.createTextNode(this.security);
 
-			var content = document.createTextNode(this.name + ' | ' + this.surname + ' | ' + this.age + ' | ' + this.address + ' | ' + this.creditcard + ' | ' + this.security+ '   ');
-			span1.appendChild(content);
-			span1.appendChild(del);
+			//var content = document.createTextNode(this.name + ' | ' + this.surname + ' | ' + this.age + ' | ' + this.address + ' | ' + this.creditcard + ' | ' + this.security+ '   ');
+			//var content = document.createTextNode("<td>"+this.name + '<td></td>' + this.surname + '<td></td>' + this.age + '<td></td>' + this.address + '<td></td>' + this.creditcard + '<td></td>' + this.security+ '   ');
+			td1.appendChild(content1);
+			td2.appendChild(content2);
+			td3.appendChild(content3);
+			td4.appendChild(content4);
+			td5.appendChild(content5);
+			td6.appendChild(content6);
+			td7.appendChild(del);
 
-			li.appendChild(span1);
+			tr.appendChild(td1);
+			tr.appendChild(td2);
+			tr.appendChild(td3);
+			tr.appendChild(td4);
+			tr.appendChild(td5);
+			tr.appendChild(td6);
+			tr.appendChild(td7);
 
-			return li;
+			return tr;
 
 		},
 	};
