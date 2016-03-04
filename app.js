@@ -59,6 +59,13 @@
     },
 
     show: function(){
+      /*
+       * Alumisega teen div-i kõigepealt puhtaks, et kui toimub uuendamine, siis hakkab
+       * kõik otsast peale ning ei lisata elemente olemasolevale listile juurde
+       */
+      while(this.list_of_events.firstChild){
+        this.list_of_events.removeChild(this.list_of_events.firstChild);
+      }
       if(localStorage.events){
         this.events = JSON.parse(localStorage.events);
         for(var i = 0; i < this.events.length; i++){
@@ -103,6 +110,7 @@
       this.events = JSON.parse(localStorage.events);
       this.events.splice(index, 1);
       localStorage.setItem('events', JSON.stringify(this.events));
+      this.show();
     },
 
     change: function(){
@@ -110,12 +118,18 @@
       this.events = JSON.parse(localStorage.events);
       this.events[index].event_description = prompt("Uus meeldetuletus");
       localStorage.setItem('events', JSON.stringify(this.events));
+      this.show();
     },
 
     newClick: function(event){
       var event_date = document.querySelector('#event_time').value;
       var event_description = document.querySelector('#event_description').value;
-      /* Siin kontrollitakse ära, et väärtused on sisestatud ja et sisestatud kell ja kuupäev on käesolevast suurem */
+      /*
+       * Siin kontrollitakse ära, et väärtused on sisestatud ja et sisestatud
+       * kell ja kuupäev on käesolevast suurem. Hetkel veel selline mure, et kellaja sisestamisel peab
+       * kaks tundi varasema aja panema, st kui reaalne kell on 18:45 ja on soov saada meeldetuletus
+       * kell 18:46, siis peab sisestama 4:46 PM.
+       */
       if(event_date && event_description && Date.parse(event_date) > Date.parse(Date())){
         var new_event = new Event(event_date, event_description);
         this.events.push(new_event);
