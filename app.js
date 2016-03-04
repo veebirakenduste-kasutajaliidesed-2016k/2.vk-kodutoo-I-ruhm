@@ -54,11 +54,13 @@
       }
       if(localStorage.events){
         this.events = JSON.parse(localStorage.events);
-        this.events.forEach(function(event){
-          var new_event = new Event(event.event_date, event.event_description);
+        for(var i = 0; i < this.events.length; i++){
+          var new_event = new Event(this.events[i].event_date, this.events[i].event_description);
           var li = new_event.createHtmlElement();
-          document.querySelector('#list_of_events').appendChild(li);
-        });
+          var item = document.querySelector('#list_of_events').appendChild(li);
+          item.innerHTML += " <input type='button' class='remove' id='" + i + "' value='x'>";
+          item.innerHTML += " <input type='button' class='change' id='" + i + "' value='o'>";
+        }
       }
       this.clickOnButton();
       window.addEventListener('keydown', this.newKeyPress.bind(this));
@@ -77,6 +79,27 @@
 
     clickOnButton: function(){
       document.querySelector('#add_new_event').addEventListener('click', this.newClick.bind(this));
+      var buttons_remove = document.getElementsByClassName('remove');
+      var buttons_change = document.getElementsByClassName('change');
+      for(var i = 0; i < buttons_remove.length; i++) {
+        buttons_remove[i].addEventListener('click', this.remove.bind(this));
+        buttons_change[i].addEventListener('click', this.change.bind(this));
+      }
+    },
+
+    /* Ma ei saa siia listielementide id-sid*/
+    remove: function(){
+      var index = 0;
+      this.events = JSON.parse(localStorage.events);
+      this.events[index].event_description = "TERE";
+      localStorage.setItem('events', JSON.stringify(this.events));
+    },
+
+    change: function(){
+      var index = 1;
+      this.events = JSON.parse(localStorage.events);
+      this.events[index].event_description = prompt("Uus meeldetuletus");
+      localStorage.setItem('events', JSON.stringify(this.events));
     },
 
     newClick: function(event){
