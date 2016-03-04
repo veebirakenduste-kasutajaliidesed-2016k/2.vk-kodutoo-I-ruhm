@@ -109,9 +109,12 @@
 		bindSecEvents: function(){
 			
 			document.querySelector('.delete').addEventListener('click', function(){
-				console.log('aylmao')
-				var x = document.querySelector('.delete').getAttribute('data-id');
+
+				var x = document.querySelector('.delete').value;
 				console.log(x);
+				console.log(scam.instance.noobs[0]);
+				
+				scam.instance.noobs.splice(0, 1);
 				
 			});
 		},
@@ -126,12 +129,13 @@
 			var address = document.querySelector('.address').value;
 			var creditcard = document.querySelector('.creditcard').value;
 			var security = document.querySelector('.security').value;
+			var data_id = document.querySelector('.delete').value;
 
 			if(!name || !surname || !age || !address || !creditcard || !security){
 				alert('Lisage palun kõik andmed');
 				return false;
 			}else{
-				var all_noobs = new noob(name, surname, age, address, creditcard, security);
+				var all_noobs = new noob(name, surname, age, address, creditcard, security, data_id);
 
 				 //salvestan serverisse
 				var xhttp = new XMLHttpRequest();
@@ -144,7 +148,7 @@
 					}
 				};
 					//päringu tegemine
-				xhttp.open("GET", "saveData.php?name="+name+"&surname="+surname+"&age="+age+"&address="+address+"&creditcard="+creditcard+"&security="+security, true);
+				xhttp.open("GET", "saveData.php?name="+name+"&surname="+surname+"&age="+age+"&address="+address+"&creditcard="+creditcard+"&security="+security+"&data_id="+data_id, true);
 				xhttp.send();
 				
 				return true;
@@ -214,7 +218,7 @@
 			del.appendChild(document.createTextNode('X'));
 			//del.setAttribute("id", "delete");
 			del.className = 'delete';
-			del.setAttribute('data-id', this.id);
+			del.setAttribute('value', this.id);
 			
 			var content1 = document.createTextNode(this.name);
 			var content2 = document.createTextNode(this.surname);

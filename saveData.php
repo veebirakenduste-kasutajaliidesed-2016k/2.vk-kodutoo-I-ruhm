@@ -20,6 +20,7 @@ if(isset($_GET["name"]) && isset($_GET["surname"]) && isset($_GET["age"]) && iss
     $object->address = $_GET["address"];
     $object->creditcard = $_GET["creditcard"];
     $object->security = $_GET["security"];
+    $object->data_id = $_GET["data_id"];
 
     //lisan objekti massiivi
     array_push($entries, $object);
