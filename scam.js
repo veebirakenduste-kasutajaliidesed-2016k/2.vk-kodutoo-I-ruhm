@@ -30,11 +30,117 @@
 			
 			if(window.location.hash === '#findOut'){
 				  document.querySelector(".findOut").style.display = "block";
+				  document.querySelector(".writeData").style.display = "none";
+				  document.querySelector(".listOfNoobs").style.display = "none";
 			}else if(window.location.hash === '#writeData'){
 				  document.querySelector(".writeData").style.display = "block";
+				  document.querySelector(".findOut").style.display = "none";
+				  document.querySelector(".listOfNoobs").style.display = "none";
 			}else if(window.location.hash === '#listOfNoobs'){
 				  document.querySelector(".listOfNoobs").style.display = "block";
+				  document.querySelector(".findOut").style.display = "none";
+				  document.querySelector(".writeData").style.display = "none";
 			}
+			
+			//this.showData();
+			this.bindEvents();
+			
+		},
+		
+		createListFromArray: function(arrayOfObjects){
+
+			this.noobs = arrayOfObjects;
+
+			//tekitan loendi htmli
+			this.noobs.forEach(function(pleb){
+			var all_noobs = new noob(pleb.name, pleb.surname, pleb.age, pleb.address, pleb.creditcard, pleb.security);
+
+			var li = all_noobs.createHtmlElement();
+			document.querySelector('.list-of-noobs').appendChild(li);
+			});
+
+			//this.bindEvents();
+		},
+		
+		routeChange: function(nr){
+			
+			console.log(nr);
+			
+			if(nr === 1){
+				
+				document.querySelector(".writeData").style.display = "block";
+				document.querySelector(".findOut").style.display = "none";
+				document.querySelector(".listOfNoobs").style.display = "none";
+				window.location.hash = '#writeData';
+			}else if(nr === 2){
+				
+				document.querySelector(".listOfNoobs").style.display = "block";
+				document.querySelector(".findOut").style.display = "none";
+				document.querySelector(".writeData").style.display = "none";
+				window.location.hash = '#listOfNoobs';
+			}
+			
+		},
+		
+		bindEvents: function(){
+			
+			document.querySelector('.wanna').addEventListener('click', function(){
+				scam.instance.routeChange(1);
+			});
+			console.log("click");
+			
+			document.querySelector('.youFool').addEventListener('click', function(event){
+				
+				if(scam.instance.addNewClick(event)){
+					
+					scam.instance.routeChange(2);
+
+					scam.instance.showData();
+					
+				}
+
+			});
+			
+			//document.querySelector('.youFool').addEventListener('click', this.addNewClick.bind(this));
+
+		},
+		
+		addNewClick: function(event){
+			
+			console.log(event);
+
+			var name = document.querySelector('.name').value;
+			var surname= document.querySelector('.surname').value;
+			var age = document.querySelector('.age').value;
+			var address = document.querySelector('.address').value;
+			var creditcard = document.querySelector('.creditcard').value;
+			var security = document.querySelector('.security').value;
+
+			if(!name || !surname || !age || !address || !creditcard || !security){
+				alert('Lisage palun kõik andmed');
+				return false;
+			}else{
+				var all_noobs = new noob(name, surname, age, address, creditcard, security);
+
+				 //salvestan serverisse
+				var xhttp = new XMLHttpRequest();
+				xhttp.onreadystatechange = function() {
+					if (xhttp.readyState == 4 && xhttp.status == 200) {
+
+						console.log('salvestas serverisse');
+						var result =xhttp.responseText;
+						console.log(result);
+					}
+				};
+					//päringu tegemine
+				xhttp.open("GET", "saveData.php?name="+name+"&surname="+surname+"&age="+age+"&address="+address+"&creditcard="+creditcard+"&security="+security, true);
+				xhttp.send();
+				
+				return true;
+			}
+		},
+		
+		showData: function(){
 			
 			var xhttp = new XMLHttpRequest();
 			//vahetub siis kui toimub muutus ühenduses
@@ -54,74 +160,6 @@
 			xhttp.open("GET", "saveData.php", true);
 			xhttp.send();
 			
-		},
-		
-		createListFromArray: function(arrayOfObjects){
-
-			this.noobs = arrayOfObjects;
-
-			//tekitan loendi htmli
-			this.noobs.forEach(function(pleb){
-			var all_noobs = new noob(pleb.name, pleb.surname, pleb.age, pleb.address, pleb.creditcard, pleb.security);
-
-			var li = all_noobs.createHtmlElement();
-			document.querySelector('.list-of-noobs').appendChild(li);
-			});
-
-			this.bindEvents();
-		},
-		
-		routeChange: function(nr){
-			
-			console.log(nr);
-			
-			if(nr === 1){
-				document.querySelector(".writeData").style.display = "block";
-			}else if(nr === 2){
-				document.querySelector(".listOfNoobs").style.display = "block";
-			}
-			
-		},
-		
-		bindEvents: function(){
-			
-			//document.querySelector('.wanna').addEventListener('click', scam.instance.routeChange(1));
-			//console.log("click");
-			
-			//document.querySelector('.youFool').addEventListener('click', scam.instance.routeChange(2));
-			
-			document.querySelector('.youFool').addEventListener('click', this.addNewClick.bind(this));
-
-		},
-		
-		addNewClick: function(event){
-
-			var name = document.querySelector('.name').value;
-			var surname= document.querySelector('.surname').value;
-			var age = document.querySelector('.age').value;
-			var address = document.querySelector('.address').value;
-			var creditcard = document.querySelector('.creditcard').value;
-			var security = document.querySelector('.security').value;
-
-			if(!name || !surname || !age || !address || !creditcard || !security){
-				alert('Lisage palun kõik andmed');
-			}else{
-				var all_noobs = new noob(name, surname, age, address, creditcard, security);
-
-				 //salvestan serverisse
-				var xhttp = new XMLHttpRequest();
-				xhttp.onreadystatechange = function() {
-					if (xhttp.readyState == 4 && xhttp.status == 200) {
-
-						console.log('salvestas serverisse');
-						var result =xhttp.responseText;
-						console.log(result);
-					}
-				};
-					//päringu tegemine
-				xhttp.open("GET", "saveData.php?name="+name+"&surname="+surname+"&age="+age+"&address="+address+"&creditcard="+creditcard+"&security="+security, true);
-				xhttp.send();
-			}
 		}
 	};
 	
