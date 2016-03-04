@@ -21,6 +21,7 @@
     this.event_message = document.querySelector("#event_message");
     this.menu = document.querySelector(".menu");
     this.events = [];
+    this.list_of_events = document.querySelector('#list_of_events');
     this.audio = new Audio("siren.mp3");
     this.init();
   };
@@ -52,18 +53,22 @@
       }else{
         this.routeChange();
       }
+      this.show();
+      this.clickOnButton();
+      window.addEventListener('keydown', this.newKeyPress.bind(this));
+    },
+
+    show: function(){
       if(localStorage.events){
         this.events = JSON.parse(localStorage.events);
         for(var i = 0; i < this.events.length; i++){
           var new_event = new Event(this.events[i].event_date, this.events[i].event_description);
           var li = new_event.createHtmlElement();
-          var item = document.querySelector('#list_of_events').appendChild(li);
-          item.innerHTML += " <input type='button' class='remove' id='" + i + "' value='x'>";
-          item.innerHTML += " <input type='button' class='change' id='" + i + "' value='o'>";
+          var item = this.list_of_events.appendChild(li);
+          item.innerHTML += " <button class='remove' id='" + i + "'>&#10540</button>";
+          item.innerHTML += " <button class='change' id='" + i + "'>&#10227</button>";
         }
       }
-      this.clickOnButton();
-      window.addEventListener('keydown', this.newKeyPress.bind(this));
     },
 
     newKeyPress: function(event){
@@ -87,11 +92,16 @@
       }
     },
 
-    /* Ma ei saa siia listielementide id-sid*/
+    /*
+     * Mul on hetkel selline probleem, et ma ei saa clickOnButton funktsioonist
+     * võtta listielementide id-sid. Listielementidel on oma klass, aga ma ei saa
+     * selle abil võtta id-d välja, et funktsioonid remove ja change ilusti töötaksid
+     */
+
     remove: function(){
-      var index = 0;
+      var index = 1;
       this.events = JSON.parse(localStorage.events);
-      this.events[index].event_description = "TERE";
+      this.events.splice(index, 1);
       localStorage.setItem('events', JSON.stringify(this.events));
     },
 
