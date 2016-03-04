@@ -21,6 +21,7 @@
     this.event_message = document.querySelector("#event_message");
     this.menu = document.querySelector(".menu");
     this.events = [];
+    this.audio = new Audio("siren.mp3");
     this.init();
   };
 
@@ -69,6 +70,8 @@
         this.menu.style.visibility = "visible";
         document.body.style.backgroundColor = "white";
         event_message.innerHTML = "";
+        this.audio.pause();
+        this.audio.currentTime = 0;
       }
     },
 
@@ -220,6 +223,7 @@
       this.menu.style.visibility = "hidden";
       document.body.style.backgroundColor = "red";
       event_message.innerHTML = closestEvent;
+      this.audio.play();
     },
 
     routeChange: function(){
