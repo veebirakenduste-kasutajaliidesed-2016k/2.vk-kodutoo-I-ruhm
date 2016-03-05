@@ -1,17 +1,17 @@
 (function(){
   "use script";
 
-  var Moosipurk = function(){
+  var Meeldetuletus = function(){
 
     //see on singleton pattern
-    if(Moosipurk.instance){
-      return Moosipurk.instance;
+    if(Meeldetuletus.instance){
+      return Meeldetuletus.instance;
     }
 
     //this viitab moosipurgi funktsioonile
-    Moosipurk.instance = this;
+    Meeldetuletus.instance = this;
 
-    this.routes = Moosipurk.routes;
+    this.routes = Meeldetuletus.routes;
 
     console.log("Moosipurgi sees");
 
@@ -28,9 +28,9 @@
 
   };
 
-  window.Moosipurk = Moosipurk; //paneme muutuja külge
+  window.Meeldetuletus = Meeldetuletus; //paneme muutuja külge
 
-  Moosipurk.routes = {
+  Meeldetuletus.routes = {
      'home-view': {
        'render': function(){
          // käivitame siis kui lehte laeme
@@ -56,7 +56,7 @@
    };
 
   //kõik funktsioonid lähevad moosipurgi külge
-  Moosipurk.prototype = {
+  Meeldetuletus.prototype = {
     init: function(){
       console.log("Rakendus läks tööle");
 
@@ -72,36 +72,67 @@
         this.routeChange();
       }
 
+
       //saan kätte purgid localStorage kui on
       if(localStorage.jars){
         //võtan stringi ja teen tagasi objektideks
         this.jars = JSON.parse(localStorage.jars);
         console.log('laadisin localStorageist massiivi ' + this.jars.length);
 
-        //tekitan loendi htmli
-        this.jars.forEach(function(jar){
+        this.createListFromArray(JSON.parse(localStorage.jars));
 
-          var new_jar = new Jar(jar.description, jar.time);
+        console.log('laadisin localStorageist');
+      }else{
+        var xhttp = new XMLHttpRequest();
 
-          var li = new_jar.createHtmlElement();
-          document.querySelector('.list-of-jars').appendChild(li);
-        });
+        xhttp.onreadystatechange = function(){
+          if(xhttp.readyState == 4 && xhttp.status == 200){
+            var result = JSON.parse(xhttp.responseText);
+            Meeldetuletus.instance.createListFromArray(result);
+            console.log('laadisin servust');
+          }
+        };
+        xhttp.open("GET","saveData.php",true);
+        xhttp.send();
       }
+
+    },
+
+    createListFromArray: function(arrayOfObjects){
+
+      this.jars = arrayOfObjects;
+
+      //tekitan loendi htmli
+      this.jars.forEach(function(jar){
+
+        var new_jar = new Jar(jar.time, jar.description);
+
+        var li = new_jar.createHtmlElement();
+        document.querySelector('.list-of-jars').appendChild(li);
+      });
 
       //kuulame hiireklikki nupul
       this.bindEvents();
 
     },
+
+
     bindEvents: function(){
       document.querySelector('.add-new-notification').addEventListener('click',this.addNewClick.bind(this));
 
       //kuulan trükkimist otsikastis
       document.querySelector('#search').addEventListener('keyup', this.search.bind(this));
+      document.querySelector(".delete-btn").addEventListener('click',function(event){
+        console.log(event);
+        this.jars.forEach(function(jar){
+
+        });
+      });
     },
 
     search: function(event){
         //otsikasti väärtus
-        var needle = document.querySelector('#search').value;
+        var needle = document.querySelector('#search').value.toLowerCase();
         console.log(needle);
 
         var list = document.querySelectorAll('ul.list-of-jars li');
@@ -112,7 +143,7 @@
           var li = list[i];
 
           //ühe listitemi sisu
-          var stack = li.querySelector('.content').innerHTML.toLowercase();
+          var stack = li.querySelector('.content').innerHTML.toLowerCase();
 
           //kas otsisõna on sisus olemas
           if(stack.indexOf(needle) != -1){
@@ -145,6 +176,7 @@
        // 2) lisan selle htmli listi juurde
        var li = new_jar.createHtmlElement();
        document.querySelector('.list-of-jars').appendChild(li);
+       this.init();
 
     },
     routeChange: function(event){
@@ -192,31 +224,30 @@
       */
 
       var li = document.createElement('li');
-
-      var span = document.createElement('span');
-      span.className = 'letter';
-
-      var letter = document.createTextNode('X');
-      span.appendChild(letter);
-
-      li.appendChild(span);
-
       var span_with_content = document.createElement('span');
       span_with_content.className = 'content';
 
-      var content = document.createTextNode(this.time + ' | ' + this.description);
+      var del = document.createElement('button');
+      del.appendChild(document.createTextNode('X'));
+      del.className = 'delete-btn';
+      del.setAttribute('data-id', this.id);
+      del.name = 'X';
+      var content = document.createTextNode(" " + this.time + ' | ' + this.description);
       span_with_content.appendChild(content);
+      span_with_content.appendChild(del);
 
       //var x = document.createElement("BUTTON");
 
       li.appendChild(span_with_content);
 
       return li;
+
+
     }
   };
 
   window.onload=function(){
-    var app = new Moosipurk();
+    var app = new Meeldetuletus();
   };
 
 
