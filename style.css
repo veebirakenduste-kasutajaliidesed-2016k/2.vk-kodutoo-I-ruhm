@@ -31,6 +31,7 @@ button {
   outline:none;
 }
 
+
 * {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -104,4 +105,9 @@ button {
 
 #event_message {
   font-size: 100;
+}
+
+#event_time,
+#event_description {
+  outline: none;
 }

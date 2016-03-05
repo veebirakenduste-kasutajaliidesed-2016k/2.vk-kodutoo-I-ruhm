@@ -82,6 +82,8 @@
       if(event.keyCode === 32){
         this.to_hide.style.visibility = "visible";
         this.menu.style.visibility = "visible";
+        document.querySelector('#insert-view').style.visibility = "visible";
+        document.querySelector('#list-view').style.visibility = "visible";
         document.body.style.backgroundColor = "white";
         event_message.innerHTML = "";
         this.audio.pause();
@@ -274,6 +276,8 @@
     alertUser: function(closestEvent){
       this.to_hide.style.visibility = "hidden";
       this.menu.style.visibility = "hidden";
+      document.querySelector('#insert-view').style.visibility = "hidden";
+      document.querySelector('#list-view').style.visibility = "hidden";
       document.body.style.backgroundColor = "red";
       event_message.innerHTML = closestEvent;
       this.audio.play();
