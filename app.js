@@ -131,6 +131,13 @@
        document.querySelector('.add-new-jar').addEventListener('click', this.addNewClick.bind(this));
 	   //kuulan trukkimist otsikastis
 	   document.querySelector('#search').addEventListener('keyup', this.search.bind(this));
+	   
+	   document.querySelector(".delete-btn").addEventListener('click', function(event){
+		   console.log(event);
+		   jars.forEach(function(jar){
+			   
+		   });
+	   });
      },
 	 
 	 search: function(event){
@@ -259,8 +266,15 @@
 		   var span_with_content = document.createElement('span');
 		   span_with_content.className = 'content';
 		   
+		   var del = document.createElement('button');
+		   del.appendChild(document.createTextNode('X'));
+		   del.className = 'delete-btn';
+		   del.setAttribute('data-id', this.id);
+		   del.name = 'X';
+		   
 		   var content = document.createTextNode(this.title + ' | ' + this.repeats);
 		   span_with_content.appendChild(content);
+		   span_with_content.appendChild(del);
 		   
 		   li.appendChild(span_with_content);
 		   
