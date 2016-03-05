@@ -11,16 +11,16 @@
 <nav class="menu">
   <ul class="menu-list">
     <li class="menu-item"><a href="#home-view" class="menu-link home-view active-menu">Homepage</a></li>
-    <li class="menu-item"><a href="#list-view" class="menu-link list-view">List</a></li>
+    <li class="menu-item"><a href="#list-view" class="menu-link list-view">Games</a></li>
     <li class="menu-item"><a href="#manage-view" class="menu-link manage-view">Submit</a></li>
+    <li class="menu-item"><a href="#credits-view" class="menu-link credits-view">Credits</a></li>
   </ul>
 </nav>
 
 <main role="main">
 
   <div id="list-view">
-    <h1>List</h1>
-    <p class="loading">Loading...</p><br>
+    <h1>Games</h1>
     <input type="search" placeholder="Enter keyword" id="search"><br>
     <ul class="list-of-games"></ul>
   </div>
@@ -30,14 +30,23 @@
     <label for="title">Title: </label><br>
     <input type="text" name="title" class="title"><br>
 
-    <label for="ingredients">Platform: </label><br>
+    <label for="platform">Platform: </label><br>
     <input type="text" name="platform" class="platform"><br>
+
+    <label for="price">Price: </label><br>
+    <input type="number" name="price" class="price"><br>
 
     <button class="add-new-game pull-right">Add new game</button>
   </div>
 
   <div id="home-view">
     <h1>Homepage</h1>
+  </div>
+
+  <div id="credits-view">
+    <h1>Created by Martin Viidik - 2016 </h1><br>
+    <h1>Based on code by Romil Rõbtšenkov</h1><br>
+    <h1>Created for User interfaces of web applications course<h1>
   </div>
 
 </main>

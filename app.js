@@ -1,7 +1,7 @@
 // to-do list
 //********************************
-// add remove, modify options
-// let the user add price
+// add remove, modify options (Just got to make them work now)
+// l̶e̶t̶ ̶t̶h̶e̶ ̶u̶s̶e̶r̶ ̶a̶d̶d̶ ̶p̶r̶i̶c̶e̶
 // currency changing
 // d̶i̶s̶p̶l̶a̶y̶ ̶p̶l̶a̶t̶f̶o̶r̶m̶ ̶n̶a̶m̶e̶s̶ ̶v̶i̶a̶ ̶C̶S̶S̶ ̶p̶r̶o̶p̶e̶r̶l̶y̶ ̶[̶P̶S̶4̶]̶,̶ ̶[̶P̶C̶]̶ ̶e̶t̶c̶
 // modify CSS a bit
@@ -37,14 +37,14 @@
      },
      'list-view': {
        'render': function(){
-
-         window.setTimeout(function(){
-           document.querySelector('.loading').innerHTML = 'Done!';
-         }, 3000);
-
        }
      },
      'manage-view': {
+       'render': function(){
+       }
+     },
+     // Tahtsin testida täiesti uue tab tegemist
+     'credits-view': {
        'render': function(){
        }
      }
@@ -67,7 +67,7 @@
 
            this.games.forEach(function(game){
 
-               var new_game = new Game(game.title, game.platform);
+               var new_game = new Game(game.title, game.platform, game.price);
 
                var li = new_game.createHtmlElement();
                document.querySelector('.list-of-games').appendChild(li);
@@ -84,6 +84,20 @@
        document.querySelector('.add-new-game').addEventListener('click', this.addNewClick.bind(this));
 
        document.querySelector('#search').addEventListener('keyup', this.search.bind(this));
+
+       document.querySelector('.delete').addEventListener('click', function(event){
+         games.forEach(function(game){
+           game.id == event.dataset.id
+         });
+
+       });
+
+       document.querySelector('.modify').addEventListener('click', function(event){
+         games.forEach(function(game){
+           game.id == event.dataset.id
+         });
+
+       });
 
      },
 
@@ -113,8 +127,12 @@
 
        var title = document.querySelector('.title').value;
        var platform = document.querySelector('.platform').value;
+       var price = document.querySelector('.price').value;
 
-       var new_game = new Game(title, platform);
+       if (title === "" || platform === "" || price === ""){
+         alert("Please don't leave empty fields!");
+       }else{
+       var new_game = new Game(title, platform, price);
 
        this.games.push(new_game);
        console.log(JSON.stringify(this.games));
@@ -122,6 +140,7 @@
 
        var li = new_game.createHtmlElement();
        document.querySelector('.list-of-games').appendChild(li);
+       }
      },
 
      routeChange: function(event){
@@ -149,9 +168,10 @@
 
    };
 
-   var Game = function(new_title, new_platform){
+   var Game = function(new_title, new_platform, new_price){
      this.title = new_title;
      this.platform = new_platform;
+     this.price = new_price;
    };
 
    Game.prototype = {
@@ -170,10 +190,24 @@
        var span_with_content = document.createElement('span');
        span_with_content.className = 'content';
 
-       var content = document.createTextNode(this.title + ' | ' + this.platform);
+       var del = document.createElement('button');
+       del.appendChild(document.createTextNode('x'));
+       del.className = 'delete';
+       del.setAttribute('data-id', this.id);
+       del.name = 'x';
+
+       var mod = document.createElement('button');
+       mod.appendChild(document.createTextNode('Modify'));
+       mod.className = 'modify'
+       mod.setAttribute('data-id', this.id);
+       mod.name = 'mod';
+
+       var content = document.createTextNode(this.title + ' | ' + this.platform + ' | ' + this.price + ' |  ');
        span_with_content.appendChild(content);
 
        li.appendChild(span_with_content);
+       li.appendChild(del);
+       li.appendChild(mod);
 
        return li;
 
