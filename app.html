@@ -1,0 +1,127 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Post-It Notes</title>
+	<script src="app.js" charset="utf-8"></script>
+	<style type="text/css">
+	@font-face { font-family: Always; src: url('alwaysforever.ttf'); } 
+	<!--
+	 Create a Sticky Note Effect in 5 Easy Steps with CSS3 and HTML5
+	 http://code.tutsplus.com/tutorials/create-a-sticky-note-effect-in-5-easy-steps-with-css3-and-html5--net-13934 
+	 -->
+
+	*{
+	  margin:0;
+	  padding:0;
+	}
+	body{
+	  font-family: Always;
+	  margin:3em;
+	  background:#f5f2ed;
+	  color:#171716;
+	}
+	h2,p{
+	  font-size:100%;
+	  font-weight:normal;
+	}
+	ul,li{
+	  list-style:none;
+	}
+	ul{
+	  overflow:hidden;
+	  padding:3em;
+	}
+	ul li {
+	  text-decoration:none;
+	  font-family: Arial;
+	  color:#000;
+	  background:#ffc;
+	  display:block;
+	  height:10em;
+	  width:10em;
+	  padding:1em;
+	  -moz-box-shadow:5px 5px 7px rgba(33,33,33,1);
+	  -webkit-box-shadow: 5px 5px 7px rgba(33,33,33,.7);
+	  box-shadow: 5px 5px 7px rgba(33,33,33,.7);
+	  -moz-transition:-moz-transform .15s linear;
+	  -o-transition:-o-transform .15s linear;
+	  -webkit-transition:-webkit-transform .15s linear;
+	}
+	ul li{
+	  margin:1em;
+	  float:left;
+	}
+	ul li h2{
+	  font-size:140%;
+	  font-weight:bold;
+	  padding-bottom:10px;
+	}
+	ul li p{
+	  font-family:arial;
+	  font-size:100%;
+	}
+	ul li {
+	  -webkit-transform: rotate(-6deg);
+	  -o-transform: rotate(-6deg);
+	  -moz-transform:rotate(-6deg);
+	}
+	ul li:nth-child(even) {
+	  -o-transform:rotate(4deg);
+	  -webkit-transform:rotate(4deg);
+	  -moz-transform:rotate(4deg);
+	  position:relative;
+	  top:5px;
+	  background:#a9d3ff;
+	}
+	ul li:nth-child(3n) {
+	  -o-transform:rotate(-3deg);
+	  -webkit-transform:rotate(-3deg);
+	  -moz-transform:rotate(-3deg);
+	  position:relative;
+	  top:-5px;
+	  background:#ffd5ea;
+	}
+	ul li:nth-child(5n) {
+	  -o-transform:rotate(5deg);
+	  -webkit-transform:rotate(5deg);
+	  -moz-transform:rotate(5deg);
+	  position:relative;
+	  top:-10px;
+	}
+
+	ul li:nth-child(4n) {
+	  -o-transform:rotate(-10deg);
+	  -webkit-transform:rotate(2deg);
+	  -moz-transform:rotate(10deg);
+	  position:relative;
+	  top:-5px;
+	  background:#c9ffb8;
+	}
+
+
+	ol{text-align:center;}
+	ol li{display:inline;padding-right:1em;}
+	ol li a{color:#fff;}
+	</style>
+</head>
+<body>
+	<h1>Kleepsud</h1>
+
+	<table>
+		<tr>
+			<td><label for="title">Nimi: </label></td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td><input type="text" name="title" class="title"></td>	
+			<td><button class="add-new-jar">Lisa</button></td>
+		</tr>
+	</table>
+
+	<div id="list-view">
+		<ul class="list-of-jars"></ul>
+	</div>
+
+</body>
+</html>
