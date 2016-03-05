@@ -79,19 +79,53 @@
 		   this.jars = JSON.parse(localStorage.jars);
 		   console.log('laadisin localStorageist massiivi' + this.jars.length);
 		   
-		   //tekitan loendi htmli
-		   this.jars.forEach(function(jar){
-			  var new_jar = new Jar(jar.title, jar.repeats);
-			  
-			  var li = new_jar.createHtmlElement();
-			  document.querySelector('.list-of-jars').appendChild(li);
-		   });
-		   }
-
-       // esimene loogika oleks see, et kuulame hiireklikki nupul
-       this.bindEvents();
+		   this.createListFromArray(JSON.parse(localStorage.jars));
+		   
+		   console.log('laadisin localStorageist');
+		   
+		}else{
+			
+			//ei olnud localStorageist olenas, teen paringu serverisse
+			
+			var xhttp = new XMLHttpRequest();
+			
+			//vahetub siis kui toimub muutus uhenduses
+			xhttp.onreadystatechange = function() {
+				
+				//fail joudis tervenisti kohale
+				if (xhttp.readyState == 4 && xhttp.status == 200){
+					
+					var result = JSON.parse(xhttp.responseText);
+					
+					Trenniplaan.instance.createListFromArray(result);
+					
+					console.log('laadisin serverist');
+				}
+			};
+			
+			//paringu tegemine
+			xhttp.open("GET", "saveData.php", true);
+			xhttp.send();
+		}
 
      },
+	 
+	 createListFromArrat: function(arrayOfObjects){
+		 
+		 this.jars = arrayOfObjects;
+		 
+		 //tekitan loendi htmli
+		 this.jars.forEach(function(jar)){
+			 
+			 var new_jar = new Jar(jar.title, jar.repeats)
+			 
+			 var li = new_jar.createHtmlElement();
+			 document.querySelector('.list-of-jars').appendChild(li);
+		 });
+		 
+		 //esimene loogika oleks see, et kuulame hiireklikki nupul
+		 this.bindEvents();
+	 },
 
      bindEvents: function(){
        document.querySelector('.add-new-jar').addEventListener('click', this.addNewClick.bind(this));
@@ -122,7 +156,7 @@
 				 //ei ole, index on -1
 				 li.style.display = 'none';
 			 }
-		 };
+		 }
 	 },
 	 
 
@@ -143,11 +177,21 @@
 		 //JSONi stringina salvestan localStorageisse
 		 localStorage.setItem('jars', JSON.stringify(this.jars));
 		 
-		 //2. lisan selle htmli listi juurde
-		 document.querySelector('.list-of-jars').appendChild(new_jar.createHtmlElement());
+		 //salvestan serverisse
+		 var xhttp = new XMLHttpRequest();
+		 xhttp.onreadystatechange = function() {
+			 if (xhttp.redyState == 4 && xhttp.status == 200){
+				 
+				 console.log('salvestas serverisse');
+			 }
+		 };
+		 console.log("saveData.php?title="+title+"&repeats=" +repeats);
+		 xhttp.open("GET", "saveData.php?title="+title"&repeats=" +repeats, true);
+		 xhttp.send();
 		 
-		 this.click_count++;
-		 console.log(this.click_count);
+		 //2. lisan selle htmli listi juurde
+		 var li = new_jar.createHtmlelement();
+		 document.querySelector('.list-of-jars').appendChild(li);
 
      },
 
@@ -185,9 +229,9 @@
 
    }; //TRENNIPLAANI LOPP
    
-   var Jar = function(title, repeats){
-	   this.title = title;
-	   this.repeats = repeats;
+   var Jar = function(new_title, new_repeats){
+	   this.title = new_title;
+	   this.repeats = new_repeats;
 	   console.log('created new jar');
    };
    
