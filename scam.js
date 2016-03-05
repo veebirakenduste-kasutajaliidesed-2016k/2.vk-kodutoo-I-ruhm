@@ -34,17 +34,41 @@
 				  document.querySelector(".findOut").style.display = "block";
 				  document.querySelector(".writeData").style.display = "none";
 				  document.querySelector(".listOfNoobs").style.display = "none";
+				  document.getElementById("banner1").style.display = "block";
+				  document.getElementById("banner2").style.display = "block";
+				  document.getElementById("banner3").style.display = "block";
+				  document.getElementById("banner4").style.display = "block";
+				  document.getElementById("banner5").style.display = "none";
+				  document.getElementById("banner6").style.display = "none";
+				  document.getElementById("banner7").style.display = "none";
+				  document.getElementById("banner8").style.display = "none";
 			}else if(window.location.hash === '#writeData'){
 				  document.querySelector(".writeData").style.display = "block";
 				  document.querySelector(".findOut").style.display = "none";
 				  document.querySelector(".listOfNoobs").style.display = "none";
+				  document.getElementById("banner1").style.display = "block";
+				  document.getElementById("banner2").style.display = "block";
+				  document.getElementById("banner3").style.display = "block";
+				  document.getElementById("banner4").style.display = "block";
+				  document.getElementById("banner5").style.display = "none";
+				  document.getElementById("banner6").style.display = "none";
+				  document.getElementById("banner7").style.display = "none";
+				  document.getElementById("banner8").style.display = "none";
 			}else if(window.location.hash === '#listOfNoobs'){
 				  document.querySelector(".listOfNoobs").style.display = "block";
 				  document.querySelector(".findOut").style.display = "none";
 				  document.querySelector(".writeData").style.display = "none";
+				  document.getElementById("banner1").style.display = "none";
+				  document.getElementById("banner2").style.display = "none";
+				  document.getElementById("banner3").style.display = "none";
+				  document.getElementById("banner4").style.display = "none";
+				  document.getElementById("banner5").style.display = "block";
+				  document.getElementById("banner6").style.display = "block";
+				  document.getElementById("banner7").style.display = "block";
+				  document.getElementById("banner8").style.display = "block";
 			}
 			
-			this.showData();
+			//this.showData();
 			this.bindEvents();
 			//this.showData();
 			
@@ -81,6 +105,12 @@
 				document.querySelector(".findOut").style.display = "none";
 				document.querySelector(".writeData").style.display = "none";
 				window.location.hash = '#listOfNoobs';
+				document.getElementById("banner5").style.display = "block";
+				document.getElementById("banner6").style.display = "block";
+				document.getElementById("banner7").style.display = "block";
+				document.getElementById("banner8").style.display = "block";
+				document.getElementById("bodi").style.backgroundColor = "black";
+				document.querySelector(".listOfNoobs").style.backgroundColor = "black";
 			}
 			
 		},
@@ -112,9 +142,9 @@
 
 				var x = document.querySelector('.delete').value;
 				console.log(x);
-				console.log(scam.instance.noobs[0]);
+				//console.log(scam.instance.noobs[0]);
 				
-				scam.instance.noobs.splice(0, 1);
+				//scam.instance.noobs.splice(0, 1);
 				
 			});
 		},
@@ -129,13 +159,13 @@
 			var address = document.querySelector('.address').value;
 			var creditcard = document.querySelector('.creditcard').value;
 			var security = document.querySelector('.security').value;
-			var data_id = document.querySelector('.delete').value;
+			//var data_id = document.querySelector('.delete').value;
 
 			if(!name || !surname || !age || !address || !creditcard || !security){
 				alert('Lisage palun kõik andmed');
 				return false;
 			}else{
-				var all_noobs = new noob(name, surname, age, address, creditcard, security, data_id);
+				var all_noobs = new noob(name, surname, age, address, creditcard, security);
 
 				 //salvestan serverisse
 				var xhttp = new XMLHttpRequest();
@@ -148,7 +178,7 @@
 					}
 				};
 					//päringu tegemine
-				xhttp.open("GET", "saveData.php?name="+name+"&surname="+surname+"&age="+age+"&address="+address+"&creditcard="+creditcard+"&security="+security+"&data_id="+data_id, true);
+				xhttp.open("GET", "saveData.php?name="+name+"&surname="+surname+"&age="+age+"&address="+address+"&creditcard="+creditcard+"&security="+security/*+"&data_id="+data_id*/, true);
 				xhttp.send();
 				
 				return true;
