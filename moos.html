@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>moos</title>
+  <title>Meeldetuletused</title>
   <script src="moos.js" charset="utf-8"></script>
   <link rel="stylesheet" href="style.css">
 </head>
@@ -26,13 +26,20 @@
     <div id = "manage-view">
       <h1>Haldus</h1>
 
-      <label for="title">Nimi: </label><br>
-      <input type="text" name="title" class="title"><br>
+      <!--<label for="dropdown">Kategooria: </label><br>
+      <select name="dropdown" id="dropdown">
+        <option value="1">Töö</option>
+        <option value="2">Vaba aeg</option>
+        <option value="3">Muu</option>
+      </select><br>-->
 
-      <label for="ingredients">Koostis: </label><br>
-      <input type="text" name="ingredients" class="ingredients"><br>
+      <label for="description">Täpsem kirjeldus: </label><br>
+      <input type="text" name="description" class="description"><br>
 
-      <button class="add-new-jar pull-right">Lisa uus purk</button>
+      <label for="time">Aeg: </label><br>
+      <input type="date" name="time" class="time"><br>
+
+      <button class="add-new-notification pull-right">Lisa meeldetuletus</button>
     </div>
     <div id = "home-view">
       <h1>Avaleht</h1>

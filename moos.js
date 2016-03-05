@@ -81,7 +81,7 @@
         //tekitan loendi htmli
         this.jars.forEach(function(jar){
 
-          var new_jar = new Jar(jar.title, jar.ingredients);
+          var new_jar = new Jar(jar.description, jar.time);
 
           var li = new_jar.createHtmlElement();
           document.querySelector('.list-of-jars').appendChild(li);
@@ -93,7 +93,7 @@
 
     },
     bindEvents: function(){
-      document.querySelector('.add-new-jar').addEventListener('click',this.addNewClick.bind(this));
+      document.querySelector('.add-new-notification').addEventListener('click',this.addNewClick.bind(this));
 
       //kuulan trükkimist otsikastis
       document.querySelector('#search').addEventListener('keyup', this.search.bind(this));
@@ -127,12 +127,13 @@
 
     addNewClick: function(event){
       //console.log(event);
-      var title = document.querySelector('.title').value;
-      var ingredients = document.querySelector('.ingredients').value;
+      //var dropdown = document.querySelector('.dropdown').value;
+      var description = document.querySelector('.description').value;
+      var time = document.querySelector('.time').value;
 
-      //console.log(title + ' ' + ingredients);
+      //console.log(dropdown + ' ' + description);
       //1) tekitan uue Jar'i
-       var new_jar = new Jar(title, ingredients);
+       var new_jar = new Jar(description, time);
 
        //lisan massiivi purgi
        this.jars.push(new_jar);
@@ -172,21 +173,22 @@
     }
   }; //MOOSIPURGI LÕPP
 
-  var Jar = function(new_title, new_ingredients){
-    this.title = new_title;
-    this.ingredients = new_ingredients;
+  var Jar = function(new_description, new_time){
+    //this.dropdown = new_dropdown;
+    this.description = new_description;
+    this.time = new_time;
     console.log('created new jar');
   };
 
   Jar.prototype = {
     createHtmlElement: function(){
-      //võttes title ja ingredients ->
+      //võttes dropdown ja description ->
       /*
       li
         span.letter
-          M <- title esimene täht
+          M <- dropdown esimene täht
         span.content
-          title | ingredients
+          dropdown | description
       */
 
       var li = document.createElement('li');
@@ -194,7 +196,7 @@
       var span = document.createElement('span');
       span.className = 'letter';
 
-      var letter = document.createTextNode(this.title.charAt(0));
+      var letter = document.createTextNode('X');
       span.appendChild(letter);
 
       li.appendChild(span);
@@ -202,10 +204,10 @@
       var span_with_content = document.createElement('span');
       span_with_content.className = 'content';
 
-      var content = document.createTextNode(this.title + ' | ' + this.ingredients);
+      var content = document.createTextNode(this.time + ' | ' + this.description);
       span_with_content.appendChild(content);
 
-      var x = document.createElement("BUTTON");
+      //var x = document.createElement("BUTTON");
 
       li.appendChild(span_with_content);
 
