@@ -20,6 +20,7 @@
     this.clockTime();
     document.querySelector('#color').addEventListener('click', Kell.instance.randcolor.bind(this));
     document.querySelector('#memoAdd').addEventListener('click', Kell.instance.addMemo.bind(this));
+    document.querySelector('#deleteMemo').addEventListener('click', Kell.instance.deleteMemo.bind(this));
 
 
     //setInterval(this.clockTime(this), 1000);
@@ -136,7 +137,7 @@
     createListFromArray: function(arrayOfObjects){
 
       this.memos = arrayOfObjects;
-
+      console.log(this.memos);
       //tekitan loendi htmli
       this.memos.forEach(function(memo){
 
@@ -183,17 +184,26 @@
 
       document.querySelector('#memos').appendChild(li);
       Kell.instance.initializeClock('clockdiv'+Kell.instance.counter, dateTime);
-      console.log('clockdiv'+Kell.instance.counter);
+
       Kell.instance.counter ++;
-      console.log('clockdiv'+Kell.instance.counter);
     },
+    deleteMemo: function(){
+      var memoNR = document.querySelector('#deleteMemoInput').value;
+      console.log(memoNR);
+      memoNR--;
+      console.log(memoNR);
+      console.log(this.memos);
+      localStorage.removeItem('memos');
+      this.memos.splice(memoNR,1);
+      console.log(this.memos);
+      localStorage.setItem('memos', JSON.stringify(this.memos));
+    }
 
   };
   var memo_Jar = function(new_title, new_memo, new_date){
     this.title = new_title;
     this.memo = new_memo;
     this.dateTime = new_date;
-    console.log('created new jar');
 
   };
 
@@ -204,15 +214,9 @@
 
       var span_with_content = document.createElement('span');
       span_with_content.className = 'content';
-
-      var del = document.createElement("INPUT");
-      del.type = "submit";
-      del.id = counter;
-      del.value = "Kustuta";
-
       var content = document.createTextNode(this.title + ' | ' + this.memo + ' ');
       span_with_content.appendChild(content);
-      span_with_content.appendChild(del);
+
       var clockdiv = document.createElement("div");
       clockdiv.id = "clockdiv"+counter;
       span_with_content.appendChild(clockdiv);
