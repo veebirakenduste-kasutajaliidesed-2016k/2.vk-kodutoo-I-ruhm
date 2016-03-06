@@ -1,0 +1,69 @@
+/* .match:hover{
+	color:blue;
+}
+
+.match1:hover{
+	color:blue;
+}
+
+.match2:hover{
+	color:blue;
+}
+
+.match3:hover{
+	color:blue;
+}
+
+.match4:hover{
+	color:blue;
+}
+
+.match5:hover{
+	color:blue;
+} */
+
+html,body{
+	padding:5px;
+}
+
+.blue{
+	color:blue;
+}
+
+.green{
+	color:lightseagreen;
+}
+
+input{
+	margin:5px;
+}
+
+.translation{
+	margin:5px;
+}
+
+.section{
+	margin:5px;
+}
+
+.target{
+	display:none;
+}
+
+.section_en{
+	margin:5px;
+}
+
+.section_et{
+	margin:5px;
+}
+
+.flat {
+	background: none;
+    font-weight: bold;
+    border: 2px solid;
+}
+
+.pull-right{
+	margin:5px;
+}

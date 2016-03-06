@@ -1,0 +1,31 @@
+setTimeout(function(){
+	$(document).ready(function(){
+		$(".first").hover(function(){
+			$(this).toggleClass("green");
+		});
+		$(".match0").hover(function(){
+			$(".match1").toggleClass("blue");
+		});
+		$(".match1").hover(function(){
+			$(".match1").toggleClass("blue");
+		});
+		$(".match2").hover(function(){
+			$(".match2").toggleClass("blue");
+		});
+		$(".match3").hover(function(){
+			$(".match3").toggleClass("blue");
+		});
+		$(".match4").hover(function(){
+			$(".match4").toggleClass("blue");
+		});
+		$(".match5").hover(function(){
+			$(".match5").toggleClass("blue");
+		});
+		$(".match6").hover(function(){
+			$(".match6").toggleClass("blue");
+		});
+		$(".section_en").css("pointerEvents","initial");
+		$(".section_et").css("pointerEvents","initial");
+		console.log("JQUERY saab valmis setTimeout-iga");
+	});
+}, 1000);

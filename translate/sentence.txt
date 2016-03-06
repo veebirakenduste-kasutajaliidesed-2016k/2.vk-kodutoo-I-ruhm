@@ -1,0 +1,1 @@
+[{"en":"The first","et":"Esimene"},{"en":"Christmas tree","et":"J\u00f5ulupuu"},{"en":"was decorated","et":"ehiti"},{"en":"in Estonia","et":"Eestis"}]
