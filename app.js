@@ -1,19 +1,19 @@
 (function(){
    "use strict";
 
-   var Moosipurk = function(){
+   var Meelespea = function(){
 
      // SEE ON SINGLETON PATTERN
-     if(Moosipurk.instance){
-       return Moosipurk.instance;
+     if(Meelespea.instance){
+       return Meelespea.instance;
      }
-     //this viitab Moosipurk fn
-     Moosipurk.instance = this;
+     //this viitab Meelespea fn
+     Meelespea.instance = this;
 
-     this.routes = Moosipurk.routes;
+     this.routes = Meelespea.routes;
      // this.routes['home-view'].render()
 
-     console.log('moosipurgi sees');
+     console.log('meelespea sees');
 
      // KÕIK muuutujad, mida muudetakse ja on rakendusega seotud defineeritakse siin
      this.click_count = 0;
@@ -21,15 +21,15 @@
      console.log(this);
 
 	 //hakkan hoidma kõiki purke
-	 this.jars=[];
+	 this.notebooks=[];
 
-     // Kui tahan Moosipurgile referenci siis kasutan THIS = MOOSIPURGI RAKENDUS ISE
+     // Kui tahan meelespeale referenci siis kasutan THIS = meelespea RAKENDUS ISE
      this.init();
    };
 
-   window.Moosipurk = Moosipurk; // Paneme muuutja külge
+   window.Meelespea = Meelespea; // Paneme muuutja külge
 
-   Moosipurk.routes = {
+   Meelespea.routes = {
      'home-view': {
        'render': function(){
          // käivitame siis kui lehte laeme
@@ -55,8 +55,8 @@
      }
    };
 
-   // Kõik funktsioonid lähevad Moosipurgi külge
-   Moosipurk.prototype = {
+   // Kõik funktsioonid lähevad meelespea külge
+   Meelespea.prototype = {
 
      init: function(){
        console.log('Rakendus läks tööle');
@@ -74,17 +74,17 @@
        }
 
        //saan kätte purgid localStorage kui on
-       if(localStorage.jars){
+       if(localStorage.notebooks){
          //võtan stringi ja teen tagasi objektiks
-         this.jars = JSON.parse(localStorage.jars);
-         console.log("laadinsin localStorage'ist massiivi " + this.jars.length);
+         this.notebooks = JSON.parse(localStorage.notebooks);
+         console.log("laadinsin localStorage'ist massiivi " + this.notebooks.length);
 
          //tekitan loendi htmli
-         this.jars.forEach(function(jar){
-           var new_jar = new Jar(jar.title, jar.ingredients);
+         this.notebooks.forEach(function(notebook){
+           var new_notebook = new Notebook(notebook.reminder_date, notebook.reminder_content);
 
-           var li = new_jar.createHtmlElement();
-           document.querySelector('.list-of-jars').appendChild(li);
+           var li = new_notebook.createHtmlElement();
+           document.querySelector('.list-of-notebooks').appendChild(li);
          });
 
        }
@@ -96,7 +96,7 @@
      },
 
      bindEvents: function(){
-       document.querySelector('.add-new-jar').addEventListener('click', this.addNewClick.bind(this));
+       document.querySelector('.add-new-notebook').addEventListener('click', this.addNewClick.bind(this));
 
        //kuulan trükkimist otsikastis
        document.querySelector('#search').addEventListener("keyup", this.search.bind(this));
@@ -109,7 +109,7 @@
        var needle = document.querySelector('#search').value;
        console.log(needle);
 
-       var list = document.querySelectorAll('ul.list-of-jars li');
+       var list = document.querySelectorAll('ul.list-of-notebooks li');
        console.log(list);
 
        for(var i = 0; i < list.length; i++){
@@ -136,27 +136,27 @@
        //salvestame purgi
        //console.log(event);
 
-       var title = document.querySelector('.title').value;
-       var ingredients = document.querySelector('.ingredients').value;
+       var reminder_date = document.querySelector('.reminder_date').value;
+       var reminder_content = document.querySelector('.reminder_content').value;
 
 
 
 
-       //console.log(title + ' ' + ingredients);
-       //1) tekitan uue Jar'i
-       var new_jar = new Jar(title, ingredients);
+       //console.log(reminder_date + ' ' + reminder_content);
+       //1) tekitan uue Notebook'i
+       var new_notebook = new Notebook(reminder_date, reminder_content);
 
 	   	//lisan massiivi purgi
-		  this.jars.push(new_jar);
-		  console.log(JSON.stringify(this.jars));
+		  this.notebooks.push(new_notebook);
+		  console.log(JSON.stringify(this.notebooks));
       //JSON'i stringina salvestasn localStorage'isse
-      localStorage.setItem("jars", JSON.stringify(this.jars));
+      localStorage.setItem("notebooks", JSON.stringify(this.notebooks));
 
 
 
        // 2) lisan selle htmli listi juurde
-       var li = new_jar.createHtmlElement();
-       document.querySelector('.list-of-jars').appendChild(li);
+       var li = new_notebook.createHtmlElement();
+       document.querySelector('.list-of-notebooks').appendChild(li);
 
 
      },
@@ -194,24 +194,24 @@
 
      }
 
-   }; // MOOSIPURGI LÕPP
+   }; // meelespea LÕPP
 
-   var Jar = function(new_title, new_ingredients){
-     this.title = new_title;
-     this.ingredients = new_ingredients;
-     console.log('created new jar');
+   var Notebook = function(new_reminder_date, new_reminder_content){
+     this.reminder_date = new_reminder_date;
+     this.reminder_content = new_reminder_content;
+     console.log('created new notebook');
    };
 
-   Jar.prototype = {
+   Notebook.prototype = {
      createHtmlElement: function(){
 
-       // võttes title ja ingredients ->
+       // võttes reminder_date ja reminder_content ->
        /*
        li
         span.letter
-          M <- title esimene täht
+          M <- reminder_date esimene täht
         span.content
-          title | ingredients
+          reminder_date | reminder_content
        */
 
        var li = document.createElement('li');
@@ -219,7 +219,7 @@
        var span = document.createElement('span');
        span.className = 'letter';
 
-       var letter = document.createTextNode(this.title.charAt(0));
+       var letter = document.createTextNode(this.reminder_date.charAt(0));
        span.appendChild(letter);
 
        li.appendChild(span);
@@ -227,7 +227,7 @@
        var span_with_content = document.createElement('span');
        span_with_content.className = 'content';
 
-       var content = document.createTextNode(this.title + ' | ' + this.ingredients);
+       var content = document.createTextNode(this.reminder_date + ' | ' + this.reminder_content);
        span_with_content.appendChild(content);
 
        li.appendChild(span_with_content);
@@ -237,53 +237,56 @@
      }
    };
 
-   // kui leht laetud käivitan Moosipurgi rakenduse
+   // kui leht laetud käivitan meelespea rakenduse
    window.onload = function(){
-     var app = new Moosipurk();
+     var app = new Meelespea();
+
+
+
+      //tänane kp: Mon Feb 01 2016 12:43:50 GMT+0200 (FLE Standard deadline)
+
+      var clock = document.getElementById("clock");
+
+      //enne timeouti kirjutan ühe korra ära
+      writeDate();
+
+      window.setInterval(function(){
+
+        //iga ooteaja järel käivitatakse
+          writeDate();
+      }, 100);//millisekundid - 1000ms = 1 s
+
+     };
+
+
+     function writeDate(){
+      var today = new Date();
+
+      var hours = today.getHours();
+      var minutes = today.getMinutes();
+      var seconds = today.getSeconds();
+
+      var day =today.getDate();
+      var month = today.getMonth()+1;
+      var year = today.getFullYear();
+
+      seconds = setZeroBefore(seconds);
+
+      date.innerHTML = setZeroBefore(day) + "." + setZeroBefore(month) + "." + (year);
+
+      clock.innerHTML = setZeroBefore(hours) + ":" + setZeroBefore(minutes) + ":" +seconds;
+     }
+
+     //lisab nulli kui arv on 10st väiksem
+     function setZeroBefore(number){
+      if(number < 10){
+        number= "0" + number;
+      }
+      return number;
+     
+
    };
 
+
+
 })();
-
-window .onload = function(){
-
- //tänane kp: Mon Feb 01 2016 12:43:50 GMT+0200 (FLE Standard Time)
-
- var clock = document.getElementById("clock");
-
- //enne timeouti kirjutan ühe korra ära
- writeDate();
-
- window.setInterval(function(){
-
-   //iga ooteaja järel käivitatakse
-     writeDate();
- }, 100);//millisekundid - 1000ms = 1 s
- 
-};
-
-
-function writeDate(){
- var today = new Date();
-
- var hours = today.getHours();
- var minutes = today.getMinutes();
- var seconds = today.getSeconds();
-
- var day =today.getDate();
- var month = today.getMonth()+1;
- var year = today.getFullYear();
-
- seconds = setZeroBefore(seconds);
-
- date.innerHTML = setZeroBefore(day) + "." + setZeroBefore(month) + "." + (year);
-
- clock.innerHTML = setZeroBefore(hours) + ":" + setZeroBefore(minutes) + ":" +seconds;
-}
-
-//lisab nulli kui arv on 10st väiksem
-function setZeroBefore(number){
- if(number < 10){
-   number= "0" + number;
- }
- return number;
-}

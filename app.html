@@ -5,6 +5,8 @@
   <title>Meelespea v0.1</title>
   <script src="app.js" charset="utf-8"></script>
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="css/pikaday.css">
+
 </head>
 <body>
 
@@ -22,18 +24,18 @@
       <h1>Loend</h1>
       <p class="loading">Laeb...</p><br>
       <input type="search" placeholder="Enter keyword" id="search"<br>
-      <ul class="list-of-jars"></ul>
+      <ul class="list-of-notebooks"></ul>
     </div>
     <div id="manage-view">
       <h1>Haldus</h1>
 
-      <label for="title">Kuupäev: </label><br>
-      <input type="text" name="title" class="title"><br>
+      <label for="reminder_date">Kuupäev: </label><br>
+      <input type="text" name="reminder_date" class="reminder_date" id="datepicker"><br>
 
-      <label for="ingredients">Meelespea: </label><br>
-      <input type="text" name="ingredients" class="ingredients"><br>
+      <label for="reminder_content">Meelespea: </label><br>
+      <input type="text" name="reminder_content" class="reminder_content"><br>
 
-      <button class="add-new-jar pull-right">Lisa uus meelespea</button>
+      <button class="add-new-notebook pull-right">Lisa uus meelespea</button>
     </div>
 
     <div id="home-view">
@@ -44,7 +46,25 @@
 
     </div>
 
+
+
   </main>
+  <!-- Kalendrist kuupäeva valimine lingilt:
+  https://github.com/dbushell/Pikaday-->
+
+  <script src="pikaday.js"></script>
+  <script>
+
+  var picker = new Pikaday(
+  {
+      field: document.getElementById('datepicker'),
+      firstDay: 1,
+      minDate: new Date(2016, 0, 1),
+      maxDate: new Date(2050, 12, 31),
+      yearRange: [2016,2050]
+  });
+
+  </script>
 
 </body>
 </html>
