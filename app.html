@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Külmkapp</title>
-  <script src="moos.js" charset="utf-8"></script>
+  <title>Külmikuabiline</title>
+  <script src="app.js" charset="utf-8"></script>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -26,16 +25,24 @@
     <div id = "manage-view">
       <h1>Haldus</h1>
 
-      <label for="title">Nimi: </label><br>
-      <input type="text" name="title" class="title"><br>
+      <!--<label for="dropdown">Kategooria: </label><br>
+      <select name="dropdown" id="dropdown">
+        <option value="1">Töö</option>
+        <option value="2">Vaba aeg</option>
+        <option value="3">Muu</option>
+      </select><br>-->
 
-      <label for="time">Parim enne: </label><br>
+      <label for="description">Nimi: </label><br>
+      <input type="text" name="description" class="description"><br>
+
+      <label for="time">Säilivus: </label><br>
       <input type="date" name="time" class="time"><br>
 
-      <button class="add-new-food pull-right">Lisa uus toit külmkappi</button>
+      <button class="add-new-notification pull-right">Lisa toode külmkappi</button>
     </div>
     <div id = "home-view">
       <h1>Avaleht</h1>
+	  <img src="mini-fridge-with-freezer.jpg" alt="külmik">
     </div>
   </main>
 
