@@ -4,7 +4,7 @@
 // l̶e̶t̶ ̶t̶h̶e̶ ̶u̶s̶e̶r̶ ̶a̶d̶d̶ ̶p̶r̶i̶c̶e̶
 // currency changing
 // d̶i̶s̶p̶l̶a̶y̶ ̶p̶l̶a̶t̶f̶o̶r̶m̶ ̶n̶a̶m̶e̶s̶ ̶v̶i̶a̶ ̶C̶S̶S̶ ̶p̶r̶o̶p̶e̶r̶l̶y̶ ̶[̶P̶S̶4̶]̶,̶ ̶[̶P̶C̶]̶ ̶e̶t̶c̶
-// modify CSS a bit
+// m̶o̶d̶i̶f̶y̶ ̶C̶S̶S̶ ̶a̶ ̶b̶i̶t̶
 //*******************************
 
 (function(){
@@ -85,19 +85,10 @@
 
        document.querySelector('#search').addEventListener('keyup', this.search.bind(this));
 
-       document.querySelector('.delete').addEventListener('click', function(event){
-         games.forEach(function(game){
-           game.id == event.dataset.id
-         });
-
-       });
+       document.querySelector('.delete').addEventListener('click', this.removeNewClick.bind(this));
 
        document.querySelector('.modify').addEventListener('click', function(event){
-         games.forEach(function(game){
-           game.id == event.dataset.id
          });
-
-       });
 
      },
 
@@ -141,6 +132,22 @@
        var li = new_game.createHtmlElement();
        document.querySelector('.list-of-games').appendChild(li);
        }
+     },
+
+     removeNewClick: function(event){
+
+       var title = document.querySelector('.title').value;
+       var platform = document.querySelector('.platform').value;
+       var price = document.querySelector('.price').value;
+
+       var del_game = delete Game(title, platform, price);
+
+       this.games.push(del_game);
+       localStorage.setItem('games', JSON.stringify(this.games));
+
+       var li = new_game.createHtmlElement();
+       document.querySelector('.list-of-games').appendChild(li);
+
      },
 
      routeChange: function(event){
@@ -194,7 +201,7 @@
        del.appendChild(document.createTextNode('x'));
        del.className = 'delete';
        del.setAttribute('data-id', this.id);
-       del.name = 'x';
+       del.name = 'delete';
 
        var mod = document.createElement('button');
        mod.appendChild(document.createTextNode('Modify'));
@@ -202,7 +209,7 @@
        mod.setAttribute('data-id', this.id);
        mod.name = 'mod';
 
-       var content = document.createTextNode(this.title + ' | ' + this.platform + ' | ' + this.price + ' |  ');
+       var content = document.createTextNode(this.title + ' | ' + this.platform + ' | ' + this.price + '€' + ' |  ');
        span_with_content.appendChild(content);
 
        li.appendChild(span_with_content);
