@@ -8,6 +8,7 @@
 		this.routes = todoList.routes;
 		
 		console.log("todoList activated")
+		this.click_count = 0;
 		this.currentRoute = null;
 		this.items = [];
 		this.init();
@@ -23,33 +24,33 @@
 			}
 		},
 		'manage-view': {
-		'render': function(){
-        console.log('manage');
-       }
-     }
+			'render': function(){
+			console.log('manage');
+		   }
+		}
 	};
 	todoList.prototype = {
 		init: function(){
 			console.log("Application started");
 			window.addEventListener('hashchange', this.routeChange.bind(this));
-		   if(!window.location.hash){
-			 window.location.hash = 'list-view';
-			 // routechange siin ei ole vaja sest käsitsi muutmine käivitab routechange event'i ikka
-		   }else{
+			if(!window.location.hash){
+				window.location.hash = 'list-view';
+				// routechange siin ei ole vaja sest käsitsi muutmine käivitab routechange event'i ikka
+			}else{
 			 //esimesel käivitamisel vaatame urli üle ja uuendame menüüd
-			 this.routeChange();
-		   }
-		 if(localStorage.items){
-         //Võtan stringi ja teen tagasi objektideks.
-         this.items = JSON.parse(localStorage.items);
-         console.log("Laadisin localStorage'ist massiivi " + this.items.length);
-         //Tekitan loendi htmli
-         this.items.forEach(function(item){
-           var new_item = new Item(item.activity, item.time);
-           var li = new_item.createHtmlElement();
-           var buttons = document.getElementsByClassName('remove');
-           for (var i=0; i < buttons.length; i++) {
-              buttons[i].addEventListener('click', remove);
+			this.routeChange();
+			}
+			if(localStorage.items){
+			//Võtan stringi ja teen tagasi objektideks.
+			this.items = JSON.parse(localStorage.items);
+			console.log("Laadisin localStorage'ist massiivi " + this.items.length);
+			//Tekitan loendi htmli
+			this.items.forEach(function(item){
+			var new_item = new Item(item.activity, item.time);
+			var li = new_item.createHtmlElement();
+			var buttons = document.getElementsByClassName('remove');
+			for (var i=0; i < buttons.length; i++) {
+				buttons[i].addEventListener('click', remove);
             };
            document.querySelector('.list-of-items').appendChild(li);
          });
@@ -141,7 +142,7 @@
      }
 
    }; //Listi lõpp
-	var Iar = function(new_activity, new_time){
+	var Item = function(new_activity, new_time){
      this.action = new_action;
      this.time = new_time;
      console.log('New list item created');
