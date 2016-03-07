@@ -53,7 +53,7 @@
 
            this.tasks.forEach(function(task){
 
-               var new_task = new Task(task.title, task.description);
+               var new_task = new Task(task.id, task.title, task.description);
 
                var li = new_task.createHtmlElement();
                document.querySelector('.list-of-tasks').appendChild(li);
@@ -72,6 +72,39 @@
 
      },
 
+     deleteTask: function(event){
+
+  		//li element
+  		console.log(event.target.parentNode);
+  		//id (data-id väärtus)
+  		console.log(event.target.dataset.id);
+
+  		var c = confirm('kustuta?');
+
+  		//kui ei olnud nõus katkestame
+  		if(!c){ return; }
+
+  		//kustutame HTMList
+  		var clicked_li = event.target.parentNode;
+  		document.querySelector('.list-of-tasks').removeChild(clicked_li);
+
+  		//kustutan massiivist
+  		this.tasks.forEach(function(task, i){
+
+  			//sama id, mis vajutasime
+  			if(task.id == event.target.dataset.id){
+
+  				//mis index ja mitu. + lisaks saab asendada vajadusel
+  				//http://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_splice1
+  				ToDoList.instance.tasks.splice(i, 1);
+  			}
+
+          });
+
+  		// salvesta uuesti localStorage'isse
+         localStorage.setItem('tasks', JSON.stringify(this.tasks));
+
+	},
      search: function(event){
          //otsikasti väärtus
          var needle = document.querySelector('#search').value.toLowerCase();
@@ -104,7 +137,7 @@
        var title = document.querySelector('.title').value;
        var description = document.querySelector('.description').value;
 
-      var new_task = new Task(title, description);
+      var new_task = new Task(guid(), title, description);
 
        this.tasks.push(new_task);
        console.log(JSON.stringify(this.tasks));
@@ -112,9 +145,14 @@
        localStorage.setItem('tasks', JSON.stringify(this.tasks));
 
        // 2) lisan selle htmli listi juurde
-       var li = new_jar.createHtmlElement();
+       var li = new_task.createHtmlElement();
        document.querySelector('.list-of-tasks').appendChild(li);
+// tühjendame pärast sisestamist lahtrid
+       document.querySelector('.title').value='';
+       document.querySelector('.description').value='';
 
+// liigume pärast sisestamist halduse lehele
+      window.location.hash = 'list-view';
 
      },
 
@@ -145,8 +183,10 @@
      }
 
    };
+// ToDoListi lõpp
 
-   var Task = function(new_title, new_description){
+   var Task = function(new_id, new_title, new_description){
+     this.id = new_id;
      this.title = new_title;
      this.description = new_description;
      console.log('created new task');
@@ -182,10 +222,37 @@
 
        li.appendChild(span_with_content);
 
+       //kustutamine
+       var delete_span = document.createElement('span');
+       delete_span.appendChild(document.createTextNode(' kustuta'));
+
+       delete_span.style.color = 'red';
+       delete_span.style.cursor = 'pointer';
+
+       //panen külge id
+       delete_span.setAttribute('data-id', this.id);
+
+       delete_span.addEventListener('click', ToDoList.instance.deleteTask.bind(ToDoList.instance));
+
+       li.appendChild(delete_span);
        return li;
 
      }
    };
+
+   /* HELPERID*/
+ function guid() {
+   return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+   s4() + '-' + s4() + s4() + s4();
+ }
+
+ function s4() {
+   return Math.floor((1 + Math.random()) * 0x10000)
+   .toString(16)
+   .substring(1);
+ }
+
+
 
    // kui leht laetud käivitan Moosipurgi rakenduse
    window.onload = function(){
