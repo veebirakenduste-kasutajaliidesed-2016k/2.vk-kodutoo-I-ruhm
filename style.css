@@ -96,9 +96,15 @@ main {
     border: 0;
     border-bottom: 1px solid rgb(146, 168, 209);
 }
-.add-new-note {
+.add-new-notebook {
     background-color: #fff;
     padding: 10px;
+    border: 2px solid rgb(146, 168, 209);
+    color: rgb(146, 168, 209);
+}
+.datepicker-button {
+    background-color: #fff;
+    padding: 2px;
     border: 2px solid rgb(146, 168, 209);
     color: rgb(146, 168, 209);
 }
@@ -118,12 +124,13 @@ td {
     color: rgb(146, 168, 209);
     border: 1px solid rgb(146, 168, 209);
 }
-.list-of-notes {
+.list-of-notebooks,
+.list-of-notebooksToday {
     list-style-type: none;
     padding-left: 0;
     margin-bottom: 60px;
 }
-.list-of-notes li {
+.list-of-notebooks li {
     margin-bottom: 10px;
 
 }
@@ -143,17 +150,18 @@ input {
 	font-size: 90px;
 	font-weight: bold;
 	font-family: Courier;
+
 }
 
 .clock {
 	position:absolute;
     height: X px;
     width: Y px;
-    left:45%;
-    top:20%;
+    left:60%;
+    top:15%;
     margin-top:- X/2 px;
     margin-left:- Y/2 px;
-	font-size: 50px;
+	font-size: 40px;
 	font-weight: bold;
 	font-family: Courier;
 }

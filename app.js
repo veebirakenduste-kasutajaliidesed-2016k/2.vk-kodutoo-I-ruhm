@@ -20,6 +20,8 @@
      this.currentRoute = null;
      console.log(this);
 
+      this.notebook_id = 0;
+
 	 //hakkan hoidma kõiki purke
 	 this.notebooks=[];
 
@@ -81,11 +83,15 @@
 
          //tekitan loendi htmli
          this.notebooks.forEach(function(notebook){
-           var new_notebook = new Notebook(notebook.reminder_date, notebook.reminder_content);
+           var new_notebook = new Notebook(notebook.id, notebook.reminder_date, notebook.reminder_content);
+            Meelespea.instance.notebook_id = notebook.id;
 
            var li = new_notebook.createHtmlElement();
            document.querySelector('.list-of-notebooks').appendChild(li);
+
          });
+
+          this.notebook_id++;
 
        }
 
@@ -103,6 +109,46 @@
 
 
      },
+
+
+      deleteNotebook: function(event){
+
+        //li element
+        console.log(event.target.parentNode);
+        //id (data-id)
+        console.log(event.target.dataset.id);
+
+        var c = confirm('Kas oled kindel, et tahad kustutada?');
+
+        //kui ei ole nõus kustutama, katkestame
+
+        if(!c){ return; }
+
+        //kustutame HTMList
+        var clicked_li = event.target.parentNode;
+
+        document.querySelector('.list-of-notebooks').removeChild(clicked_li);
+
+        //kustutan massiiivist
+        this.notebooks.forEach(function(notebook, i){
+
+             //sama id mis vajutasime
+            if(notebook.id == event.target.dataset.id){
+
+              //mis indeks ja mitu + lisaks saab asendada vajadusel
+              Meelespea.instance.notebooks.splice(i, 1);
+            }
+
+        });
+
+
+        //salvestan uuesti localStorage'isse
+        localStorage.setItem('jars', JSON.stringify(this.jars));
+
+
+
+
+      },
 
      search: function (event){
        //otsikasti väärtus
@@ -144,7 +190,9 @@
 
        //console.log(reminder_date + ' ' + reminder_content);
        //1) tekitan uue Notebook'i
-       var new_notebook = new Notebook(reminder_date, reminder_content);
+       var new_notebook = new Notebook(this.notebook_id, reminder_date, reminder_content);
+
+        this.notebook_id++;
 
 	   	//lisan massiivi purgi
 		  this.notebooks.push(new_notebook);
@@ -194,9 +242,10 @@
 
      }
 
-   }; // meelespea LÕPP
+   }; // MEELESPEA LÕPP
 
-   var Notebook = function(new_reminder_date, new_reminder_content){
+   var Notebook = function(new_id, new_reminder_date, new_reminder_content){
+     this.id = new_id;
      this.reminder_date = new_reminder_date;
      this.reminder_content = new_reminder_content;
      console.log('created new notebook');
@@ -219,7 +268,7 @@
        var span = document.createElement('span');
        span.className = 'letter';
 
-       var letter = document.createTextNode(this.reminder_date.charAt(0));
+       var letter = document.createTextNode(this.reminder_date.charAt(8)+this.reminder_date.charAt(9));
        span.appendChild(letter);
 
        li.appendChild(span);
@@ -231,6 +280,22 @@
        span_with_content.appendChild(content);
 
        li.appendChild(span_with_content);
+
+        //delete nupp
+
+        var delete_span = document.createElement('span');
+        delete_span.appendChild(document.createTextNode(' kustuta'));
+
+        delete_span.style.color = 'red';
+        delete_span.style.cursor = 'pointer';
+
+        //id külge
+
+        delete_span.setAttribute('data-id', this.id);
+
+        delete_span.addEventListener('click', Meelespea.instance.deleteNotebook.bind(Meelespea.instance));
+
+        li.appendChild(delete_span);
 
        return li;
 
@@ -283,7 +348,7 @@
         number= "0" + number;
       }
       return number;
-     
+
 
    };
 
