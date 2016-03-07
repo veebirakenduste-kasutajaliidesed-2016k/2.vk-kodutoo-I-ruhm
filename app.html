@@ -1,12 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
   <meta charset="UTF-8">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
   <title>Games Warehouse</title>
   <script src="app.js" charset="utf-8"></script>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+  <!-- Error, ei tohi jätta tühje ridu -->
+  <div class="modal fade" id="ModalError" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Warning</h4>
+        </div>
+        <div class="modal-body">
+          <p>Please don't leave any empty fields!</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <!-- Muutmine -->
+  <!-- Modal -->
+<div class="modal fade" id="ModalModify" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <button type="button" class="close"
+                   data-dismiss="modal">
+                       <span aria-hidden="true">&times;</span>
+                       <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    Modal title
+                </h4>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="modal-body">
+
+                <form class="form-horizontal" role="form">
+                  <div class="form-group">
+                    <label  class="col-sm-2 control-label"
+                              for="title">Title</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control"
+                        id="title" placeholder="Title"/>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label"
+                          for="platform" >Platform</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control"
+                            id="platform" placeholder="Platform"/>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label"
+                          for="price" >Price</label>
+                    <div class="col-sm-10">
+                        <input type="number" class="form-control"
+                            id="price" placeholder="Price"/>
+                            <br>
+                            <br>
+                    </div>
+                  </div>
+
+                <button type="button" class="btn btn-default"
+                        data-dismiss="modal">
+                            Close
+                </button>
+                <button type="button" class="btn btn-primary btn pull-right">
+                    Save changes
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <nav class="menu">
   <ul class="menu-list">

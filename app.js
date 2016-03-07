@@ -87,6 +87,20 @@
 
      },
 
+     modifyGame: function(event) {
+
+       $("#ModalModify").modal({backdrop: true});
+
+       var clicked_li = event.target.parentNode;
+       document.querySelector('.list-of-games').removeChild(clicked_li);
+
+       this.games.forEach(function(game,i){
+
+         Warehouse.instance.games.splice(i, 1);
+       })
+
+     },
+
      deleteGame: function(event) {
 
        var c = confirm('Are you sure ?');
@@ -99,7 +113,7 @@
        this.games.forEach(function(game,i){
 
          if(game.id == event.target.dataset.id){
-           
+
            Warehouse.instance.games.splice(i, 1);
          }
 
@@ -138,7 +152,7 @@
        var price = document.querySelector('.price').value;
 
        if (title === "" || platform === "" || price === ""){
-         alert("Please don't leave empty fields!");
+         $("#ModalError").modal({backdrop: true});
        }else{
        var new_game = new Game(guid, title, platform, price);
 
@@ -149,21 +163,6 @@
        var li = new_game.createHtmlElement();
        document.querySelector('.list-of-games').appendChild(li);
        }
-     },
-
-     removeNewClick: function(event){
-
-       var title = document.querySelector('.title').value;
-       var platform = document.querySelector('.platform').value;
-       var price = document.querySelector('.price').value;
-
-       this.games.push(del_game);
-       localStorage.removeItem('games');
-       localStorage.setItem('games', JSON.stringify(this.games));
-
-       var li = new_game.createHtmlElement();
-       document.querySelector('.list-of-games').appendChild(li);
-
      },
 
      routeChange: function(event){
@@ -214,6 +213,14 @@
        var span_with_content = document.createElement('span');
        span_with_content.className = 'content';
 
+       var modify_span = document.createElement('button');
+       modify_span.appendChild(document.createTextNode('Modify'));
+       modify_span.className = 'modify';
+
+       modify_span.setAttribute('data-id', this.id);
+       modify_span.addEventListener('click', Warehouse.instance.modifyGame.bind(Warehouse.instance));
+
+
        var delete_span = document.createElement('button');
        delete_span.appendChild(document.createTextNode('x'));
        delete_span.className = 'delete';
@@ -227,6 +234,7 @@
 
        li.appendChild(span_with_content);
        li.appendChild(delete_span);
+       li.appendChild(modify_span);
 
        return li;
 
