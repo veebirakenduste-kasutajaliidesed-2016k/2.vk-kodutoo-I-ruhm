@@ -9,9 +9,14 @@
 		<meta charset="UTF-8">
 		<title></title>
 		<link rel="stylesheet" href="style.css" />
+		<style>
+			.blue{
+	color:blue;
+}
+		</style>
 	</head>
 	<body>
-		<i style="color:lightcoral;">See on tõlkerakendus. Siin saab siduda omavahel inglise keelseid sõnu ja eestikeelseid sõnu.</i>
+		<i style="color:lightcoral;">See on tõlkerakendus. Siin saab siduda omavahel ingliskeelseid sõnu ja eestikeelseid sõnu.</i>
 		<?php
 			$result=$connection->query("SELECT id, en, et FROM translations");
 				while($row=$result->fetchObject()){

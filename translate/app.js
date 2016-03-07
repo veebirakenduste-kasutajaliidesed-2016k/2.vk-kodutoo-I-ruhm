@@ -12,9 +12,11 @@
 		Translate.instance = this;
 		
 		this.init();
-	
+		
 	};
+	
 	var i = 0;
+	
 	//window.Translate = Translate;
 	
 	Translate.prototype = {
@@ -64,7 +66,7 @@
 		addNewClick: function(event){
 			//salvestame purgi
 			//console.log(event);
-
+			i++;
 			var en = document.querySelector('.en').value;
 			var et = document.querySelector('.et').value;
 
