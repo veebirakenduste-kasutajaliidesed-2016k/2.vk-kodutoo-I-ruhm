@@ -67,7 +67,7 @@
 
            this.games.forEach(function(game){
 
-               var new_game = new Game(game.title, game.platform, game.price);
+               var new_game = new Game(game.id, game.title, game.platform, game.price);
 
                var li = new_game.createHtmlElement();
                document.querySelector('.list-of-games').appendChild(li);
@@ -85,10 +85,27 @@
 
        document.querySelector('#search').addEventListener('keyup', this.search.bind(this));
 
-       document.querySelector('.delete').addEventListener('click', this.removeNewClick.bind(this));
+     },
 
-       document.querySelector('.modify').addEventListener('click', function(event){
-         });
+     deleteGame: function(event) {
+
+       var c = confirm('Are you sure ?');
+
+       if (!c) {return; }
+
+       var clicked_li = event.target.parentNode;
+       document.querySelector('.list-of-games').removeChild(clicked_li);
+
+       this.games.forEach(function(game,i){
+
+         if(game.id == event.target.dataset.id){
+           
+           Warehouse.instance.games.splice(i, 1);
+         }
+
+       });
+
+       localStorage.setItem('games', JSON.stringify(this.games));
 
      },
 
@@ -123,7 +140,7 @@
        if (title === "" || platform === "" || price === ""){
          alert("Please don't leave empty fields!");
        }else{
-       var new_game = new Game(title, platform, price);
+       var new_game = new Game(guid, title, platform, price);
 
        this.games.push(new_game);
        console.log(JSON.stringify(this.games));
@@ -140,9 +157,8 @@
        var platform = document.querySelector('.platform').value;
        var price = document.querySelector('.price').value;
 
-       var del_game = delete Game(title, platform, price);
-
        this.games.push(del_game);
+       localStorage.removeItem('games');
        localStorage.setItem('games', JSON.stringify(this.games));
 
        var li = new_game.createHtmlElement();
@@ -175,7 +191,8 @@
 
    };
 
-   var Game = function(new_title, new_platform, new_price){
+   var Game = function(new_guid, new_title, new_platform, new_price){
+     this.id = new_guid;
      this.title = new_title;
      this.platform = new_platform;
      this.price = new_price;
@@ -197,29 +214,36 @@
        var span_with_content = document.createElement('span');
        span_with_content.className = 'content';
 
-       var del = document.createElement('button');
-       del.appendChild(document.createTextNode('x'));
-       del.className = 'delete';
-       del.setAttribute('data-id', this.id);
-       del.name = 'delete';
+       var delete_span = document.createElement('button');
+       delete_span.appendChild(document.createTextNode('x'));
+       delete_span.className = 'delete';
 
-       var mod = document.createElement('button');
-       mod.appendChild(document.createTextNode('Modify'));
-       mod.className = 'modify'
-       mod.setAttribute('data-id', this.id);
-       mod.name = 'mod';
+       delete_span.setAttribute('data-id', this.id);
+       delete_span.addEventListener('click', Warehouse.instance.deleteGame.bind(Warehouse.instance));
+
 
        var content = document.createTextNode(this.title + ' | ' + this.platform + ' | ' + this.price + '€' + ' |  ');
        span_with_content.appendChild(content);
 
        li.appendChild(span_with_content);
-       li.appendChild(del);
-       li.appendChild(mod);
+       li.appendChild(delete_span);
 
        return li;
 
      }
    };
+
+   /* HELPERID*/
+   function guid() {
+     return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+          s4() + '-' + s4() + s4() + s4();
+   }
+
+   function s4() {
+     return Math.floor((1 + Math.random()) * 0x10000)
+     .toString(16)
+     .substring(1);
+   }
 
    window.onload = function(){
      var app = new Warehouse();
