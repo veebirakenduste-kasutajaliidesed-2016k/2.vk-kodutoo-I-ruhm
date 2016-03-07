@@ -83,6 +83,7 @@
 
          //tekitan loendi htmli
          this.notebooks.forEach(function(notebook){
+
            var new_notebook = new Notebook(notebook.id, notebook.reminder_date, notebook.reminder_content);
             Meelespea.instance.notebook_id = notebook.id;
 
@@ -109,7 +110,6 @@
 
 
      },
-
 
       deleteNotebook: function(event){
 
@@ -143,7 +143,7 @@
 
 
         //salvestan uuesti localStorage'isse
-        localStorage.setItem('jars', JSON.stringify(this.jars));
+        localStorage.setItem('notebooks', JSON.stringify(this.notebooks));
 
 
 
