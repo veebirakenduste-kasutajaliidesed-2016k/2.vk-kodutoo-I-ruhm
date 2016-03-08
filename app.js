@@ -13,7 +13,7 @@
      this.click_count = 0;
 	 this.currentRoute = null;
      console.log(this);
-	
+	 this.jar_id = 0;	
 	 this.jars = [];
      this.init();
    };
@@ -31,12 +31,15 @@
 
            this.jars.forEach(function(jar){
 
-               var new_jar = new Jar(jar.title);
+               var new_jar = new Jar(jar.id, jar.title);
+			   
+			   CheckList.instance.jar_id = jar.id;
 
                var li = new_jar.createHtmlElement();
                document.querySelector('.list-of-jars').appendChild(li);
 
            });
+		   this.jar_id++;
 
        }
 
@@ -47,6 +50,29 @@
      bindMouseEvents: function(){
        document.querySelector('.add-new-jar').addEventListener('click', this.addNewClick.bind(this));
      },
+	 
+	 deleteJar: function(event){
+		
+		console.log(event.target.parentNode);
+		console.log(event.target.dataset.id);
+		
+		var c = confirm('kustuta?');
+		if(!c){ return; }
+		
+		var clicked_li = event.target.parentNode;
+		document.querySelector('.list-of-jars').removeChild(clicked_li);
+		
+		this.jars.forEach(function(jar, i){
+
+			if(jar.id == event.target.dataset.id){
+				CheckList.instance.jars.splice(i, 1);
+			}
+              
+        });
+		
+       localStorage.setItem('jars', JSON.stringify(this.jars));
+		
+	 },
 
      addNewClick: function(event){
        //salvestame purgi
@@ -55,7 +81,8 @@
        var title = document.querySelector('.title').value;
 
        //1) tekitan uue Jar'i
-       var new_jar = new Jar(title);
+       var new_jar = new Jar(this.jar_id, title);
+	   this.jar_id++;
 
        //lisan massiiivi
        this.jars.push(new_jar);
@@ -77,7 +104,8 @@
 
    };
    
-   var Jar = function(new_title){
+   var Jar = function(new_id, new_title){
+	 this.id = new_id;
      this.title = new_title;
      console.log('created new jar');
    };
@@ -86,88 +114,17 @@
      createHtmlElement: function(){
 
        var li = document.createElement('li');
-	   li.onclick = function() {this.parentNode.removeChild(this);}
        var content = document.createTextNode(this.title);
        li.appendChild(content);
-
-	  /* var DeleteButton = document.createElement('button');
-       DeleteButton.innerHTML = 'X';
-       DeleteButton.className = 'delete';
-	   DeleteButton.onclick = function(){
-	   console.log('deleet');
-	   console.log('this.title');
-	   console.log(this.title);
-	   console.log(content.title);
-	   console.log(li.title);
-	   console.log(li.content);
-	   console.log('content');
-	   console.log(content);
-	   //this.parentNode.removeChild(this);
-	   li.remove(this);
-	   //ülemine töötab ka eemaldamisel, eemaldab nupuna
-	   
-	   this.jars = JSON.parse(localStorage.jars);
-	   console.log(this.jars);
-	   console.log(this.jars[2]);
-	   console.log('JSON.parse(localStorage.keyname).length');
-	   console.log(JSON.parse(localStorage.jars).length);
-	  // var id = this.getAttribute('id');
-	   console.log(this.getAttribute('id'));
-
-	   }; 
-	   */
-	   /*
-	   if(localStorage.jars){
-         //parsin JSON obj
-         this.jars = JSON.parse(localStorage.jars);
-		//list.innerHTML = '';
-		//jars.splice(0, jars.length);
-		//renderTodos();
-		console.log('laadisin LS massiivi: '+this.jars.length);
-		console.log(this.jars);
-		
-		localStorage.removeItem(this.jars);
-		window.location.reload();
-		}
-		
-		
-		var json = JSON.parse(localStorage["jars]);
-		for (i=0, i<json.length;i++)
-		console.log(json[i]);
-		
-		*/	   
-		
-		/*
-	   var i = $this.text();
-	   var li = localStorage.getItem('jars');
-	   var NewList = li.replace('<li>' + i + '</li>', ''); 
-	   localStorage.setItem('list', newList);
-		*/
-		
-		/*
-		var li = this.parentNode;
-		var ul = li.parentNode;
-		ul.removeChild(li);
-		*/
-		
-	   
-	   //li.appendChild(DeleteButton);
 	  
-	  /*
-	   var EditButton = document.createElement('button');
-       EditButton.innerHTML = 'Y';
-       EditButton.className = 'edit';
-	   EditButton.onclick = function(){
-	   console.log('edit');
-	   };
-	   li.appendChild(EditButton);
+	   var delete_span = document.createElement('span');
+	   delete_span.appendChild(document.createTextNode(' x'));		
+	   delete_span.style.color = 'red';
+	   delete_span.style.cursor = 'pointer';
+	   delete_span.setAttribute('data-id', this.id);	   
+	   delete_span.addEventListener('click', CheckList.instance.deleteJar.bind(CheckList.instance));	   
+	   li.appendChild(delete_span);
 	   
-	   */
-	   
-	   //li.appendChild(button);
-          
-	   
-	  // li.appendChild(removeTask);
        return li;
 
      }
