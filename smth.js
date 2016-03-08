@@ -27,10 +27,10 @@ var ItemList = function (selectorID) {
             itemSmth.appendChild(itemSmth2);
             this.listEl.appendChild(itemSmth);
             localStorage.setItem("item", JSON.stringify(this.itemsArray));
+            console.log(this.itemsArray);
+            console.log(JSON.parse(localStorage.getItem('item')));
             ++this.idCount;
             //console.log('lisab smth');
-            //console.log(this.itemsArray);
-
 
         },
 
@@ -59,6 +59,7 @@ var ItemList = function (selectorID) {
                     console.log(this.itemsArray[f].item);
                     console.log(editItemValue);
                     localStorage.setItem("item", JSON.stringify(this.itemsArray));
+
                 }
             }
         },
@@ -76,13 +77,13 @@ var ItemList = function (selectorID) {
 //ronib toimetama kõike asju, mis ülal on
 window.myItemList = new ItemList('items');
 
-var localdata = localStorage.getItem('item');
-console.log(localdata);
+var localdatain = JSON.parse(localStorage.getItem('item'));
+console.log(localdatain);
 
 if (typeof this.itemsArray == "undefined" || !(this.itemsArray instanceof Array)) {
-    if (localdata === null) {
+    if (localdatain === null) {
         console.log('olen siin');
-        console.log(itemsArray);
+        console.log(this.itemsArray);
         document.getElementById('eventBinder').addEventListener('click', function (e){
             if (e.target.id === 'addItemButton'){
                 var item = document.getElementById('addItem').value;
@@ -99,24 +100,50 @@ if (typeof this.itemsArray == "undefined" || !(this.itemsArray instanceof Array)
 
         }, false );
 
-
-
         }else{
+            var localdata = (localdatain);
+            console.log(this.localdata);
+            //for ( var i = 0, len = localdata.length; i < len; ++i ) {
+            //    //console.log( localdata.getItem( 'item' ) );
+            //    console.log('oleme nüüd siin');
+            //    console.log(localdata);
+            //}
+            this.itemsArray = JSON.parse(localStorage.getItem('item'));
+            console.log(this.itemsArray[0]);
+            for (var i = 0; i < this.itemsArray.length; ++i) {
+               //for (var j = 0; j < this.itemsArray[i].length; ++j) {
+                   var datasmth = this.itemsArray[i];
+                   console.log(datasmth.item);
+                   //console.log(this.itemsArray[i]);
+                   console.log('mina siin');
+               //}
+                console.log(this.itemsArray[i]);
+            }
+            for(var i = 0; i < localStorage.length; i++){
+                console.log(localStorage.key(i));
+            }
+            for(var i=0, len=localStorage.length; i<len; i++) {
+                var key = localStorage.key(i);
+                var value = localStorage[key];
+                console.log(value);
+               //if(value.equals("item"))
+               console.log(key + " => " + value);
+           }
 
-    console.log('olen seal');
-    var itemsArray = [];
-    var data = JSON.parse(localdata);
-    console.log(data[i]);
-    for (var i = 0; i < data.length; i++) {
-        console.log(data[i]);
-        window.myItemList.add(data[i]);
-        itemsArray.push(data[i]);
 
-
+            console.log('olen seal');
+            console.log(this.localdata);
+            console.log(this.itemsArray);
     }
-    window.myItemList.add(this.data);
 
-    console.log(this.itemsArray);
-    //console.log('tyhi');
-    }
+
+
+
+
+
+
+
+
+
+
 }

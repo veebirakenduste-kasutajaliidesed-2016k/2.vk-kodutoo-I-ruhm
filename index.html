@@ -3,18 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <title>Mingisugune leht</title>
-
+    <script>
+    if(localStorage.getItem("item")===null){
+        localStorage.setItem("item", JSON.stringify([]));
+    }
+    </script>
     <link rel="stylesheet" href="smth.css">
 </head>
 <body>
 
+
 <div id="eventBinder">
+
     <input type="text" id="addItem" value="item" />
     <button id="addItemButton" value="Add an item">Add item</button>
-
+    <!-- <script src="smth.js" charset="utf-8"></script> -->
     <div id="items"></div>
-</div>
 
-        <script src="smth.js" charset="utf-8"></script>
+</div>
+<script src="storage.js" charset="utf-8"></script>
+
 </body>
 </html>
