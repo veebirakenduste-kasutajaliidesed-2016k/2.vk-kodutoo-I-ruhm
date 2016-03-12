@@ -27,10 +27,11 @@ main {
 	top: 0;
 	bottom: 0;
 
-	margin-top: 63px;
+	margin-top: 70px;
     overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
     margin-bottom: 10px;
+    margin-left: 24px;
     width: 100%;
 }
 
@@ -40,7 +41,7 @@ main {
     margin-bottom: 0;
     color: red;
     padding-top: 10px;
-    padding-left: 10px;
+    padding-left: 5px;
     position: absolute;
     left: 0;
     right: 0;
@@ -57,15 +58,14 @@ main {
 }
 .menu-item {
     display: block;
-    margin: 0 0 10px 0;
+    margin: 5px 5px 10px 0px;
 }
 .menu-link {
     color: rgb(48,48,48);
-    ;
-    font-size: 18px;
+    font-size: 22px;
     font-weight: bold;
     display: block;
-    padding: 10px;
+    padding: 5px;
     cursor: pointer;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -130,10 +130,11 @@ td {
     padding: 2px;
 }
 .letter {
+    border-radius: 5px;
     padding: 10px;
     text-transform: uppercase;
     margin-right: 10px;
-    width: 30px;
+    width: 50px;
     text-align: center;
     display: inline-block;
     color: white;
@@ -197,4 +198,10 @@ input {
 }
 .modal-body .form-horizontal .col-sm-offset-2 {
     margin-left: 5px;
+}
+
+.panel-heading
+{
+    border-top-left-radius: inherit;
+    border-top-right-radius: inherit;
 }

@@ -28,6 +28,8 @@
      this.init();
    };
 
+   $("#success-alert").hide();
+
    window.Warehouse = Warehouse;
 
    Warehouse.routes = {
@@ -91,6 +93,12 @@
 
        $("#ModalModify").modal({backdrop: true});
 
+       $(document).on("click", "#mod_close", function(event){
+        return;
+      });
+
+       $(document).on("click", "#save", function(event){
+
        var clicked_li = event.target.parentNode;
        document.querySelector('.list-of-games').removeChild(clicked_li);
 
@@ -99,13 +107,27 @@
          Warehouse.instance.games.splice(i, 1);
        })
 
+       var title = document.querySelector('.title').value;
+       var platform = document.querySelector('.platform').value;
+       var price = document.querySelector('.price').value;
+
+       this.games.push(new_game);
+       var li = new_game.createHtmlElement();
+       document.querySelector('.list-of-games').appendChild(li);
+
+      });
      },
 
      deleteGame: function(event) {
 
-       var c = confirm('Are you sure ?');
+       $("#deleteConfirm").modal({backdrop: true});
 
-       if (!c) {return; }
+       $(document).on("click", "#close", function(event){
+        return;
+      });
+
+       $(document).on("click", "#confirm", function(event){
+
 
        var clicked_li = event.target.parentNode;
        document.querySelector('.list-of-games').removeChild(clicked_li);
@@ -116,12 +138,9 @@
 
            Warehouse.instance.games.splice(i, 1);
          }
-
        });
-
-       localStorage.setItem('games', JSON.stringify(this.games));
-
-     },
+     });
+    },
 
      search: function(event){
          var needle = document.querySelector('#search').value.toLowerCase();
@@ -145,7 +164,6 @@
      },
 
      addNewClick: function(event){
-
 
        var title = document.querySelector('.title').value;
        var platform = document.querySelector('.platform').value;

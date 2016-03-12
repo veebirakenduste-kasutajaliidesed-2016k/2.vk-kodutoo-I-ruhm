@@ -9,9 +9,28 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
   <title>Games Warehouse</title>
   <script src="app.js" charset="utf-8"></script>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
+
+  <!-- Oled kindel, et tahad kustutada ? -->
+  <div class="modal fade" id="deleteConfirm" tabindex="-1" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content modal-panel-warning">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Delete</h4>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure ?&hellip;</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="close" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" id="confirm" class="btn btn-danger" data-dismiss="modal">Yes</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
   <!-- Error, ei tohi jätta tühje ridu -->
   <div class="modal fade" id="ModalError" role="dialog">
@@ -48,7 +67,7 @@
                        <span class="sr-only">Close</span>
                 </button>
                 <h4 class="modal-title" id="myModalLabel">
-                    Modal title
+                    Modify
                 </h4>
             </div>
 
@@ -83,11 +102,12 @@
                     </div>
                   </div>
 
-                <button type="button" class="btn btn-default"
+                <button id="modclose" type="button" class="btn btn-default"
                         data-dismiss="modal">
                             Close
                 </button>
-                <button type="button" class="btn btn-primary btn pull-right">
+
+                <button id="save" type="button" class="btn btn-primary btn pull-right" data-dismiss="modal">
                     Save changes
                 </button>
             </div>
@@ -96,14 +116,16 @@
 </div>
 
 
-<nav class="menu">
-  <ul class="menu-list">
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container-fluid">
+  <ul class="nav navbar-nav">
     <li class="menu-item"><a href="#home-view" class="menu-link home-view active-menu">Homepage</a></li>
     <li class="menu-item"><a href="#list-view" class="menu-link list-view">Games</a></li>
     <li class="menu-item"><a href="#manage-view" class="menu-link manage-view">Submit</a></li>
     <li class="menu-item"><a href="#credits-view" class="menu-link credits-view">Credits</a></li>
   </ul>
 </nav>
+</div>
 
 <main role="main">
 
@@ -114,22 +136,47 @@
   </div>
   <div id="manage-view">
     <h1>Submit</h1>
-
-    <label for="title">Title: </label><br>
+    <form class="form-horizontal" label for="title">Title: </label><br>
     <input type="text" name="title" class="title"><br>
 
-    <label for="platform">Platform: </label><br>
+    <form class="form-horizontal" label for="platform">Platform: </label><br>
     <input type="text" name="platform" class="platform"><br>
 
-    <label for="price">Price: </label><br>
+    <form class="form-horizontal" label for="price">Price: </label><br>
     <input type="number" name="price" class="price"><br>
 
     <button class="add-new-game pull-right">Add new game</button>
-  </div>
+
+</div>
 
   <div id="home-view">
-    <h1>Homepage</h1>
+    <div class="container">
+  <div class="jumbotron">
+    <h1><strong>Homework 2</strong></h1>
+    <p>Create an application where user could do simple applications with data</p>
   </div>
+</div>
+<br>
+<br>
+<div class="container">
+  <!-- Example row of columns -->
+  <div class="md-row">
+    <center><h1>What I learned during this assignment</h1></center>
+    <div class="col-md-4">
+      <center><img src="graphics\javascript.png"></center>
+      <center><p>Getting more comfortable with javascript, being able to look up and implement new functions and also being able to create a basic application</p></center>
+    </div>
+    <div class="col-md-4">
+      <center><img src="graphics\bootstrap.png"></center>
+      <center><p>Using bootstrap, css to create a basic user interface to the website which doesn'make you want to blind yourself just by looking at it</p></center>
+   </div>
+    <div class="col-md-4">
+      <center><img src="graphics\mobile.png"></center>
+      <center><p>Trying to make a website built for PC's accessible on mobile is a headache and not worth it while doing basic homework</p></center>
+    </div>
+  </div>
+</div>
+</div>
 
   <div id="credits-view">
     <h2>Created by Martin Viidik - 2016 </h2><br>
