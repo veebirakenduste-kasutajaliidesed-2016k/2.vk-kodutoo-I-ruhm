@@ -131,3 +131,16 @@ input {
     -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
     -webkit-tap-highlight-color: transparent;
 }
+#clock{
+    height: 100px;
+    position: relative;
+    top: 0; left: 0; bottom: 0; right: 0;
+    padding-top: 70px;
+    font-family: monospace, monospace;
+    text-align: center;
+    color: rgb(146, 168, 209);
+    font-size: 8vw;
+    display: flex;
+    width:100%;
+    /*https://googlecreativelab.github.io/coder-projects/projects/digital_clock with some changes from me*/
+}
