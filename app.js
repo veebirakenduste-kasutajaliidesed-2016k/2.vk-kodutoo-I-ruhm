@@ -183,6 +183,8 @@
      }
 
    };
+
+
 // ToDoListi lõpp
 
    var Task = function(new_id, new_title, new_description){
@@ -239,6 +241,9 @@
 
      }
    };
+
+
+
 
    /* HELPERID*/
  function guid() {
