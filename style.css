@@ -130,7 +130,8 @@ td {
     padding-left: 0;
     margin-bottom: 60px;
 }
-.list-of-notebooks li {
+.list-of-notebooks li,
+.list-of-notebooksToday li {
     margin-bottom: 10px;
 
 }
@@ -158,7 +159,7 @@ input {
     height: X px;
     width: Y px;
     left:60%;
-    top:15%;
+    top:20%;
     margin-top:- X/2 px;
     margin-left:- Y/2 px;
 	font-size: 40px;

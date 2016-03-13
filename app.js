@@ -36,6 +36,10 @@
        'render': function(){
          // käivitame siis kui lehte laeme
          console.log('>>>>avaleht');
+
+         window.setTimeout(function(){
+           document.querySelector('.loading').innerHTML = 'laetud!';
+         }, 3000);
        }
      },
      'list-view': {
@@ -93,8 +97,58 @@
          });
 
           this.notebook_id++;
-
        }
+
+       //saan kätte purgid localStorage kui on
+       if(localStorage.notebooks){
+
+         var i, j, k, newdate;
+           var d = new Date();
+           var paev = d.getDay();
+           var paevad = [];
+           paevad.push("Sun","Mon","Tue","Wed","Thu","Fri","Sat");
+
+           for (i=0; i<paevad.length; i++){
+             if (paev==i){
+               paev=paevad[i]}
+            };
+           var kuu = d.getMonth();
+           var kuud = [];
+            kuud.push("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Now","Dec");
+            for (j=0; j<kuud.length; j++){
+            	if (kuu==j){
+            		kuu=kuud[j]}
+            };
+           var kp = d.getDate();
+           var aasta = d.getFullYear();
+           newdate=paev+" "+ kuu+" "+kp+" "+aasta;
+
+
+         //võtan stringi ja teen tagasi objektiks
+         this.notebooks = JSON.parse(localStorage.notebooks);
+         console.log("laadinsin localStorage'ist massiivi " + this.notebooks.length);
+
+
+
+             //tekitan loendi htmli
+             this.notebooks.forEach(function(notebook){
+               if (notebook.reminder_date==newdate){
+
+               var new_notebook = new Notebook(notebook.id, notebook.reminder_date, notebook.reminder_content);
+                Meelespea.instance.notebook_id = notebook.id;
+
+               var li = new_notebook.createHtmlElement();
+               document.querySelector('.list-of-notebooksToday').appendChild(li);
+
+                }
+             })
+
+              this.notebook_id++;
+
+
+         };
+
+
 
 
        // esimene loogika oleks see, et kuulame hiireklikki nupul
@@ -104,9 +158,6 @@
 
      bindEvents: function(){
        document.querySelector('.add-new-notebook').addEventListener('click', this.addNewClick.bind(this));
-
-       //kuulan trükkimist otsikastis
-       document.querySelector('#search').addEventListener("keyup", this.search.bind(this));
 
 
      },
@@ -145,38 +196,8 @@
         //salvestan uuesti localStorage'isse
         localStorage.setItem('notebooks', JSON.stringify(this.notebooks));
 
-
-
-
       },
 
-     search: function (event){
-       //otsikasti väärtus
-       var needle = document.querySelector('#search').value;
-       console.log(needle);
-
-       var list = document.querySelectorAll('ul.list-of-notebooks li');
-       console.log(list);
-
-       for(var i = 0; i < list.length; i++){
-
-         var li = list[i];
-         //ühe listitemi sisu tekst
-         var stack = li.querySelector('.content').innerHTML.toLowerCase();
-
-         //kas otsisõna on sisus olemas
-         if(stack.indexOf(needle) !== -1){
-           //olemas
-           li.style.display = 'list-item';
-
-         }else{
-           //ei ole, index on -1
-           li.style.display = 'none';
-
-         }
-
-       }
-     },
 
      addNewClick: function(event){
        //salvestame purgi
@@ -184,9 +205,6 @@
 
        var reminder_date = document.querySelector('.reminder_date').value;
        var reminder_content = document.querySelector('.reminder_content').value;
-
-
-
 
        //console.log(reminder_date + ' ' + reminder_content);
        //1) tekitan uue Notebook'i
@@ -297,7 +315,7 @@
 
         li.appendChild(delete_span);
 
-       return li;
+        return li;
 
      }
    };
@@ -305,8 +323,6 @@
    // kui leht laetud käivitan meelespea rakenduse
    window.onload = function(){
      var app = new Meelespea();
-
-
 
       //tänane kp: Mon Feb 01 2016 12:43:50 GMT+0200 (FLE Standard deadline)
 
@@ -349,9 +365,6 @@
       }
       return number;
 
-
    };
-
-
 
 })();
