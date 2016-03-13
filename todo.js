@@ -49,7 +49,6 @@
 			}
 			if(localStorage.items){
 				this.items = JSON.parse(localStorage.items);
-				console.log("laadisin localStorageist massiiivi ' + this.jars.length");
 				this.items.forEach(function(item){
 					var new_item = new Item(item.id, item.activity, item.time);
 
@@ -119,9 +118,6 @@
 		createHtmlElement: function(){
 			var li = document.createElement('li');
 			var span = document.createElement('span');
-			span.className = 'letter';
-			var letter = document.createTextNode(this.activity.charAt(0));
-			span.appendChild(letter);
 			li.appendChild(span);
 			var span_with_content = document.createElement('span');
 			span_with_content.className = 'content';
