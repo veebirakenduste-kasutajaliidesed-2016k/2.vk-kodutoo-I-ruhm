@@ -68,7 +68,7 @@
 				  document.getElementById("banner8").style.display = "block";
 			}
 			
-			//this.showData();
+			this.showData();
 			this.bindEvents();
 			//this.showData();
 			
@@ -80,7 +80,7 @@
 
 			//tekitan loendi htmli
 			this.noobs.forEach(function(pleb){
-			var all_noobs = new noob(pleb.name, pleb.surname, pleb.age, pleb.address, pleb.creditcard, pleb.security);
+			var all_noobs = new noob(pleb.name, pleb.surname, pleb.age, pleb.address, pleb.creditcard, pleb.security, pleb.data_id);
 
 			var li = all_noobs.createHtmlElement();
 			document.querySelector('.list-of-noobs').appendChild(li);
@@ -136,17 +136,57 @@
 
 		},
 		
-		bindSecEvents: function(){
-			
-			document.querySelector('.delete').addEventListener('click', function(){
+		removeNoob: function(event){
+		 
+		 //li element
+		 console.log(event.target.parentNode.parentNode);
+		 //id
+		 console.log(event.target.dataset.id);
+		 
+		 var target_id = event.target.dataset.id;
+		 
+		 var c = confirm('kustuta?');
+		 if(!c){return;}
+		 
+		 var clicked_del = event.target.parentNode.parentNode;
+		 console.log(clicked_del)
+		 document.querySelector('.list-of-noobs').removeChild(clicked_del);
+		 
+		 this.noobs.forEach(function (item, i){
+			 
+			 if(item.data_id == target_id){
+				 //mis index ja mitu. + lisaks saab asendada vajadusel
+				 scam.instance.noobs.splice(i, 1);
+			 }
+			 
+		 });
+		 
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+		if (xhttp.readyState == 4 && xhttp.status == 200) {
 
-				var x = document.querySelector('.delete').value;
-				console.log(x);
-				//console.log(scam.instance.noobs[0]);
+			console.log('salvestas serverisse');
+			var result =xhttp.responseText;
+			//console.log(result);
+		}};
+		
+		this.noobs.forEach(function (item, j){
+			 
+			 if(item.data_id == target_id){
+		
+				console.log("aylmao")
+				console.log("saveData.php?name="+scam.instance.noobs[j].name+"&surname="+this.surname+"&age="+this.age+"&address="+this.address+"&creditcard="+this.creditcard+"&security="+this.security+"&data_id="+this.data_id);
+				xhttp.open("GET", "saveData.php?name="+name+"&surname="+surname+"&age="+this.age+"&address="+this.address+"&creditcard="+this.creditcard+"&security="+this.security+"&data_id="+this.data_id+"&del=1", true);
+							//päringu tegemine
+				xhttp.send();
+			 }else{
+				 console.log("aylmao");
+			 }
+			 
+		});
 				
-				//scam.instance.noobs.splice(0, 1);
-				
-			});
+		return true;
+		
 		},
 		
 		addNewClick: function(event){
@@ -165,8 +205,9 @@
 				alert('Lisage palun kõik andmed');
 				return false;
 			}else{
-				var all_noobs = new noob(name, surname, age, address, creditcard, security);
-
+				var all_noobs = new noob(name, surname, age, address, creditcard, security, guid());
+				this.noobs.push(all_noobs);
+				console.log(this.noobs);
 				 //salvestan serverisse
 				var xhttp = new XMLHttpRequest();
 				xhttp.onreadystatechange = function() {
@@ -178,7 +219,7 @@
 					}
 				};
 					//päringu tegemine
-				xhttp.open("GET", "saveData.php?name="+name+"&surname="+surname+"&age="+age+"&address="+address+"&creditcard="+creditcard+"&security="+security/*+"&data_id="+data_id*/, true);
+				xhttp.open("GET", "saveData.php?name="+name+"&surname="+surname+"&age="+age+"&address="+address+"&creditcard="+creditcard+"&security="+security+"&data_id="+all_noobs.data_id, true);
 				xhttp.send();
 				
 				return true;
@@ -204,19 +245,19 @@
 			//päringu tegemine
 			xhttp.open("GET", "saveData.php", true);
 			xhttp.send();
-			
-			window.setTimeout(function(){scam.instance.bindSecEvents()}, 5000);
+			console.log(scam.instance.noobs);
+			//window.setTimeout(function(){scam.instance.bindSecEvents()}, 5000);
 		}
 	};
 	
-	var noob = function(name, surname, age, address, creditcard, security){
+	var noob = function(name, surname, age, address, creditcard, security, id){
 		this.name = name;
 		this.surname = surname;
 		this.age = age;
 		this.address = address;
 		this.creditcard = creditcard;
 		this.security = security;
-		this.id = Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1) +  Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+		this.data_id = id;
 		console.log('created new noob');
 	};
 		
@@ -247,8 +288,10 @@
 			var del = document.createElement('button');
 			del.appendChild(document.createTextNode('X'));
 			//del.setAttribute("id", "delete");
-			del.className = 'delete';
-			del.setAttribute('value', this.id);
+			//del.className = 'delete';
+			del.setAttribute('data-id', this.data_id);
+			
+			del.addEventListener("click", scam.instance.removeNoob.bind(scam.instance));
 			
 			var content1 = document.createTextNode(this.name);
 			var content2 = document.createTextNode(this.surname);
@@ -279,6 +322,10 @@
 
 		},
 	};
+	
+	function guid(){
+		return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1) +  Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+	}
 	
 	window.onload = function(){
 		var app = new scam();

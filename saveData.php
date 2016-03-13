@@ -1,10 +1,10 @@
-<?php
+ <?php
 
 $file_title = "data.txt";
 
 //faili sisu
 $entries_from_file = file_get_contents($file_title);
-//echo $entries_from_file
+//echo $entries_from_file;
 //string objektideks
 $entries = json_decode($entries_from_file);
 //var_dump($entries); {"title":"janek"}
@@ -31,8 +31,13 @@ if(isset($_GET["name"]) && isset($_GET["surname"]) && isset($_GET["age"]) && iss
     //salvestan faili üle
     file_put_contents($file_title, $json_string);
   }
-}
+}/*elseif(isset($_GET["del"])){
+	
+	$json = json_encode(array_slice(json_decode($json, true), 2));
+	
+}*/
 //trükin välja stringi kujul massiivi (võib olla lisas midagi juurde)
 echo(json_encode($entries));
-
+/*kustutama peab siit peab ka ära*/
 ?>
+
