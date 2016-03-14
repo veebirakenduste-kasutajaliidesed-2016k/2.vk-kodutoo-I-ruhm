@@ -83,7 +83,11 @@
        if(localStorage.notebooks){
          //võtan stringi ja teen tagasi objektiks
          this.notebooks = JSON.parse(localStorage.notebooks);
+         this.notebooks.sort(function(a,b){return new Date(a.reminder_date).getTime() - new Date(b.reminder_date).getTime()
+         });
          console.log("laadinsin localStorage'ist massiivi " + this.notebooks.length);
+
+
 
          //tekitan loendi htmli
          this.notebooks.forEach(function(notebook){
