@@ -21,6 +21,7 @@
     document.querySelector('#color').addEventListener('click', Kell.instance.randcolor.bind(this));
     document.querySelector('#memoAdd').addEventListener('click', Kell.instance.addMemo.bind(this));
     document.querySelector('#deleteMemo').addEventListener('click', Kell.instance.deleteMemo.bind(this));
+    document.querySelector('#changeMemo').addEventListener('click', Kell.instance.changeMemo.bind(this));
 
 
     //setInterval(this.clockTime(this), 1000);
@@ -196,6 +197,21 @@
       localStorage.removeItem('memos');
       this.memos.splice(memoNR,1);
       console.log(this.memos);
+      localStorage.setItem('memos', JSON.stringify(this.memos));
+    },
+
+    changeMemo: function(){
+      var memoNR = document.querySelector('#changeMemoID').value;
+      var memo = document.querySelector('#changeMemoInput').value;
+      var title = document.querySelector('#changeMemoTitle').value;
+      var dateTime = document.querySelector('#changeDateTime').value;
+
+      var changeMemo = new memo_Jar(title, memo, dateTime);
+
+      memoNR--;
+
+      localStorage.removeItem('memos');
+      this.memos.splice(memoNR,1, changeMemo);
       localStorage.setItem('memos', JSON.stringify(this.memos));
     }
 
