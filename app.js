@@ -38,7 +38,7 @@
          console.log('>>>>avaleht');
 
          window.setTimeout(function(){
-           document.querySelector('.loading').innerHTML = 'laetud!';
+           document.querySelector('.loading1').innerHTML = 'laetud!';
          }, 3000);
        }
      },
@@ -95,14 +95,13 @@
            document.querySelector('.list-of-notebooks').appendChild(li);
 
          });
-
           this.notebook_id++;
        }
 
        //saan kätte purgid localStorage kui on
        if(localStorage.notebooks){
 
-         var i, j, k, newdate;
+         var i, j, k;
            var d = new Date();
            var paev = d.getDay();
            var paevad = [];
@@ -110,18 +109,18 @@
 
            for (i=0; i<paevad.length; i++){
              if (paev==i){
-               paev=paevad[i]}
-            };
+               paev=paevad[i];}
+            }
            var kuu = d.getMonth();
            var kuud = [];
             kuud.push("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Now","Dec");
             for (j=0; j<kuud.length; j++){
             	if (kuu==j){
-            		kuu=kuud[j]}
-            };
+            		kuu=kuud[j];}
+            }
            var kp = d.getDate();
            var aasta = d.getFullYear();
-           newdate=paev+" "+ kuu+" "+kp+" "+aasta;
+           var newdate=paev+" "+ kuu+" "+kp+" "+aasta;
 
 
          //võtan stringi ja teen tagasi objektiks
@@ -141,12 +140,12 @@
                document.querySelector('.list-of-notebooksToday').appendChild(li);
 
                 }
-             })
+             });
 
               this.notebook_id++;
 
 
-         };
+         }
 
 
 
@@ -162,44 +161,61 @@
 
      },
 
-      deleteNotebook: function(event){
 
-        //li element
-        console.log(event.target.parentNode);
-        //id (data-id)
-        console.log(event.target.dataset.id);
 
-        var c = confirm('Kas oled kindel, et tahad kustutada?');
+          deleteNotebook: function(event){
 
-        //kui ei ole nõus kustutama, katkestame
+            //li element
+            console.log(event.target.parentNode);
+            //id (data-id)
+            console.log(event.target.dataset.id);
 
-        if(!c){ return; }
+            var c = confirm('Kas oled kindel, et tahad kustutada?');
 
-        //kustutame HTMList
-        var clicked_li = event.target.parentNode;
+            //kui ei ole nõus kustutama, katkestame
 
-        document.querySelector('.list-of-notebooks').removeChild(clicked_li);
+            if(!c){ return; }
 
-        //kustutan massiiivist
-        this.notebooks.forEach(function(notebook, i){
+            //kustutame HTMList
+            var clicked_li = event.target.parentNode;
+            if (window.location.href==("http://greeny.cs.tlu.ee/~kelllep/veebirakenduste-kasutajaliidesed/2.vk-kodutoo-I-ruhm/app.html#home-view")){
+              document.querySelector('.list-of-notebooksToday').removeChild(clicked_li);
 
-             //sama id mis vajutasime
-            if(notebook.id == event.target.dataset.id){
+            //kustutan massiiivist
+            this.notebooks.forEach(function(notebook, i){
 
-              //mis indeks ja mitu + lisaks saab asendada vajadusel
-              Meelespea.instance.notebooks.splice(i, 1);
+                 //sama id mis vajutasime
+                if(notebook.id == event.target.dataset.id){
+
+                  //mis indeks ja mitu + lisaks saab asendada vajadusel
+                  Meelespea.instance.notebooks.splice(i, 1);
+                }
+              });
+
+            //salvestan uuesti localStorage'isse
+            localStorage.setItem('notebooks', JSON.stringify(this.notebooks));
+
+          } else{
+                document.querySelector('.list-of-notebooks').removeChild(clicked_li);
+                //kustutan massiiivist
+                this.notebooks.forEach(function(notebook, i){
+
+                     //sama id mis vajutasime
+                    if(notebook.id == event.target.dataset.id){
+
+                      //mis indeks ja mitu + lisaks saab asendada vajadusel
+                      Meelespea.instance.notebooks.splice(i, 1);
+                    }
+                  });
+
+                //salvestan uuesti localStorage'isse
+                localStorage.setItem('notebooks', JSON.stringify(this.notebooks));
+
             }
 
-        });
+          },
 
-
-        //salvestan uuesti localStorage'isse
-        localStorage.setItem('notebooks', JSON.stringify(this.notebooks));
-
-      },
-
-
-     addNewClick: function(event){
+        addNewClick: function(event){
        //salvestame purgi
        //console.log(event);
 
@@ -302,7 +318,7 @@
         //delete nupp
 
         var delete_span = document.createElement('span');
-        delete_span.appendChild(document.createTextNode(' kustuta'));
+        delete_span.appendChild(document.createTextNode(' Tehtud!'));
 
         delete_span.style.color = 'red';
         delete_span.style.cursor = 'pointer';
@@ -365,6 +381,6 @@
       }
       return number;
 
-   };
+   }
 
 })();
