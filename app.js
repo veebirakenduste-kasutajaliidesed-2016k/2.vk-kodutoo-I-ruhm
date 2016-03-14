@@ -16,6 +16,8 @@
      this.currentRoute = null;
      console.log(this);
 
+    this.clock = document.getElementById('clock');
+
      this.tasks = [];
      this.init();
    };
@@ -39,8 +41,9 @@
 
      init: function(){
        console.log('Rakendus läks tööle');
-
-       window.addEventListener('hashchange', this.routeChange.bind(this));
+      this.writeDate();
+      window.setInterval(this.writeDate.bind(this), 1000);
+      window.addEventListener('hashchange', this.routeChange.bind(this));
        if(!window.location.hash){
          window.location.hash = 'home-view';
          }else{
@@ -156,6 +159,24 @@
 
      },
 
+
+
+  writeDate: function(number, format){
+    console.log('romil');
+         var today = new Date();
+         var year = today.getFullYear();
+         var month = today.getMonth();
+         var date = today.getDate();
+         var day = today.getDay();
+         var hours = today.getHours();
+         var minutes = today.getMinutes();
+         var seconds = today.getSeconds();
+         console.log(this.clock);
+         this.clock.innerHTML = ' Time:' +  setZeroBefore (hours) + ':' + setZeroBefore(minutes) +':'+ setZeroBefore(seconds) +
+         ' Date:' + setZeroBefore(date) + '.' + setZeroBefore(month+1) + '.' + year;
+
+    },
+
      routeChange: function(event){
 
        this.currentRoute = location.hash.slice(1);
@@ -256,6 +277,14 @@
    .toString(16)
    .substring(1);
  }
+
+function setZeroBefore(number){
+   if(number < 10){
+     number = '0' + number;
+   }
+   return number;
+}
+
 
 
 
