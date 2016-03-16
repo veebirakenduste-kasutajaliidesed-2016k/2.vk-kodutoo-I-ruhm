@@ -83,8 +83,7 @@
        if(localStorage.notebooks){
          //võtan stringi ja teen tagasi objektiks
          this.notebooks = JSON.parse(localStorage.notebooks);
-         this.notebooks.sort(function(a,b){return new Date(a.reminder_date).getTime() - new Date(b.reminder_date).getTime()
-         });
+         this.notebooks.sort(function(a,b){return new Date(a.reminder_date).getTime() - new Date(b.reminder_date).getTime()});
          console.log("laadinsin localStorage'ist massiivi " + this.notebooks.length);
 
 
@@ -247,6 +246,47 @@
 
      },
 
+     changeNotebook: function(event){
+
+        //li element
+        console.log(event.target.parentNode);
+        //id (data-id)
+        console.log(event.target.dataset.id);
+
+        var ch = prompt('Uus meeldetuletus:');
+
+        //kui ei ole nõus kustutama, katkestame
+
+        if(!ch){ return; }
+
+        //kustutame HTMList
+        var clicked_li = event.target.parentNode;
+
+        document.querySelector('.list-of-notebooks').removeChild(clicked_li);
+
+        //kustutan massiiivist
+        this.notebooks.forEach(function(notebook, i){
+
+             //sama id mis vajutasime
+            if(notebook.id == event.target.dataset.id){
+
+              //mis indeks ja mitu + lisaks saab asendada vajadusel
+              Meelespea.instance.notebooks.splice(i, 1);
+            }
+
+        });
+
+
+        //salvestan uuesti localStorage'isse
+        localStorage.setItem('notebooks', JSON.stringify(this.notebooks));
+
+
+
+
+      },
+
+
+
      routeChange: function(event){
 
        //kirjutan muuutujasse lehe nime, võtan maha #
@@ -334,6 +374,26 @@
         delete_span.addEventListener('click', Meelespea.instance.deleteNotebook.bind(Meelespea.instance));
 
         li.appendChild(delete_span);
+
+
+
+        //change nupp
+
+        var change_span = document.createElement('span');
+        change_span.appendChild(document.createTextNode(' (muuda)'));
+
+        change_span.style.color = 'green';
+        change_span.style.cursor = 'pointer';
+
+        //id külge
+
+        change_span.setAttribute('data-id', this.id);
+
+        change_span.addEventListener('click', Meelespea.instance.changeNotebook.bind(Meelespea.instance));
+
+        li.appendChild(change_span);
+
+
 
         return li;
 
