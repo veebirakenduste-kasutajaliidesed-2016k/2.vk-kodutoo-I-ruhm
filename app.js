@@ -258,36 +258,55 @@
 
         var clicked_li = event.target.parentNode;
 
+        if (window.location.href==("http://greeny.cs.tlu.ee/~kelllep/veebirakenduste-kasutajaliidesed/2.vk-kodutoo-I-ruhm/app.html#home-view")){
 
-        document.querySelector('.list-of-notebooks').removeChild(clicked_li);
+          document.querySelector('.list-of-notebooksToday').removeChild(clicked_li);
 
-        //kustutan massiiivist
-        var date1 = "";
-        this.notebooks.forEach(function(notebook, i){
+          var date1 = "";
+          this.notebooks.forEach(function(notebook, i){
 
-             //sama id mis vajutasime
-            if(notebook.id == event.target.dataset.id){
-              date1 = notebook.reminder_date;
+              if(notebook.id == event.target.dataset.id){
+                date1 = notebook.reminder_date;
 
-              //mis indeks ja mitu + lisaks saab asendada vajadusel
-              Meelespea.instance.notebooks.splice(i, 1);
-              return date1;
-
-            }
-
-        });
+                Meelespea.instance.notebooks.splice(i, 1);
+                return date1;
+              }
+          });
 
         var new_notebook = new Notebook(this.notebook_id, date1, ch);
             this.notebook_id++;
 
         this.notebooks.push(new_notebook);
 
-
         //salvestan uuesti localStorage'isse
+        console.log(JSON.stringify(this.notebooks));
         localStorage.setItem('notebooks', JSON.stringify(this.notebooks));
+        var li = new_notebook.createHtmlElement();
+        document.querySelector('.list-of-notebooks').appendChild(li);
+      }else{
+        document.querySelector('.list-of-notebooks').removeChild(clicked_li);
 
+        var date1 = "";
+        this.notebooks.forEach(function(notebook, i){
 
+            if(notebook.id == event.target.dataset.id){
+              date1 = notebook.reminder_date;
 
+              Meelespea.instance.notebooks.splice(i, 1);
+              return date1;
+            }
+        });
+
+        var new_notebook = new Notebook(this.notebook_id, date1, ch);
+          this.notebook_id++;
+
+        this.notebooks.push(new_notebook);
+
+        console.log(JSON.stringify(this.notebooks));
+        localStorage.setItem('notebooks', JSON.stringify(this.notebooks));
+        var li = new_notebook.createHtmlElement();
+        document.querySelector('.list-of-notebooks').appendChild(li);
+      }
 
       },
 
