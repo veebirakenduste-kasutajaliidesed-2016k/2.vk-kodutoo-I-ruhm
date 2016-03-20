@@ -254,13 +254,13 @@
         console.log(event.target.dataset.id);
 
         var ch = prompt('Uus meeldetuletus:');
+          if(!ch){ return; }
 
-        //kui ei ole nõus kustutama, katkestame
-
-        if(!ch){ return; }
-
-        //kustutame HTMList
         var clicked_li = event.target.parentNode;
+
+        this.notebooks = JSON.parse(localStorage.notebooks);
+        var date1 = this.notebooks[event.target.dataset.id].reminder_date;
+        var id1 = this.notebooks[event.target.dataset.id].id;
 
         document.querySelector('.list-of-notebooks').removeChild(clicked_li);
 
@@ -275,6 +275,10 @@
             }
 
         });
+        var new_notebook = new Notebook(id1, date1, ch);
+
+
+        this.notebooks.push(new_notebook);
 
 
         //salvestan uuesti localStorage'isse
