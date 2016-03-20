@@ -258,25 +258,27 @@
 
         var clicked_li = event.target.parentNode;
 
-        this.notebooks = JSON.parse(localStorage.notebooks);
-        var date1 = this.notebooks[event.target.dataset.id].reminder_date;
-        var id1 = this.notebooks[event.target.dataset.id].id;
 
         document.querySelector('.list-of-notebooks').removeChild(clicked_li);
 
         //kustutan massiiivist
+        var date1 = "";
         this.notebooks.forEach(function(notebook, i){
 
              //sama id mis vajutasime
             if(notebook.id == event.target.dataset.id){
+              date1 = notebook.reminder_date;
 
               //mis indeks ja mitu + lisaks saab asendada vajadusel
               Meelespea.instance.notebooks.splice(i, 1);
+              return date1;
+
             }
 
         });
-        var new_notebook = new Notebook(id1, date1, ch);
 
+        var new_notebook = new Notebook(this.notebook_id, date1, ch);
+            this.notebook_id++;
 
         this.notebooks.push(new_notebook);
 
