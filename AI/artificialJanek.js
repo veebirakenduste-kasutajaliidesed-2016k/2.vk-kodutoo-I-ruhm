@@ -42,74 +42,112 @@
 				AI.instance.kys_id = ykskys.id;
 
 				var li = new_kys.createHtmlElement();
-				document.querySelector('.list-of-kysd').appendChild(li);
+				document.querySelector('.list_of_kysd').appendChild(li);
         });
 		
-		this.kys_id++;
+		//this.kys_id++;
 		 
        }
 
        // esimene loogika oleks see, et kuulame hiireklikki nupul
-       this.bindEvents();
+       this.bindEvents(this.count);
 
      },
 
-     bindEvents: function(){
+     bindEvents: function(count){
 		
 		document.getElementById('init_btn_y').addEventListener('click', function(){
-		   AI.instance.paneChange(1, 0);
+		   AI.instance.paneChange(1, count);
 		})
 		
 		document.getElementById('init_btn_n').addEventListener('click', function(){
 		   AI.instance.paneChange(0, 0);
+		})
+		
+		document.getElementById('question_btn_y').addEventListener('click', function(){
+		   AI.instance.paneChange(2, count);
+		})
+		
+		document.getElementById('question_btn_n').addEventListener('click', function(){
+		   AI.instance.paneChange(3, 0);
+		})
+		
+		document.getElementById('new_question_btn').addEventListener('click', function(){
+		   AI.instance.addNewClick();
+		})
+		
+		document.querySelector('.restart').addEventListener('click', function(){
+		   AI.instance.restart();
+		})
+		
+		document.querySelector('.settings').addEventListener('click', function(){
+		   AI.instance.paneChange(4,0);
 		})
 
      },
 	 
 	 paneChange: function(nr, count){
 		 
+		 var init_seg = document.querySelectorAll(".init");
+		 var kys_seg = document.querySelectorAll(".question");
+		 var new_kys_seg = document.querySelectorAll(".newq");
+		 var list_seg = document.querySelectorAll(".list_of_kysd");
+		 
 		 if(nr == 0){
 			 //console.log("ei");
 			
 		 }else if(nr == 1){
 			 //console.log("jah");
-			var init_seg = document.querySelectorAll(".init");
-			for (var i = 0; i < init_seg.length; i++) {
-				init_seg[i].style.display = "none";
+			
+			for (var i = 0; i < 10; i++) {
+				
+				try{
+					init_seg[i].style.display = "none";
+					kys_seg[i].style.display = "block";
+				}catch(err){}
 			}
 			
-			var init_seg = document.querySelectorAll(".question");
-			for (var i = 0; i < init_seg.length; i++) {
-				init_seg[i].style.display = "block";
-			}
-			
-			this.logik();
+			this.logik(0);
 			
 		 }else if(nr == 2){
-			 
+			
+			for (var i = 0; i < 10; i++) {
+				try{
+					kys_seg[i].style.display = "none";
+				}catch(err){}
+			}
+			
+			this.restart();
 		 }else if(nr == 3){
+			
+		 }else if(nr == 4){
 			 
+			for (var i = 0; i < 10; i++) {
+				try{
+					init_seg[i].style.display = "none";
+					kys_seg[i].style.display = "none";
+					new_kys_seg[i].style.display = "none";
+					list_seg[i].style.display = "block";
+					document.getElementById('question_list').style.display = "block";
+					
+				}catch(err){}
+			}
 		 }
 		 
 	 },
 	 
-	 logik: function(){
+	 logik: function(count){
 		
 		if(localStorage.kysd){
 
 				this.kysd = JSON.parse(localStorage.kysd);
 				console.log('laadisin localStoragest massiivi ' + this.kysd.length);
 				
-				if(){
-					document.getElementById('question_span').appendChild();
+				if(count == 0){
+					console.log(count);
+					var q = AI.instance.kysd[count].kysimus;
+					document.getElementById('question_span').innerHTML = q;
 				}
-				 //tekitan loendi htmli
-				this.kysd.forEach(function(ykskys){
-					var new_kys = new Kys(ykskys.title, ykskys.answer, ykskys.id);
-
-					var li = new_kys.createHtmlElement();
-					document.querySelector('.list-of-kysd').appendChild(li);
-				});
 			}
 	 },
 	 
@@ -169,7 +207,13 @@
 
      addNewClick: function(event){
 
-       var kysimus = document.querySelector('.kysimus').value;
+       var kysimus = document.getElementById('new_question').value;
+	   
+	   if(document.getElementById('new_question_btn_y').checked){
+			var answer = 1;
+	   }else if(document.getElementById('new_question_btn_n').checked){
+			var answer = 0;
+	   }
 	   
        if(!kysimus){
          alert('Lisage palun küsimus.');
@@ -184,7 +228,13 @@
          localStorage.setItem('kysd',JSON.stringify(this.kysd));
        }
 
-     }
+     },
+	 
+	 restart: function(){
+		 
+		 
+		 
+	 }
 
    };
 
@@ -205,7 +255,7 @@
 	   
 	   var change = document.createElement('span');
        change.appendChild(document.createTextNode('Muuda '));
-	   change.style.color = 'yellow';
+	   change.style.color = 'green';
 	   change.style.cursor = 'pointer';
        change.setAttribute('data-id', this.id);
 	   
