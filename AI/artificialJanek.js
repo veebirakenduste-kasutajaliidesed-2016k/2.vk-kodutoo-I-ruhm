@@ -11,7 +11,9 @@
      console.log('AI sees');
 
      console.log(this);
+	 this.kys_id = 0;
      this.kysd = [];
+	 this.count = 0;
 
      this.init();
    };
@@ -36,10 +38,14 @@
 			 //tekitan loendi htmli
 			this.kysd.forEach(function(ykskys){
 				var new_kys = new Kys(ykskys.title, ykskys.answer, ykskys.id);
+				
+				AI.instance.kys_id = ykskys.id;
 
 				var li = new_kys.createHtmlElement();
 				document.querySelector('.list-of-kysd').appendChild(li);
         });
+		
+		this.kys_id++;
 		 
        }
 
@@ -51,16 +57,16 @@
      bindEvents: function(){
 		
 		document.getElementById('init_btn_y').addEventListener('click', function(){
-		   AI.instance.paneChange(1);
+		   AI.instance.paneChange(1, 0);
 		})
 		
 		document.getElementById('init_btn_n').addEventListener('click', function(){
-		   AI.instance.paneChange(0);
+		   AI.instance.paneChange(0, 0);
 		})
 
      },
 	 
-	 paneChange: function(nr){
+	 paneChange: function(nr, count){
 		 
 		 if(nr == 0){
 			 //console.log("ei");
@@ -72,16 +78,39 @@
 				init_seg[i].style.display = "none";
 			}
 			
-			var init_seg = document.querySelectorAll(".init");
+			var init_seg = document.querySelectorAll(".question");
 			for (var i = 0; i < init_seg.length; i++) {
 				init_seg[i].style.display = "block";
 			}
+			
+			this.logik();
+			
 		 }else if(nr == 2){
 			 
 		 }else if(nr == 3){
 			 
 		 }
 		 
+	 },
+	 
+	 logik: function(){
+		
+		if(localStorage.kysd){
+
+				this.kysd = JSON.parse(localStorage.kysd);
+				console.log('laadisin localStoragest massiivi ' + this.kysd.length);
+				
+				if(){
+					document.getElementById('question_span').appendChild();
+				}
+				 //tekitan loendi htmli
+				this.kysd.forEach(function(ykskys){
+					var new_kys = new Kys(ykskys.title, ykskys.answer, ykskys.id);
+
+					var li = new_kys.createHtmlElement();
+					document.querySelector('.list-of-kysd').appendChild(li);
+				});
+			}
 	 },
 	 
 	 deleteKys: function(){
@@ -125,9 +154,9 @@
 		 console.log(clicked_li)
 		 document.querySelector('.list-of-kysd').removeChild(clicked_li);
 		 
-		 this.kysd.forEach(function(jar, i){
+		 this.kysd.forEach(function(kys, i){
 			 
-			 if(jar.id == event.target.dataset.id){
+			 if(kys.id == event.target.dataset.id){
 				 //mis index ja mitu. + lisaks saab asendada vajadusel
 				 AI.instance.kysd.splice(i, 1);
 			 }
@@ -145,7 +174,8 @@
        if(!kysimus){
          alert('Lisage palun küsimus.');
        }else{
-         var new_kys = new Kys(kysimus, answer, guid());
+         var new_kys = new Kys(kysimus, answer, this.kys_id);
+		 this.kys_id++;
 		 
          document.querySelector('.list-of-kysd').appendChild(new_kys.createHtmlElement());
 
@@ -201,17 +231,6 @@
 
      },
    };
-   
-   function guid() {
-	  return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-		s4() + '-' + s4() + s4() + s4();
-	}
-
-	function s4() {
-	  return Math.floor((1 + Math.random()) * 0x10000)
-		.toString(16)
-		.substring(1);
-	}
    // kui leht laetud käivitan Moosipurgi rakenduse
    window.onload = function(){
      var app = new AI();
