@@ -1,0 +1,79 @@
+body
+{
+	font-family: Tahoma, Geneva, sans-serif;
+	color: white;
+	font-size:18px;
+}
+
+div
+{
+	margin: 0;
+	padding:15px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+	background-color:white;
+	border-radius: 25px;
+	width:43%;
+	text-align: center;
+	background-color: green;
+}
+
+img#banner1, img#banner5
+{
+	margin: 0;
+	position: absolute;
+    top: 20%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+	border-radius: 15px;
+}
+
+img#banner2, img#banner6
+{
+	margin: 0;
+	position: absolute;
+    top: 60%;
+    left: 20%;
+    margin-right: -80%;
+    transform: translate(-50%, -50%);
+	border-radius: 15px;
+}
+
+img#banner3, img#banner7
+{
+	margin: 0;
+	position: absolute;
+    top: 60%;
+    left: 80%;
+    margin-right: -20%;
+    transform: translate(-50%, -50%);
+	border-radius: 15px;
+}
+
+img#banner4, img#banner8
+{
+	margin: 0;
+	position: absolute;
+    top: 70%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+	border-radius: 15px;
+}
+
+body
+{
+	background-color: green;
+}
+
+table, th, td 
+{
+    border: 2px solid white;
+	border-radius: 5px;
+	left: 50%;
+    margin-right: -50%;
+}

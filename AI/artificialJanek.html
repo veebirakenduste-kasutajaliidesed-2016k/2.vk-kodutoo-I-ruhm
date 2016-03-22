@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Janeku AI</title>
+	<script src="artificialJanek.js" charset="utf-8"></script>
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+	<div class="mein">
+		
+		<span id="init_span" class="init" style="display:none">Kas tahad midagi küsida?</span><br>
+		<button id="init_btn_y" value="1" class="init" style="display:none">Jah</button><button id="init_btn_n" class="init" value="0" style="display:none">Ei</button>
+		
+		<span id="new_question_span" class="newq" style="display:none">Mis oleks see uus küsimus?</span><br>
+		<input type="text" id="new_question" class="newq" style="display:none"><button id="new_question_btn" class="newq" style="display:none">Kinnita</button>
+		
+		<span id="repeat_span" class="repeat" style="display:none">Mis oleks selle küsimuse vastuseks?</span><br>
+		<button id="repeat_btn_y" class="repeat" style="display:none">Jah</button><button id="repeat_btn_n" class="repeat" style="display:none">Ei</button>
+		
+		<span id="question_list" style="display:none">Mis küsimust muuta/kustutada tahad?</span>
+		<ul class="list-of-kysd" style="display:none"></ul>
+	
+	</div>
+</body>
+</html>
