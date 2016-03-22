@@ -50,14 +50,19 @@
        }
 
        // esimene loogika oleks see, et kuulame hiireklikki nupul
-       this.bindEvents(this.count);
+       this.bindEvents();
 
      },
 
-     bindEvents: function(count){
+     bindEvents: function(){
 		
 		document.getElementById('init_btn_y').addEventListener('click', function(){
-		   AI.instance.paneChange(1, count);
+		   
+		    if(localStorage.getItem("kysd") === null){
+				AI.instance.paneChange(2, 0);
+		    }else{
+				AI.instance.paneChange(1, 0);
+			}
 		})
 		
 		document.getElementById('init_btn_n').addEventListener('click', function(){
@@ -65,15 +70,27 @@
 		})
 		
 		document.getElementById('question_btn_y').addEventListener('click', function(){
-		   AI.instance.paneChange(2, count);
+			
+			if(AI.instance.kysd[AI.instance.count].answer === "Jah"){
+				AI.instance.count++;
+				AI.instance.paneChange(1, AI.instance.count);
+		    }else{
+				AI.instance.paneChange(2, 0);
+			}
 		})
 		
 		document.getElementById('question_btn_n').addEventListener('click', function(){
-		   AI.instance.paneChange(3, 0);
+		    if(AI.instance.kysd[AI.instance.count].answer === "Ei"){
+				AI.instance.count++;
+				AI.instance.paneChange(1, AI.instance.count);
+		    }else{
+				AI.instance.paneChange(2, 0);
+			}
 		})
 		
 		document.getElementById('new_question_btn').addEventListener('click', function(){
 		   AI.instance.addNewClick();
+		   AI.instance.restart();
 		})
 		
 		document.querySelector('.restart').addEventListener('click', function(){
@@ -88,67 +105,133 @@
 	 
 	 paneChange: function(nr, count){
 		 
-		 var init_seg = document.querySelectorAll(".init");
-		 var kys_seg = document.querySelectorAll(".question");
-		 var new_kys_seg = document.querySelectorAll(".newq");
-		 var list_seg = document.querySelectorAll(".list_of_kysd");
+		var init_seg = document.querySelectorAll(".init");
+		var kys_seg = document.querySelectorAll(".question");
+		var new_kys_seg = document.querySelectorAll(".newq");
+		var list_seg = document.querySelectorAll(".list_of_kysd");
+		
+		/*
+		###################################################
+		####HEA KRDI MEELEGA KASUTAKS SEDA AGA EI TÖÖTA####
+		###################################################
+		
+		
+			for (var i = 0; i < 7; i++) {
+				try{
+				list_seg[i].style.display = "none";
+				init_seg[i].style.display = "none";
+				list_seg[i].style.display = "none";	
+				new_kys_seg[i].style.display = "block";
+				}catch(err){}
+			}
+		
+		*/
 		 
 		 if(nr == 0){
 			 //console.log("ei");
 			
-		 }else if(nr == 1){
+		 }else if(nr === 1){
 			 //console.log("jah");
+			//kui on local storage
 			
-			for (var i = 0; i < 10; i++) {
-				
-				try{
-					init_seg[i].style.display = "none";
-					kys_seg[i].style.display = "block";
-				}catch(err){}
+			for (var i = 0; i < init_seg.length; i++) {
+				init_seg[i].style.display = "none";
 			}
 			
-			this.logik(0);
-			
-		 }else if(nr == 2){
-			
-			for (var i = 0; i < 10; i++) {
-				try{
-					kys_seg[i].style.display = "none";
-				}catch(err){}
+			for (var i = 0; i < kys_seg.length; i++) {
+				new_kys_seg[i].style.display = "none";	
 			}
 			
-			this.restart();
-		 }else if(nr == 3){
-			
-		 }else if(nr == 4){
-			 
-			for (var i = 0; i < 10; i++) {
-				try{
-					init_seg[i].style.display = "none";
-					kys_seg[i].style.display = "none";
-					new_kys_seg[i].style.display = "none";
-					list_seg[i].style.display = "block";
-					document.getElementById('question_list').style.display = "block";
-					
-				}catch(err){}
+			for (var i = 0; i < list_seg.length; i++) {
+				list_seg[i].style.display = "none";	
 			}
+			
+			for (var i = 0; i < kys_seg.length; i++) {
+				kys_seg[i].style.display = "block";	
+			}
+			
+			document.getElementById('question_list').style.display = "none";
+			
+			this.logik(AI.instance.count);
+		 }else if(nr === 2){
+			//kui ei ole local storage
+			
+			for (var i = 0; i < init_seg.length; i++) {
+				init_seg[i].style.display = "none";
+			}
+			
+			for (var i = 0; i < kys_seg.length; i++) {
+				kys_seg[i].style.display = "none";	
+			}
+			
+			for (var i = 0; i < list_seg.length; i++) {
+				list_seg[i].style.display = "none";	
+			}
+			
+			for (var i = 0; i < new_kys_seg.length; i++) {
+				new_kys_seg[i].style.display = "block";
+			}
+			
+			document.getElementById('question_list').style.display = "none";
+			
+		 }else if(nr === 3){
+			
+			for (var i = 0; i < init_seg.length; i++) {
+				init_seg[i].style.display = "none";
+			}
+			
+			for (var i = 0; i < kys_seg.length; i++) {
+				kys_seg[i].style.display = "none";	
+			}
+			
+			for (var i = 0; i < new_kys_seg.length; i++) {
+				new_kys_seg[i].style.display = "none";	
+			}
+			
+			for (var i = 0; i < list_seg.length; i++) {
+				list_seg[i].style.display = "none";	
+			}
+			
+			document.getElementById('question_list').style.display = "none";
+			
+		 }else if(nr === 4){
+			
+			for (var i = 0; i < init_seg.length; i++) {
+				init_seg[i].style.display = "none";
+			}
+			
+			for (var i = 0; i < kys_seg.length; i++) {
+				kys_seg[i].style.display = "none";	
+			}
+			
+			for (var i = 0; i < new_kys_seg.length; i++) {
+				new_kys_seg[i].style.display = "none";	
+			}
+			
+			for (var i = 0; i < list_seg.length; i++) {
+				list_seg[i].style.display = "block";	
+			}
+
+			document.getElementById('question_list').style.display = "block";
 		 }
-		 
 	 },
-	 
+	 //otsustab mis küsimust näidata
 	 logik: function(count){
 		
-		if(localStorage.kysd){
+		if(AI.instance.kysd[count] !== undefined){
 
 				this.kysd = JSON.parse(localStorage.kysd);
-				console.log('laadisin localStoragest massiivi ' + this.kysd.length);
+				//console.log('laadisin localStoragest massiivi ' + this.kysd.length);
 				
-				if(count == 0){
-					console.log(count);
+				//if(count == 0){
+					//console.log(count);
 					var q = AI.instance.kysd[count].kysimus;
 					document.getElementById('question_span').innerHTML = q;
-				}
-			}
+				//}
+		}else{
+			console.log("vsjo");
+			this.restart();
+		}
 	 },
 	 
 	 deleteKys: function(){
@@ -221,7 +304,7 @@
          var new_kys = new Kys(kysimus, answer, this.kys_id);
 		 this.kys_id++;
 		 
-         document.querySelector('.list-of-kysd').appendChild(new_kys.createHtmlElement());
+         document.querySelector('.list_of_kysd').appendChild(new_kys.createHtmlElement());
 
          this.kysd.push(new_kys);
          console.log(JSON.stringify(this.kysd));
@@ -231,9 +314,7 @@
      },
 	 
 	 restart: function(){
-		 
-		 
-		 
+		 location.reload();
 	 }
 
    };
@@ -242,19 +323,19 @@
      this.kysimus = kysimus;
      this.answer = answer;
 	 this.id = id;
-     console.log('created new Kys');
+     //console.log('created new Kys');
    };
 
    Kys.prototype = {
      createHtmlElement: function(){
-
+	   
        var li = document.createElement('li');
 
        var span1 = document.createElement('span');
        span1.className = 'content';
 	   
 	   var change = document.createElement('span');
-       change.appendChild(document.createTextNode('Muuda '));
+       change.appendChild(document.createTextNode('Muuda  /  '));
 	   change.style.color = 'green';
 	   change.style.cursor = 'pointer';
        change.setAttribute('data-id', this.id);
@@ -269,8 +350,13 @@
 	   
 	   del.addEventListener("click", AI.instance.deleteKys.bind(AI.instance));
 	   
+	   if(this.answer === 0){
+		   this.answer = "Ei";
+	   }else{
+		   this.answer = "Jah";
+	   }
 
-       var content = document.createTextNode(this.kysimus + '   ' + this.answer + '   ');
+       var content = document.createTextNode(this.kysimus + '  /  ' + this.answer + '  /  ');
        span1.appendChild(content);
 	   span1.appendChild(change);
        span1.appendChild(del);
