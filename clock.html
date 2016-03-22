@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="css.css">
+  <title>clock</title>
+</head>
+<body id="body">
+  <script src="clock.js"></script>
+  <div id="reminder">
+    <input type="text" placeholder="Tiitel" id="memoTitleInput">
+    <input type="text" placeholder="Sisesta memo" id="memoInput">
+    <input type="text" placeholder="December 31 2015 23:59:59" id="dateTime"><br>
+    <input type="submit" id="memoAdd" value="Sisesta" class="btn">
+  </div>
+  <div id="Delete">
+    <p>Mitmendat memo soovid kustutada</p>
+    <input type="text" placeholder="Kustuta" id="deleteMemoInput">
+    <input type="submit" id="deleteMemo" value="Sisesta" class="btn">
+  </div>
+  <div id="Edit">
+    <p>Mitmendat memo soovid muuta</p>
+    <input type="text" placeholder="Mitmes" id="changeMemoID">
+    <input type="text" placeholder="Muudatus" id="changeMemoTitle">
+    <input type="text" placeholder="Sisesta memo" id="changeMemoInput">
+    <input type="text" placeholder="December 31 2015 23:59:59" id="changeDateTime"><br>
+    <input type="submit" id="changeMemo" value="Sisesta" class="btn">
+  </div>
+  <div id="memo_div">
+    <ul id="memos"></ul>
+  </div>
+  <div id="clock" > </div>
+  <div>
+    <button id="color" type="button" class="button">Muuda kella värvi</button>
+  </div>
+  <div id="name">
+    <p>Joosep Jõelehe kell</p>
+  </div>
+</body>
+</html>

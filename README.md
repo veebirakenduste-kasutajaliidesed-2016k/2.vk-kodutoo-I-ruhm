@@ -1,4 +1,4 @@
-# 2. kodutöö (I rühm) 
+# 2. kodutöö (I rühm)
 ### tähtaeg päev enne 2 nädala möödumist (vastavalt 05.03)
 
 Võttes aluseks tunnis tehtud Moosipurgi rakenduse, tee ise sarnane rakendus, mis võimaldaks kasutajal andmetega lihtsamaid toiminguid teha (nt lisada / muuta / kustutada)
