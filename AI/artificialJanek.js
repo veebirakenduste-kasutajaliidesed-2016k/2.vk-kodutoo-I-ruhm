@@ -62,6 +62,7 @@
 				AI.instance.paneChange(2, 0);
 		    }else{
 				AI.instance.paneChange(1, 0);
+
 			}
 		})
 		
@@ -133,6 +134,11 @@
 		 }else if(nr === 1){
 			 //console.log("jah");
 			//kui on local storage
+			/*
+			###########################
+			####KÜSIMUSTE KULGEMINE####
+			###########################
+			*/
 			
 			for (var i = 0; i < init_seg.length; i++) {
 				init_seg[i].style.display = "none";
@@ -153,8 +159,14 @@
 			document.getElementById('question_list').style.display = "none";
 			
 			this.logik(AI.instance.count);
+			
 		 }else if(nr === 2){
-			//kui ei ole local storage
+			/*
+			################################
+			####UUE KÜSIMUSE SISESTAMINE####
+			################################
+			
+			*/
 			
 			for (var i = 0; i < init_seg.length; i++) {
 				init_seg[i].style.display = "none";
@@ -220,33 +232,25 @@
 		
 		if(AI.instance.kysd[count] !== undefined){
 
-				this.kysd = JSON.parse(localStorage.kysd);
-				//console.log('laadisin localStoragest massiivi ' + this.kysd.length);
-				
-				//if(count == 0){
-					//console.log(count);
-					var q = AI.instance.kysd[count].kysimus;
-					document.getElementById('question_span').innerHTML = q;
-				//}
+			this.kysd = JSON.parse(localStorage.kysd);
+
+			var q = AI.instance.kysd[count].kysimus;
+			document.getElementById('question_span').innerHTML = q;
+
 		}else{
 			console.log("vsjo");
-			this.restart();
+			this.paneChange(2, 0);
 		}
 	 },
 	 
 	 deleteKys: function(){
-		 
-		 //li element
-		 console.log(event.target.parentNode);
-		 //id
-		 console.log(event.target.dataset.id);
-		 
+	
 		 var c = confirm('Kustuta?');
 		 if(!c){return;}
 		 
 		 var clicked_li = event.target.parentNode.parentNode;
 		 console.log(clicked_li)
-		 document.querySelector('.list-of-kysd').removeChild(clicked_li);
+		 document.querySelector('.list_of_kysd').removeChild(clicked_li);
 		 
 		 this.kysd.forEach(function(kys, i){
 			 
@@ -268,12 +272,12 @@
 		 //id
 		 console.log(event.target.dataset.id);
 		 
-		 var c = confirm('Muuda?');
+		 var c = prompt('Muuda?');
 		 if(!c){return;}
 		 
-		 var clicked_li = event.target.parentNode;
+		 var clicked_li = event.target.parentNode.parentNode;
 		 console.log(clicked_li)
-		 document.querySelector('.list-of-kysd').removeChild(clicked_li);
+		 document.querySelector('.list_of_kysd').removeChild(clicked_li);
 		 
 		 this.kysd.forEach(function(kys, i){
 			 
@@ -304,7 +308,7 @@
          var new_kys = new Kys(kysimus, answer, this.kys_id);
 		 this.kys_id++;
 		 
-         document.querySelector('.list_of_kysd').appendChild(new_kys.createHtmlElement());
+         document.querySelector('.list_of_kysd').appendChild(new_kys.createHtmlElement(this.kys_id));
 
          this.kysd.push(new_kys);
          console.log(JSON.stringify(this.kysd));
@@ -323,11 +327,10 @@
      this.kysimus = kysimus;
      this.answer = answer;
 	 this.id = id;
-     //console.log('created new Kys');
    };
 
    Kys.prototype = {
-     createHtmlElement: function(){
+     createHtmlElement: function(nr){
 	   
        var li = document.createElement('li');
 
@@ -356,7 +359,7 @@
 		   this.answer = "Jah";
 	   }
 
-       var content = document.createTextNode(this.kysimus + '  /  ' + this.answer + '  /  ');
+       var content = document.createTextNode(AI.instance.kysd[nr].kysimus + '  /  ' + this.answer + '  /  ');
        span1.appendChild(content);
 	   span1.appendChild(change);
        span1.appendChild(del);
