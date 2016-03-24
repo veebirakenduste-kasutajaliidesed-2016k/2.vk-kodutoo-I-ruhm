@@ -8,7 +8,7 @@
      }
      AI.instance = this;
 
-     console.log('AI sees');
+     //console.log('AI sees');
 
      console.log(this);
 	 this.kys_id = 0;
@@ -37,15 +37,16 @@
 
 			 //tekitan loendi htmli
 			this.kysd.forEach(function(ykskys){
-				var new_kys = new Kys(ykskys.title, ykskys.answer, ykskys.id);
+				var new_kys = new Kys(ykskys.kysimus, ykskys.answer, ykskys.id);
 				
 				AI.instance.kys_id = ykskys.id;
+				console.log(ykskys.answer);
 
 				var li = new_kys.createHtmlElement();
 				document.querySelector('.list_of_kysd').appendChild(li);
         });
 		
-		//this.kys_id++;
+		this.kys_id++;
 		 
        }
 
@@ -236,7 +237,12 @@
 
 			var q = AI.instance.kysd[count].kysimus;
 			document.getElementById('question_span').innerHTML = q;
-
+			
+			if(q === 'aylmao'){
+				document.body.style.backgroundImage = "url('aylmao.gif')";
+				document.body.style.backgroundSize = "cover";
+				document.body.style.backgroundRepeat = "no-repeat";
+			}
 		}else{
 			console.log("vsjo");
 			this.paneChange(2, 0);
@@ -272,12 +278,17 @@
 		 //id
 		 console.log(event.target.dataset.id);
 		 
-		 var c = prompt('Muuda?');
-		 if(!c){return;}
+		 var k = prompt('Mis oleks uus küsimus?');
+		 if(!k){return;}
+		 
+		 var b = prompt('Selle küsimuse vastus (Jah/Ei)?');
+		 if(!b){return;}
+		 
+		 var kysi_id = event.target.dataset.id;
 		 
 		 var clicked_li = event.target.parentNode.parentNode;
 		 console.log(clicked_li)
-		 document.querySelector('.list_of_kysd').removeChild(clicked_li);
+		// document.querySelector('.list_of_kysd').removeChild(clicked_li);
 		 
 		 this.kysd.forEach(function(kys, i){
 			 
@@ -288,7 +299,14 @@
 			 
 		 });
 		 
+		 var new_kys = new Kys(k, b, kysi_id);
+
+		 AI.instance.kysd.push(new_kys);
+		 // AI.instance.kysd.splice(i, 1, '{"kysimus":"'+k+'","answer":"'+b+'","id":"'+kysi_id+'"}');
+		 
 		 localStorage.setItem('kysd', JSON.stringify(this.kysd));
+		 
+		 this.restart();
 		 
 	 },
 
@@ -306,9 +324,10 @@
          alert('Lisage palun küsimus.');
        }else{
          var new_kys = new Kys(kysimus, answer, this.kys_id);
+		 console.log(kysimus);
 		 this.kys_id++;
 		 
-         document.querySelector('.list_of_kysd').appendChild(new_kys.createHtmlElement(this.kys_id));
+         document.querySelector('.list_of_kysd').appendChild(new_kys.createHtmlElement());
 
          this.kysd.push(new_kys);
          console.log(JSON.stringify(this.kysd));
@@ -330,7 +349,7 @@
    };
 
    Kys.prototype = {
-     createHtmlElement: function(nr){
+     createHtmlElement: function(){
 	   
        var li = document.createElement('li');
 
@@ -359,7 +378,7 @@
 		   this.answer = "Jah";
 	   }
 
-       var content = document.createTextNode(AI.instance.kysd[nr].kysimus + '  /  ' + this.answer + '  /  ');
+       var content = document.createTextNode(this.kysimus + '  /  ' + this.answer + '  /  ');
        span1.appendChild(content);
 	   span1.appendChild(change);
        span1.appendChild(del);
