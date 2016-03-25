@@ -1,3 +1,8 @@
+body
+{
+	font-size: 20px;
+}
+
 #mein
 {
 	margin: 0;
@@ -6,13 +11,13 @@
     top: 40%;
     left: 45%;
     margin-right: -55%;
-	border: 5px solid black;
+	/*border: 5px solid black;*/
     padding: 10px;
 }
 
 #person
 {
-	border: 5px solid black;
+	/*border: 5px solid black;*/
 	margin: 0;
 	padding:15px;
 	position: absolute;
@@ -23,9 +28,45 @@
 	height: 90%;
 }
 
-#id4
+#ai1
 {
-	height:700px;
-	transform: translate(-50%, -50%);
-	/*max-width:100%;*/
+	margin-top:110%;
+}
+
+#ai2
+{
+	margin-top:100%;
+}
+
+#ai3
+{
+	margin-top:33%;
+}
+
+#ai4
+{
+	margin-top:10%;
+}
+
+#ai5
+{
+	margin-top:10%;
+	margin-left:-40%;
+	position: relative;
+	z-index: 1;
+}
+
+#ai5_1
+{
+	margin-top:80%;
+	margin-left:-43%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	/*transform: rotate(-30deg);*/
+}
+
+#ai6
+{
+	margin-top:10%;
 }

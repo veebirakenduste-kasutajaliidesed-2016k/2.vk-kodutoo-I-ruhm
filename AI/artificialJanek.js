@@ -51,6 +51,12 @@
        }
 
        // esimene loogika oleks see, et kuulame hiireklikki nupul
+		//this.animate(0);
+		/*setTimeout(function(){
+			AI.instance.animate(0);
+		}, 5000);*/
+		
+	   
        this.bindEvents();
 
      },
@@ -102,8 +108,54 @@
 		document.querySelector('.settings').addEventListener('click', function(){
 		   AI.instance.paneChange(4,0);
 		})
+		
+		document.getElementById('mein').addEventListener('onmousemove', function(){
+			var x=event.clientX;
+			var y=event.clientY;
+			console.log("X coords: " + x + ", Y coords: " + y);
+		})
 
      },
+	 
+	 animate: function(par){
+		 
+		 if(par === 0){
+			 
+			 document.getElementById('ai1').style.display = "block";
+			 
+			 setTimeout(function(){
+				 
+				 document.getElementById('ai1').style.display = "none";
+				 
+			     document.getElementById('ai2').style.display = "block";
+				 
+				 setTimeout(function(){
+					 
+					 document.getElementById('ai2').style.display = "none";
+					 
+					 document.getElementById('ai3').style.display = "block";
+					 
+					 setTimeout(function(){
+					 
+						 document.getElementById('ai3').style.display = "none";
+					 
+						 document.getElementById('ai4').style.display = "block";
+						 
+						 setTimeout(function(){
+					 
+							 document.getElementById('ai4').style.display = "none";
+					 
+						 }, 3000);
+					 
+					 }, 1000);
+					 
+				 }, 1000);
+				 
+			 }, 1000);
+			 
+		 }
+		 
+	 },
 	 
 	 paneChange: function(nr, count){
 		 

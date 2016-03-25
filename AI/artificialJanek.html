@@ -6,7 +6,17 @@
 	<script src="artificialJanek.js" charset="utf-8"></script>
 	<link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body <!--onmousemove="logi(event)"-->>
+
+	<!--<script>
+		function logi(event){
+			var y=0-(event.clientY-90);
+			console.log(y)
+			
+			document.getElementById('ai5_1').style.transform = 'rotate('+y+'deg)';
+			
+		}
+	</script>-->
 	<button class="restart">Käivita uuesti!</button>
 	<button class="settings">Säti küsimusi</button>
 	
@@ -37,12 +47,13 @@
 	
 	<div id="person">
 		<!--PEATEGELANE-->
-		<img id="ai1" src="pics/ai1.png" alt="Saa rikkaks!" style="display:none">
-		<img id="ai2" src="pics/ai2.png" alt="Saa rikkaks!" style="display:none">
-		<img id="ai3" src="pics/ai3.png" alt="Saa rikkaks!" style="display:none">
-		<img id="ai4" src="pics/ai4.png" alt="Saa rikkaks!" style="display:block">
-		<img id="ai5" src="pics/ai5.png" alt="Saa rikkaks!" style="display:none">
-		<img id="ai6" src="pics/ai6.png" alt="Saa rikkaks!" style="display:none">		
+		<img id="ai1" src="pics/ai1.png" alt="pic1" style="display:none">
+		<img id="ai2" src="pics/ai2.png" alt="pic2" style="display:none">
+		<img id="ai3" src="pics/ai3.png" alt="pic3" height="90%" style="display:none">
+		<img id="ai4" src="pics/ai4.png" alt="pic4" height="100%" style="display:none">
+		<img id="ai5" src="pics/ai5.png" alt="pic5" height="100%" style="display:block">
+		<img id="ai5_1" src="pics/ai5_1.png" alt="pic5_1" height="8%" style="display:block">
+		<img id="ai6" src="pics/ai6.png" alt="pic6" style="display:none">		
 		<!------------ -->
 	</div>
 </body>
