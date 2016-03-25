@@ -51,7 +51,7 @@
        }
 
        // esimene loogika oleks see, et kuulame hiireklikki nupul
-		//this.animate(0);
+		this.animate(0);
 		/*setTimeout(function(){
 			AI.instance.animate(0);
 		}, 5000);*/
@@ -109,9 +109,9 @@
 		   AI.instance.paneChange(4,0);
 		})
 		
-		document.getElementById('mein').addEventListener('mousemove', function(){
+		document.getElementById('mein').addEventListener('mousemove', function(event){
 			
-			var y=0-(event.clientY-90);
+			var y=(0-(event.clientY-90));
 			
 			document.getElementById('ai5_1').style.transform = 'rotate('+y+'deg)';
 		})
@@ -146,13 +146,22 @@
 					 
 							 document.getElementById('ai4').style.display = "none";
 					 
-						 }, 3000);
+							 document.getElementById('ai5').style.display = "block";
+							 document.getElementById('ai5_1').style.display = "block";
+							 
+						 }, 2000);
 					 
 					 }, 1000);
 					 
 				 }, 1000);
 				 
 			 }, 1000);
+			 
+		 }else if(par === 1){
+			 
+			 document.getElementById('ai5').style.display = "none";
+			 document.getElementById('ai5_1').style.display = "none";
+			 document.getElementById('ai6').style.display = "block";
 			 
 		 }
 		 
@@ -239,6 +248,8 @@
 			}
 			
 			document.getElementById('question_list').style.display = "none";
+			
+			AI.instance.animate(1);
 			
 		 }else if(nr === 3){
 			

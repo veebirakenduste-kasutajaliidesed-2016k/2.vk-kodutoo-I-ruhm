@@ -13,25 +13,33 @@
 	
 	<div id="mein" align="center">
 		
-		<span id="init_span" class="init" style="display:none">Kas tahad midagi küsida?</span><br>
-			<button id="init_btn_y" value="1" class="init" style="display:none">Jah</button>
-			<button id="init_btn_n" class="init" value="0" style="display:none">Ei</button>
+		<div id="init">
+			<span id="init_span" class="init" style="display:none">Kas tahad midagi küsida?</span><br>
+				<button id="init_btn_y" value="1" class="init" style="display:none">Jah</button>
+				<button id="init_btn_n" class="init" value="0" style="display:none">Ei</button>
+		</div>
 		
-		<span id="question_span" class="question" style="display:none"></span><br>
-			<button id="question_btn_y" value="1" class="question" style="display:none">Jah</button>
-			<button id="question_btn_n" class="question" value="0" style="display:none">Ei</button>
+		<div id="quest">
+			<span id="question_span" class="question" style="display:none"></span>
+				<button id="question_btn_y" value="1" class="question" style="display:none">Jah</button>
+				<button id="question_btn_n" class="question" value="0" style="display:none">Ei</button>
+		</div>
 		
-		<span id="new_question_span" class="newq" style="display:none">Mis oleks see uus küsimus?</span><br>
-			<input type="text" id="new_question" class="newq" style="display:none">
-		<span id="newq_answer_span" class="newq" style="display:none">Mis oleks selle küsimuse vastuseks?</span><br>
-		<span class="newq" style="display:none">Jah</span>
-			<input type="radio" name="newqAns" id="new_question_btn_y" class="newq" style="display:none">
-		<span class="newq" style="display:none">Ei</span>
-			<input type="radio" name="newqAns" id="new_question_btn_n" class="newq" style="display:none">
-			<button id="new_question_btn" class="newq" style="display:none">Kinnita</button>
+		<div id="newquest">
+			<span id="new_question_span" class="newq" style="display:none">Mis oleks see uus küsimus?</span>
+				<input type="text" id="new_question" class="newq" style="display:none">
+			<span id="newq_answer_span" class="newq" style="display:none">Mis oleks selle küsimuse vastuseks?</span>
+			<span class="newq" style="display:none">Jah</span>
+				<input type="radio" name="newqAns" id="new_question_btn_y" class="newq" style="display:none">
+			<span class="newq" style="display:none">Ei</span>
+				<input type="radio" name="newqAns" id="new_question_btn_n" class="newq" style="display:none">
+				<button id="new_question_btn" class="newq" style="display:none">Kinnita</button>
+		</div>
 		
-		<span id="question_list" style="display:none">Siin saad küsimusi muuta/kustutada.</span>
-			<ul class="list_of_kysd" style="display:none"></ul>
+		<div id="list">
+			<span id="question_list" style="display:none">Siin saad küsimusi muuta/kustutada.</span>
+				<ul class="list_of_kysd" style="display:none"></ul>
+		</div>
 			
 	
 	</div>
@@ -42,8 +50,8 @@
 		<img id="ai2" src="pics/ai2.png" alt="pic2" style="display:none">
 		<img id="ai3" src="pics/ai3.png" alt="pic3" height="90%" style="display:none">
 		<img id="ai4" src="pics/ai4.png" alt="pic4" height="100%" style="display:none">
-		<img id="ai5" src="pics/ai5.png" alt="pic5" height="100%" style="display:block">
-		<img id="ai5_1" src="pics/ai5_1.png" alt="pic5_1" height="8%" style="display:block">
+		<img id="ai5" src="pics/ai5.png" alt="pic5" height="100%" style="display:none">
+		<img id="ai5_1" src="pics/ai5_1.png" alt="pic5_1" height="8%" style="display:none">
 		<img id="ai6" src="pics/ai6.png" alt="pic6" style="display:none">		
 		<!------------ -->
 	</div>

@@ -1,6 +1,12 @@
-body
+body, html, button
 {
 	font-size: 20px;
+	font-family: cool;
+}
+
+span, button, input
+{
+	padding:2px;
 }
 
 #mein
@@ -8,11 +14,27 @@ body
 	margin: 0;
 	padding:15px;
     position: absolute;
-    top: 40%;
+    top: 38%;
     left: 45%;
     margin-right: -55%;
 	/*border: 5px solid black;*/
     padding: 10px;
+}
+
+#init, #quest, #newquest, #list
+{
+	position:absolute;
+	width: 400px;
+}
+
+#newquest
+{
+	margin-top:-300%;
+}
+
+#list
+{
+	margin-left:-300%;
 }
 
 #person
@@ -69,4 +91,10 @@ body
 #ai6
 {
 	margin-top:10%;
+}
+
+@font-face
+{
+	font-family:cool;
+	src: url("KGBlankSpaceSketch.ttf") format("truetype");
 }
