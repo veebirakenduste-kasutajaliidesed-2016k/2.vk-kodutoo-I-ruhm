@@ -1,0 +1,31 @@
+#mein
+{
+	margin: 0;
+	padding:15px;
+    position: absolute;
+    top: 40%;
+    left: 45%;
+    margin-right: -55%;
+	border: 5px solid black;
+    padding: 10px;
+}
+
+#person
+{
+	border: 5px solid black;
+	margin: 0;
+	padding:15px;
+	position: absolute;
+	/*top: 40%;*/
+    left: 75%;
+    margin-right: -25%;
+	padding: 10px;
+	height: 90%;
+}
+
+#id4
+{
+	height:700px;
+	transform: translate(-50%, -50%);
+	/*max-width:100%;*/
+}

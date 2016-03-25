@@ -239,7 +239,7 @@
 			document.getElementById('question_span').innerHTML = q;
 			
 			if(q === 'aylmao'){
-				document.body.style.backgroundImage = "url('aylmao.gif')";
+				document.body.style.backgroundImage = "url('pics/aylmao.gif')";
 				document.body.style.backgroundSize = "cover";
 				document.body.style.backgroundRepeat = "no-repeat";
 			}
