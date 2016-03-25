@@ -109,10 +109,11 @@
 		   AI.instance.paneChange(4,0);
 		})
 		
-		document.getElementById('mein').addEventListener('onmousemove', function(){
-			var x=event.clientX;
-			var y=event.clientY;
-			console.log("X coords: " + x + ", Y coords: " + y);
+		document.getElementById('mein').addEventListener('mousemove', function(){
+			
+			var y=0-(event.clientY-90);
+			
+			document.getElementById('ai5_1').style.transform = 'rotate('+y+'deg)';
 		})
 
      },
