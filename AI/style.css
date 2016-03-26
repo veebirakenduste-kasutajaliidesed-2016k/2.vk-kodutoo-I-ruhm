@@ -2,6 +2,7 @@ body, html, button
 {
 	font-size: 20px;
 	font-family: cool;
+	color: green;
 }
 
 span, button, input
@@ -34,7 +35,8 @@ span, button, input
 
 #list
 {
-	margin-left:-300%;
+	margin-left:-1400%;
+	width: 700px;
 }
 
 #person
@@ -97,4 +99,24 @@ span, button, input
 {
 	font-family:cool;
 	src: url("KGBlankSpaceSketch.ttf") format("truetype");
+}
+
+#jutt
+{
+	/*border: 5px solid black;*/
+	position:absolute;
+	width: 500px;
+	height: 200px;
+	margin-left: 45%;
+	
+}
+
+#texts
+{
+	font-size:28px;
+}
+
+#texts, #textio
+{
+	color:red;
 }

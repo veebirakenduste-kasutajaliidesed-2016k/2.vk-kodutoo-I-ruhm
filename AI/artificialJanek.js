@@ -56,6 +56,8 @@
 			AI.instance.animate(0);
 		}, 5000);*/
 		
+		//document.getElementById('textio').innerHTML = "Tere tulemast!";
+		
 	   
        this.bindEvents();
 
@@ -107,6 +109,7 @@
 		
 		document.querySelector('.settings').addEventListener('click', function(){
 		   AI.instance.paneChange(4,0);
+		   AI.instance.animate(3);
 		})
 		
 		document.getElementById('mein').addEventListener('mousemove', function(event){
@@ -119,6 +122,15 @@
      },
 	 
 	 animate: function(par){
+		 
+		document.getElementById('ai1').style.display = "none";
+		document.getElementById('ai2').style.display = "none";
+		document.getElementById('ai3').style.display = "none";
+		document.getElementById('ai4').style.display = "none";
+		document.getElementById('ai5').style.display = "none";
+		document.getElementById('ai5_1').style.display = "none";
+		document.getElementById('ai6').style.display = "none";
+		document.getElementById('textio').innerHTML ="";
 		 
 		 if(par === 0){
 			 
@@ -142,27 +154,42 @@
 					 
 						 document.getElementById('ai4').style.display = "block";
 						 
+						 document.getElementById('textio').innerHTML ="Tere tulemast";
+							 
 						 setTimeout(function(){
-					 
+							 
+							 document.getElementById('textio').innerHTML ="";
 							 document.getElementById('ai4').style.display = "none";
-					 
+							 
+							 document.getElementById('textio').innerHTML ="Tehke oma valik.";
 							 document.getElementById('ai5').style.display = "block";
 							 document.getElementById('ai5_1').style.display = "block";
 							 
 						 }, 2000);
 					 
-					 }, 1000);
+					 }, 500);
 					 
-				 }, 1000);
+				 }, 500);
 				 
-			 }, 1000);
+			 }, 500);
 			 
 		 }else if(par === 1){
 			 
-			 document.getElementById('ai5').style.display = "none";
-			 document.getElementById('ai5_1').style.display = "none";
 			 document.getElementById('ai6').style.display = "block";
+			 document.getElementById('textio').innerHTML ="Vabandust, ma ei tea mida küsida. Lisage ehk ise mõni küsimus?";
 			 
+		 }else if(par === 2){
+			 
+			 document.getElementById('textio').innerHTML ="Olgu, siis ma uuendan lehte niisama.";
+			 document.getElementById('ai4').style.display = "block";
+			 
+			 setTimeout(function(){
+				 AI.instance.restart();
+			 }, 4000);
+			 
+		 }else if(par === 3){
+			 document.getElementById('textio').innerHTML ="Siin saate küsimusi muuta või kustutada.";
+			 document.getElementById('ai4').style.display = "block";
 		 }
 		 
 	 },
@@ -192,7 +219,7 @@
 		*/
 		 
 		 if(nr == 0){
-			 //console.log("ei");
+			 this.animate(2);
 			
 		 }else if(nr === 1){
 			 //console.log("jah");
@@ -422,7 +449,7 @@
 	   
 	   var change = document.createElement('span');
        change.appendChild(document.createTextNode('Muuda  /  '));
-	   change.style.color = 'green';
+	   change.style.color = 'purple';
 	   change.style.cursor = 'pointer';
        change.setAttribute('data-id', this.id);
 	   
