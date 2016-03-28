@@ -1,0 +1,122 @@
+body, html, button
+{
+	font-size: 20px;
+	font-family: cool;
+	color: green;
+}
+
+span, button, input
+{
+	padding:2px;
+}
+
+#mein
+{
+	margin: 0;
+	padding:15px;
+    position: absolute;
+    top: 38%;
+    left: 45%;
+    margin-right: -55%;
+	/*border: 5px solid black;*/
+    padding: 10px;
+}
+
+#init, #quest, #newquest, #list
+{
+	position:absolute;
+	width: 400px;
+}
+
+#newquest
+{
+	margin-top:-300%;
+}
+
+#list
+{
+	margin-left:-1400%;
+	width: 700px;
+}
+
+#person
+{
+	/*border: 5px solid black;*/
+	margin: 0;
+	padding:15px;
+	position: absolute;
+	/*top: 40%;*/
+    left: 75%;
+    margin-right: -25%;
+	padding: 10px;
+	height: 90%;
+}
+
+#ai1
+{
+	margin-top:110%;
+}
+
+#ai2
+{
+	margin-top:100%;
+}
+
+#ai3
+{
+	margin-top:33%;
+}
+
+#ai4
+{
+	margin-top:10%;
+}
+
+#ai5
+{
+	margin-top:10%;
+	margin-left:-40%;
+	position: relative;
+	z-index: 1;
+}
+
+#ai5_1
+{
+	margin-top:80%;
+	margin-left:-43%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	/*transform: rotate(-30deg);*/
+}
+
+#ai6
+{
+	margin-top:10%;
+}
+
+@font-face
+{
+	font-family:cool;
+	src: url("KGBlankSpaceSketch.ttf") format("truetype");
+}
+
+#jutt
+{
+	/*border: 5px solid black;*/
+	position:absolute;
+	width: 500px;
+	height: 200px;
+	margin-left: 45%;
+	
+}
+
+#texts
+{
+	font-size:28px;
+}
+
+#texts, #textio
+{
+	color:red;
+}
