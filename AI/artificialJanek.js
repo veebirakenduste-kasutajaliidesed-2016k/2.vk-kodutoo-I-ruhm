@@ -85,7 +85,7 @@
 				AI.instance.count++;
 				AI.instance.paneChange(1, AI.instance.count);
 		    }else{
-				AI.instance.paneChange(2, 0);
+				AI.instance.paneChange(5, 0);
 			}
 		})
 		
@@ -94,7 +94,7 @@
 				AI.instance.count++;
 				AI.instance.paneChange(1, AI.instance.count);
 		    }else{
-				AI.instance.paneChange(2, 0);
+				AI.instance.paneChange(5, 0);
 			}
 		})
 		
@@ -190,6 +190,13 @@
 		 }else if(par === 3){
 			 document.getElementById('textio').innerHTML ="Siin saate küsimusi muuta või kustutada.";
 			 document.getElementById('ai4').style.display = "block";
+		 }else if(par === 4){
+			 document.getElementById('textio').innerHTML ="Kahjuks vale vastus. Proovige uuesti!";
+			 document.getElementById('ai4').style.display = "block";
+			 
+			 setTimeout(function(){
+				 AI.instance.restart();
+			 }, 4000);
 		 }
 		 
 	 },
@@ -317,6 +324,27 @@
 			}
 
 			document.getElementById('question_list').style.display = "block";
+		 }else if(nr === 5){
+			 
+			for (var i = 0; i < init_seg.length; i++) {
+				init_seg[i].style.display = "none";
+			}
+			
+			for (var i = 0; i < kys_seg.length; i++) {
+				kys_seg[i].style.display = "none";	
+			}
+			
+			for (var i = 0; i < new_kys_seg.length; i++) {
+				new_kys_seg[i].style.display = "none";	
+			}
+			
+			for (var i = 0; i < list_seg.length; i++) {
+				list_seg[i].style.display = "none";	
+			}
+
+			document.getElementById('question_list').style.display = "none";
+			 
+			 this.animate(4);
 		 }
 	 },
 	 //otsustab mis küsimust näidata
@@ -465,7 +493,7 @@
 	   
 	   if(this.answer === 0){
 		   this.answer = "Ei";
-	   }else{
+	   }else if(this.answer === 1){
 		   this.answer = "Jah";
 	   }
 
