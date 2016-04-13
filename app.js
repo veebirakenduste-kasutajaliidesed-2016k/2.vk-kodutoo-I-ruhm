@@ -5,7 +5,7 @@
 
      // SEE ON SINGLETON PATTERN
      if(Trenniplaan.instance){
-       return Tranniplaan.instance;
+       return Trenniplaan.instance;
      }
      //this viitab Trenniplaan fn
      Trenniplaan.instance = this;
@@ -15,30 +15,33 @@
 
      console.log('trenniplaani sees');
 
-     // KÕIK muuutujad, mida muudetakse ja on rakendusega seotud defineeritakse siin
+     // KOIK muuutujad, mida muudetakse ja on rakendusega seotud defineeritakse siin
      this.click_count = 0;
      this.currentRoute = null;
      console.log(this);
+	 
+	 //id, mis laheb plaanile kaasa
+	 this.jar_id = 0;
 
-     // hakkan hoidma plaane
+     // hakkan hoidma koiki plaane
      this.jars = [];
 
-     // Kui tahan Trenniplaanile referenci siis kasutan THIS = TRENNIPLAAN RAKENDUS ISE
+     // Kui tahan Trenniplaanile referenci siis kasutan THIS = TRENNIPLAANI RAKENDUS ISE
      this.init();
    };
 
-   window.Trenniplaan = Trenniplaan; // Paneme muuutja külge
+   window.Trenniplaan = Trenniplaan; // Paneme muuutja kulge
 
    Trenniplaan.routes = {
      'home-view': {
        'render': function(){
-         // käivitame siis kui lehte laeme
+         // kaivitame siis kui lehte laeme
          console.log('>>>>avaleht');
        }
      },
      'list-view': {
        'render': function(){
-         // käivitame siis kui lehte laeme
+         // kaivitame siis kui lehte laeme
          console.log('>>>>loend');
 
          //simulatsioon laeb kaua
@@ -50,136 +53,130 @@
      },
      'manage-view': {
        'render': function(){
-         // käivitame siis kui lehte laeme
+         // kaivitame siis kui lehte laeme
 		 console.log('>>>>haldus');
        }
      }
    };
 
-   // Kõik funktsioonid lähevad Tranniplaani külge
+   // Koik funktsioonid lahevad Trenniplaani kulge
    Trenniplaan.prototype = {
 
      init: function(){
-       console.log('Rakendus läks tööle');
+       console.log('Rakendus laks toole!!!');
+
+       //kuulan aadressirea vahetust
        window.addEventListener('hashchange', this.routeChange.bind(this));
+
+       // kui aadressireal ei ole hashi siis lisan juurde
        if(!window.location.hash){
          window.location.hash = 'home-view';
+         // routechange siin ei ole vaja sest kasitsi muutmine kaivitab routechange event'i ikka
        }else{
+         //esimesel kaivitamisel vaatame urli ule ja uuendame menuud
          this.routeChange();
        }
-	   
+
+       //saan katte purgid localStorage kui on
        if(localStorage.jars){
-           this.createListFromArray(JSON.parse(localStorage.jars));
-           console.log('laadisin localStorageist');
-       }else{
-         var xhttp = new XMLHttpRequest();
-         xhttp.onreadystatechange = function() {
-           if (xhttp.readyState == 4 && xhttp.status == 200) {
-			   
-             var result =JSON.parse(xhttp.responseText);
-             Trenniplaan.instance.createListFromArray(result);
-             console.log('laadisin serverist');
-           }
-         };
-         xhttp.open("GET", "saveData.php", true);
-         xhttp.send();
+           //votan stringi ja teen tagasi objektideks
+           this.jars = JSON.parse(localStorage.jars);
+           console.log('laadisin localStorageist massiiivi ' + this.jars.length);
+
+           //tekitan loendi htmli
+           this.jars.forEach(function(jar){
+
+               var new_jar = new Jar(jar.id, jar.title, jar.repeats);
+				
+				//uuendad trenniplaani id'd et hiljem jatkata kus pooleli jai
+				Trenniplaan.instance.jar_id = jar.id;
+
+               var li = new_jar.createHtmlElement();
+               document.querySelector('.list-of-jars').appendChild(li);
+
+           });
+		   
+		   //fix suurendame id'd jargmise plaani jaoks uhe vorra
+		   //kui eelmine oli 2 siis jargmine oleks 3
+			this.jar_id++;
        }
-	   
-	   window.addEventListener('keydown', this.newKeyPress.bind(this));
-	   this.show();
-	   this.clickOnButton_1();
-     },
-	 
-	 show: function(){
-      while(this.list_of_events.firstChild){
-        this.list_of_events.removeChild(this.list_of_events.firstChild);
-      }
-      if(localStorage.events){
-        this.events = JSON.parse(localStorage.events);
-        for(var i = 0; i < this.events.length; i++){
-          var new_event = new Event(this.events[i].event_date, this.events[i].event_description);
-          var li = new_event.createHtmlElement();
-          var item = this.list_of_events.appendChild(li);
-          item.innerHTML += " <button class='remove' id='" + i + "'>&#10540</button>";
-          item.innerHTML += " <button class='change' id='" + i + "'>&#10227</button>";
-        }
-      }
-    },
-	
-	newKeyPress: function(event){
-      if(event.keyCode === 32){
-        this.to_hide.style.visibility = "visible";
-        this.menu.style.visibility = "visible";
-        document.querySelector('#insert-view').style.visibility = "visible";
-        document.querySelector('#list-view').style.visibility = "visible";
-        document.body.style.backgroundColor = "white";
-        event_message.innerHTML = "";
-      }
-    },
-
-     createListFromArray: function(arrayOfObjects){
-
-       this.jars = arrayOfObjects;
-
-       //tekitan loendi htmli
-       this.jars.forEach(function(jar){
-
-           var new_jar = new Jar(jar.title, jar.repeats);
-
-           var li = new_jar.createHtmlElement();
-           document.querySelector('.list-of-jars').appendChild(li);
-
-       });
 
 
-      // esimene loogika oleks see, et kuulame hiireklikki nupul
-      this.bindEvents();
+       // esimene loogika oleks see, et kuulame hiireklikki nupul
+       this.bindEvents();
 
      },
-	 
-	 clickOnButton_1: function(){
-      document.querySelector('#add_new_event').addEventListener('click', this.newClick.bind(this));
-      this.clickOnButton_2();
-    },
-	 
-	 clickOnButton_2: function(){
-      var buttons_remove = document.getElementsByClassName('remove');
-      var buttons_change = document.getElementsByClassName('change');
-      for(var i = 0; i < buttons_remove.length; i++) {
-        buttons_remove[i].addEventListener('click', this.remove.bind(this));
-        buttons_change[i].addEventListener('click', this.change.bind(this));
-      }
-    },
-	
-	remove: function(event){
-      var index = event.target.id;
-      this.events = JSON.parse(localStorage.events);
-      this.events.splice(index, 1);
-      localStorage.setItem('events', JSON.stringify(this.events));
-      this.show();
-      this.clickOnButton_2();
-    },
-	
-	change: function(event){
-      var index = event.target.id;
-      this.events = JSON.parse(localStorage.events);
-      this.events[index].event_description = prompt("Muuda");
-      localStorage.setItem('events', JSON.stringify(this.events));
-      this.show();
-      this.clickOnButton_2();
-    },
-	
-	
+
      bindEvents: function(){
        document.querySelector('.add-new-jar').addEventListener('click', this.addNewClick.bind(this));
 
-       //kuulan trükkimist otsikastis
+       //kuulan trukkimist otsikastis
        document.querySelector('#search').addEventListener('keyup', this.search.bind(this));
 
      },
+	 
+	 deleteJar: function(event){
+		
+		//li element
+		console.log(event.target.parentNode);
+		//id (data-id vaartus)
+		console.log(event.target.dataset.id);
+		
+		var c = confirm('kustuta?');
+		
+		//kui ei olnud nous katkestame
+		if(!c){ return; }
+		
+		//kustutame HTMList
+		var clicked_li = event.target.parentNode;
+		document.querySelector('.list-of-jars').removeChild(clicked_li);
+		
+		//kustutan massiivist
+		this.jars.forEach(function(jar, i){
+			
+			//sama id, mis vajutasime
+			if(jar.id == event.target.dataset.id){
+				
+				//mis index ja mitu. + lisaks saab asendada vajadusel
+				Trenniplaan.instance.jars.splice(i, 1);
+			}
+              
+        });
+		
+		// salvesta uuesti localStorage'isse
+       localStorage.setItem('jars', JSON.stringify(this.jars));
+		
+	 },
+	 
+	 changeJar: function(event){
+		 console.log(event.target.parentNode);
+		 console.log(event.target.dataset.id);
+		 
+		 var li = event.target.parentNode;
+		 
+		 var new_title = prompt("Uus pealkiri");
+		 //var new_repeats = prompt("Uus koostis");
+		 
+		 li.querySelector(".content").innerHTML = new_title;
+		 //li.querySelectror(".content").innerHTML = new_repeats;
 
+		 
+		 this.jars.forEach(function(jar, i){
+			 
+			 if(jar.id == event.target.dataset.id){
+				 
+				 jar.title = new_title;
+				 //jar.repeats = new_repeats;
+				 
+				 Moosipurk.instance.jars.splice(i, 1, jar);
+			 }
+		 });
+		 
+		 localStorage.setItem('jars', JSON.stringify(this.jars));
+	 },
+	 
      search: function(event){
-         //otsikasti väärtus
+         //otsikasti vaartus
          var needle = document.querySelector('#search').value.toLowerCase();
          console.log(needle);
 
@@ -190,10 +187,10 @@
 
              var li = list[i];
 
-             // ühe listitemi sisu tekst
+             // uhe listitemi sisu tekst
              var stack = li.querySelector('.content').innerHTML.toLowerCase();
 
-             //kas otsisõna on sisus olemas
+             //kas otsisona on sisus olemas
              if(stack.indexOf(needle) !== -1){
                  //olemas
                  li.style.display = 'list-item';
@@ -206,58 +203,26 @@
 
          }
      },
-	 
-	 newClick: function(event){
-      var title = document.querySelector('#title').value;
-      var repeats = document.querySelector('#repeats').value;
-
-      if(title && repeats && Date.parse(title) > Date.parse(Date())){
-        var new_event = new Event(title, repeats);
-        this.events.push(new_event);
-        console.log(JSON.stringify(this.events));
-        localStorage.setItem('events', JSON.stringify(this.events));
-        var li = new_event.createHtmlElement();
-        var item = this.list_of_events.appendChild(li);
-        item.innerHTML += " <button class='remove' id='" + (this.events.length - 1) + "'>&#10540</button>";
-        item.innerHTML += " <button class='change' id='" + (this.events.length - 1) + "'>&#10227</button>";
-        var buttons_remove = document.getElementsByClassName('remove');
-        var buttons_change = document.getElementsByClassName('change');
-        buttons_remove[this.events.length - 1].addEventListener('click', this.remove.bind(this));
-        buttons_change[this.events.length - 1].addEventListener('click', this.change.bind(this));
-        error.innerHTML = "";
-      }else if(Date.parse(title) < Date.parse(Date())){
-        error.innerHTML = "<br>Kuupäev peab olema tulevikus!";
-      }else{
-        error.innerHTML = "<br>Tekst või kuupäev puudub!";
-      }
-    },
 
      addNewClick: function(event){
+       //salvestame plaani
+       //console.log(event);
+
        var title = document.querySelector('.title').value;
        var repeats = document.querySelector('.repeats').value;
 
+       //console.log(title + ' ' + repeats);
+       //1) tekitan uue Jar'i
+       var new_jar = new Jar(this.jar_id, title, repeats);
+	   
+	   //suurenda id'd
+	   this.jar_id++;
 
-       var new_jar = new Jar(title, repeats);
-
+       //lisan massiiivi plaani
        this.jars.push(new_jar);
        console.log(JSON.stringify(this.jars));
-	   
+       // JSON'i stringina salvestan localStorage'isse
        localStorage.setItem('jars', JSON.stringify(this.jars));
-
-       var xhttp = new XMLHttpRequest();
-       xhttp.onreadystatechange = function() {
-         if (xhttp.readyState == 4 && xhttp.status == 200) {
-
-           console.log('salvestas serverisse');
-
-         }
-       };
-       console.log("saveData.php?title="+title+"&repeats=" +repeats);
-       xhttp.open("GET", "saveData.php?title="+title+"&repeats=" +repeats, true);
-       xhttp.send();
-
-
-
 
        // 2) lisan selle htmli listi juurde
        var li = new_jar.createHtmlElement();
@@ -268,21 +233,21 @@
 
      routeChange: function(event){
 
-       //kirjutan muuutujasse lehe nime, võtan maha #
+       //kirjutan muuutujasse lehe nime, votan maha #
        this.currentRoute = location.hash.slice(1);
        console.log(this.currentRoute);
 
        //kas meil on selline leht olemas?
        if(this.routes[this.currentRoute]){
 
-         //muudan menüü lingi aktiivseks
+         //muudan menuu lingi aktiivseks
          this.updateMenu();
 
          this.routes[this.currentRoute].render();
 
 
        }else{
-         // 404 - ei olnud
+         /// 404 - ei olnud
        }
 
 
@@ -290,7 +255,7 @@
 
      updateMenu: function() {
        //http://stackoverflow.com/questions/195951/change-an-elements-class-with-javascript
-       //1) võtan maha aktiivse menüülingi kui on
+       //1) votan maha aktiivse menuulingi kui on
        document.querySelector('.active-menu').className = document.querySelector('.active-menu').className.replace('active-menu', '');
 
        //2) lisan uuele juurde
@@ -299,9 +264,10 @@
 
      }
 
-   }; // TRENNIPLAANI LÕPP
+   }; // TRENNIPLAANI LOPP
 
-   var Jar = function(new_title, new_repeats){
+   var Jar = function(new_id, new_title, new_repeats){
+	 this.id = new_id;
      this.title = new_title;
      this.repeats = new_repeats;
      console.log('created new jar');
@@ -310,11 +276,11 @@
    Jar.prototype = {
      createHtmlElement: function(){
 
-       // võttes title ja repeats ->
+       // vottes title ja repeats ->
        /*
        li
         span.letter
-          M <- title esimene täht
+          M <- title esimene taht
         span.content
           title | repeats
        */
@@ -336,13 +302,35 @@
        span_with_content.appendChild(content);
 
        li.appendChild(span_with_content);
+	   
+	   // tekitan delete nupu
+	   
+	   var delete_span = document.createElement('span');
+	   delete_span.appendChild(document.createTextNode(' kustuta'));
+	   var change_span = document.createElement('span');
+	   change_span.appendChild(document.createTextNode(' muuda'));
+		
+	   delete_span.style.color = 'red';
+	   delete_span.style.cursor = 'pointer';
+	   change_span.style.color = 'green';
+	   change_span.style.cursor = 'pointer';
+	   
+	   //panen kulge id
+	   delete_span.setAttribute('data-id', this.id);
+	   change_span.setAttribute('data-id', this.id);
+	   
+	   delete_span.addEventListener('click', Trenniplaan.instance.deleteJar.bind(Trenniplaan.instance));
+	   change_span.addEventListener('click', Trenniplaan.instance.changeJar.bind(Trenniplaan.instance));
+	   
+	   li.appendChild(delete_span);
+	   li.appendChild(change_span);
 
        return li;
 
      }
    };
 
-   // kui leht laetud käivitan Trenniplaani rakenduse
+   // kui leht laetud kaivitan Trenniplaani rakenduse
    window.onload = function(){
      var app = new Trenniplaan();
    };
