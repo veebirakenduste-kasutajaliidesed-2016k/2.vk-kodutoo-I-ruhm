@@ -130,7 +130,7 @@
        var span = document.createElement('span');
        span.className = 'letter';
 
-       var letter = document.createTextNode(this.title.charAt(0));
+       var letter = document.createTextNode(this.title.charAt(-1));
        span.appendChild(letter);
 
        li.appendChild(span);
