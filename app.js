@@ -66,6 +66,35 @@
        document.querySelector('#search').addEventListener('keyup', this.search.bind(this));
 
     },
+
+    DeleteJar: function(event){
+      console.log(event.target.parentNode);
+      //id (data-id väärtus)
+      console.log(event.target.dataset.id);
+
+      var c = confirm('kustuta?');
+
+      //kui ei olnud nõus katkestame
+      if(!c){ return; }
+
+      //kustutame HTMList
+      var clicked_li = event.target.parentNode;
+      document.querySelector('.list-of-jars').removeChild(clicked_li);
+
+      //kustutan massiivist
+      this.jars.forEach(function(jar, i){
+
+        //sama id, mis vajutasime
+        if(jar.id == event.target.dataset.id){
+
+          Moosipurk.instance.jars.splice(i, 1);
+        }
+
+        });
+      // salvesta uuesti localStorage'isse
+         localStorage.setItem('jars', JSON.stringify(this.jars));
+
+  },
 	
 	search: function(event){
          var needle = document.querySelector('#search').value.toLowerCase();
@@ -115,11 +144,14 @@
      }
 
    }; 
+
    
-   var Jar = function(new_title, new_ingredients){
-     this.title = new_title;
-     this.ingredients = new_ingredients;
-     console.log('created new jar');
+   
+   var Jar = function(new_id, new_title, new_ingredients){
+    this.id = new_id;
+    this.title = new_title;
+    this.ingredients = new_ingredients;
+    console.log('created new jar');
    };
    
    Jar.prototype = {
@@ -142,6 +174,20 @@
        span_with_content.appendChild(content);
 
        li.appendChild(span_with_content);
+
+       //Delete
+       var delete_span = document.createElement('span');
+       delete_span.appendChild(document.createTextNode(' kustuta'));
+
+       delete_span.style.color = 'red';
+       delete_span.style.cursor = 'pointer';
+
+       //ID
+       delete_span.setAttribute('data-id', this.id);
+
+       delete_span.addEventListener('click', Moosipurk.instance.deleteJar.bind(Moosipurk.instance));
+
+       li.appendChild(delete_span);
 
        return li;
 
