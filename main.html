@@ -1,41 +1,54 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Homework 2</title>
+  <title>Teema</title>
   <script src="app.js" charset="utf-8"></script>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="full.css">
 </head>
-
-<nav class="menu">
-    <ul class="menu-list">
-      <li class="menu-item"><a href="#home-view" class="menu-link home-view active-menu">Main</a></li>
-      <li class="menu-item"><a href="#list-view" class="menu-link list-view">List</a></li>
-      <li class="menu-item"><a href="#manage-view" class="menu-link manage-view">Management panel</a></li>
-    </ul>
-</nav>
 <body>
-<main role="main">
 
-    <div id="list-view">
-      <h1>List</h1>
+  <nav class="menu">
+    <ul class="menu-list">
+      <li class="menu-item"><a href="#aabits" class="menu-link aabits active-menu">Aabits</a></li>
+      <li class="menu-item"><a href="#juustud" class="menu-link juustud">Loend</a></li>
+      <li class="menu-item"><a href="#lisa" class="menu-link lisa">Lisamine</a></li>
+    </ul>
+  </nav>
+
+  <main role="main">
+
+    <div id="juustud">
+      <h1>Loend</h1>
+      <div id="searchbox">
       <input type="search" placeholder="Enter keyword" id="search"><br>
-      <ul class="list-of-jars"></ul>
+      </div>
+      <ul class="cheese-list"></ul>
     </div>
-    <div id="manage-view">
-      <h1>Management panel</h1>
+    <div id="lisa">
+      <h1>Haldus</h1>
+    <div id="add-box">
+      <label for="name">Nimi </label><br>
+      <input type="text" name="name" class="name"><br>
 
-      <label for="title">Title: </label><br>
-      <input type="text" name="title" class="title"><br>
+      <label for="type">Tüüp </label><br>
+      <input type="text" name="type" class="type"><br>
+      
+      <label for="origin">Päritolu </label><br>
+      <input type="text" name="origin" class="origin"><br>
 
-      <label for="ingredients">Description: </label><br>
-      <input type="text" name="ingredients" class="ingredients"><br>
-
-      <button class="add-new-jar pull-right">Add to list!</button>
+      <button class="add-new-cheese">Lisa uus</button>
+    </div>
     </div>
 
-    <div id="home-view">
-      <h1>Main</h1>
+    <div id="aabits">
+      <div id="image-container">
+         
+      </div>
+      <div id="info-container">
+          
+      </div>
     </div>
 
   </main>

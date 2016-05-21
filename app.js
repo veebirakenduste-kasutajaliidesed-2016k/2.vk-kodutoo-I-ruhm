@@ -1,168 +1,183 @@
 (function(){
-   "use strict";
-   
-	var Moosipurk = function(){
-
-	if(Moosipurk.instance){
-		return Moosipurk.instance;
-	}
-	Moosipurk.instance = this;
-		this.routes = Moosipurk.routes;
-		console.log('moosipurgi sees');
-
-	this.click_count = 0;
-	this.currentRoute = null;
-	console.log(this);
-	this.jars = [];
-	this.init();
-	};
-   
-	window.Moosipurk = Moosipurk;
-   
-	Moosipurk.routes = {
-	 'home-view': {
-	   'render': function(){
-		 // run on load
-		 console.log('>>>>main page');
-	   }
-	},
-		'list-view': {
-	   'render': function(){
-		 console.log('>>>>list');
-	   }
-	},
-	 'manage-view': {
-	   'render': function(){
-	   }
-	}
-	};
-   
-	Moosipurk.prototype = {
-	
-	init: function(){
-       console.log('Rakendus läks tööle');
-       window.addEventListener('hashchange', this.routeChange.bind(this));
-       if(!window.location.hash){
-         window.location.hash = 'home-view';
-       }else{
-         this.routeChange();
-       }
-       if(localStorage.jars){
-           
-           this.jars = JSON.parse(localStorage.jars);
-           console.log('laadisin localStorageist massiiivi ' + this.jars.length);
-           //list
-           this.jars.forEach(function(jar){
-               var new_jar = new Jar(jar.title, jar.ingredients);
-               var li = new_jar.createHtmlElement();
-               document.querySelector('.list-of-jars').appendChild(li);
-           });
-       }
-       this.bindEvents();
-    },
-
-    bindEvents: function(){
-       document.querySelector('.add-new-jar').addEventListener('click', this.addNewClick.bind(this));
-       document.querySelector('#search').addEventListener('keyup', this.search.bind(this));
-
-    },
-
-    DeleteJar: function(event){
-      console.log(event.target.parentNode);
-      //id (data-id väärtus)
-      console.log(event.target.dataset.id);
-
-      var c = confirm('kustuta?');
-
-      //kui ei olnud nõus katkestame
-      if(!c){ return; }
-
-      //kustutame HTMList
-      var clicked_li = event.target.parentNode;
-      document.querySelector('.list-of-jars').removeChild(clicked_li);
-
-      //kustutan massiivist
-      this.jars.forEach(function(jar, i){
-
-        //sama id, mis vajutasime
-        if(jar.id == event.target.dataset.id){
-
-          Moosipurk.instance.jars.splice(i, 1);
+    "use strict";
+    
+    var App = function(){
+        
+        if(App.instance){
+        return App.instance;
+    }
+    
+    App.instance = this;
+    
+    this.routes = App.routes;
+    console.log(this);
+    
+    this.currentRoute = null;
+    
+    this.cheeseArray = [];
+    
+    this.run();
+        
+    };
+    
+    window.App = App;
+    App.routes = {
+        'aabits':{
+            'render': function(){
+            }
+        },
+        'juustud':{
+            'render': function(){
+            }
+        },
+        'lisa': {
+            'render': function(){
+            }
         }
-
-        });
-      // salvesta uuesti localStorage'isse
-         localStorage.setItem('jars', JSON.stringify(this.jars));
-
-  },
-	
-	search: function(event){
-         var needle = document.querySelector('#search').value.toLowerCase();
-         console.log(needle);
-         var list = document.querySelectorAll('ul.list-of-jars li');
-         console.log(list);
-         for(var i = 0; i < list.length; i++){
-             var li = list[i];
-             var stack = li.querySelector('.content').innerHTML.toLowerCase();
-             if(stack.indexOf(needle) !== -1){
-                 li.style.display = 'list-item';
-             }else{
-                 li.style.display = 'none';
-             }
-         }
-     },
-	 
-	addNewClick: function(event){
-       var title = document.querySelector('.title').value;
-       var ingredients = document.querySelector('.ingredients').value;
-       var new_jar = new Jar(title, ingredients);
-       this.jars.push(new_jar);
-       console.log(JSON.stringify(this.jars));
-       localStorage.setItem('jars', JSON.stringify(this.jars));
-       var li = new_jar.createHtmlElement();
-       document.querySelector('.list-of-jars').appendChild(li);
+    };
+    
+    App.prototype = {
+        run: function(){
+          
+            window.addEventListener('hashchange', this.routeChange.bind(this));
+            if(!window.location.hash){
+                window.location.hash = 'aabits';
+            }else{
+                this.routeChange();
+            }
+                if(localStorage.cheeseArray){
+                    this.createList(JSON.parse(localStorage.cheeseArray));
+                    console.log('Laadisin localstoragest');
+                }else{
+                    console.log('midagi');
+                }
+            this.bindEvents();
+        },
+    
+    createList: function(objectCheeseArray){
+        this.cheeseArray = objectCheeseArray;
+        this.cheeseArray.forEach(function(cheeseObject2){
+            var newCheese = new cheeseObject(cheeseObject2.id, cheeseObject2.name, cheeseObject2.type, cheeseObject2.origin);
+        var li = newCheese.createHtmlElement();
+        document.querySelector('.cheese-list').appendChild(li);
+    });
     },
-	
-	routeChange: function(event){
-       
-       this.currentRoute = location.hash.slice(1);
-       console.log(this.currentRoute);
-       
-       if(this.routes[this.currentRoute]){
-         
-         this.updateMenu();
-         this.routes[this.currentRoute].render();
-       }else{
-         
-       }
-     },
+        bindEvents: function(){
+            
+            document.querySelector('.add-new-cheese').addEventListener('click', this.addNewCheese.bind(this));
+            
+            document.querySelector('#search').addEventListener('keyup', this.search.bind(this));
+            
+        },
+            
+    deleteCheese: function(event){
+            
+        console.log(event.target.parentNode);
+        console.log(event.target.dataset.id);
+        var c = confirm('Kas soovid kustutada?');
 
+        if(!c){ return; }
+        var clicked_li = event.target.parentNode;
+        document.querySelector('.cheese-list').removeChild(clicked_li);
+        this.cheeseArray.forEach(function(cheeseObject , i){
+            if(cheeseObject.id == event.target.dataset.id){
+                App.instance.cheeseArray.splice(i, 1);
+            }
+        });
+        
+        localStorage.setItem('cheeseArray', JSON.stringify(this.cheeseArray));
+    },
+    
+    changeCheese: function(event){
+        var  c = confirm('Kas soovid muuta?');
+
+        if(!c){ return; }
+        var li = document.createElement('li');
+
+       var span = document.createElement('span');
+       span.className = 'letter';
+
+        var mi = document.createElement("input");
+        mi.setAttribute('type', 'text');
+        span.appendChild(mi);
+
+       li.appendChild(span);
+
+
+       return li;
+        
+    },
+        
+    
+    search: function(event){
+        var needle = document.querySelector('#search').value.toLowerCase();
+        console.log(needle);
+        var list = document.querySelectorAll('ul.cheese-list li');
+        console.log(list);
+        
+        for(var i = 0; i < list.length; i++){
+            var li = list[i];
+            var stack = li.querySelector('.content').innerHTML.toLowerCase();
+            
+            if(stack.indexOf(needle) !== -1){
+                li.style.display = 'list-item';
+            }else{
+                li.style.display = 'none';
+            }
+        }
+    },
+    
+    addNewCheese: function(event){
+        console.log(event);
+        
+        var name = document.querySelector('.name').value;
+        var type = document.querySelector('.type').value;
+        var origin = document.querySelector('.origin').value;
+        
+        var newCheese = new cheeseObject(guid(), name, type, origin);
+        console.log(JSON.stringify(this.cheeseArray));
+        this.cheeseArray.push(newCheese);
+        localStorage.setItem('cheeseArray', JSON.stringify(this.cheeseArray));
+        var li = newCheese.createHtmlElement();
+        document.querySelector('.cheese-list').appendChild(li);
+    },
+        
+    routeChange: function(event){
+        this.currentRoute = location.hash.slice(1);
+        console.log(this.currentRoute);
+        if(this.routes[this.currentRoute]){
+            this.updateMenu();
+            this.routes[this.currentRoute].render();
+        }else{
+        }
+    },
+        
      updateMenu: function() {
+
        document.querySelector('.active-menu').className = document.querySelector('.active-menu').className.replace('active-menu', '');
+
        document.querySelector('.'+this.currentRoute).className += ' active-menu';
 
      }
 
-   }; 
+};
+                                                                                
 
-   
-   
-   var Jar = function(new_id, new_title, new_ingredients){
-    this.id = new_id;
-    this.title = new_title;
-    this.ingredients = new_ingredients;
-    console.log('created new jar');
-   };
-   
-   Jar.prototype = {
-     createHtmlElement: function(){
+    var cheeseObject = function(newId, newName, newType, newOrigin){
+        this.id = newId;
+        this.name = newName;
+        this.type = newType;
+        this.origin = newOrigin;
+    };
 
+    cheeseObject.prototype = {
+        createHtmlElement: function(){
        var li = document.createElement('li');
 
        var span = document.createElement('span');
        span.className = 'letter';
 
-       var letter = document.createTextNode(this.title.charAt(-1));
+       var letter = document.createTextNode(this.name.charAt(0));
        span.appendChild(letter);
 
        li.appendChild(span);
@@ -170,33 +185,51 @@
        var span_with_content = document.createElement('span');
        span_with_content.className = 'content';
 
-       var content = document.createTextNode(this.title + ' | ' + this.ingredients);
+       var content = document.createTextNode(this.name + ' | ' + this.type+ ' | ' + this.origin);
        span_with_content.appendChild(content);
 
        li.appendChild(span_with_content);
-
-       //Delete
+            
        var delete_span = document.createElement('span');
-       delete_span.appendChild(document.createTextNode(' kustuta'));
+	   delete_span.appendChild(document.createTextNode(' kustuta'));
+		
+	   delete_span.style.color = 'red';
+	   delete_span.style.cursor = 'pointer';
+	   
+	   delete_span.setAttribute('data-id', this.id);
+	   
+	   delete_span.addEventListener('click', App.instance.deleteCheese.bind(App.instance));
+	   
+	   li.appendChild(delete_span);
+            
+       var change_span = document.createElement('span');
+	   change_span.appendChild(document.createTextNode(' muuda'));
+            
+       change_span.style.color = 'blue';
+       change_span.style.cursor = 'pointer';
+	   change_span.addEventListener('click', App.instance.changeCheese.bind(App.instance));
+	   
+	   li.appendChild(change_span);
 
-       delete_span.style.color = 'red';
-       delete_span.style.cursor = 'pointer';
-
-       //ID
-       delete_span.setAttribute('data-id', this.id);
-
-       delete_span.addEventListener('click', Moosipurk.instance.deleteJar.bind(Moosipurk.instance));
-
-       li.appendChild(delete_span);
 
        return li;
+        }
+    };
+    
+       /* HELPERID*/
+	function guid() {
+	  return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+		s4() + '-' + s4() + s4() + s4();
+	}
 
-     }
-	};
-   
-	//lehe laadimisel moosipurk
-	window.onload = function(){
-		var app = new Moosipurk();
-	};
-   
+	function s4() {
+	  return Math.floor((1 + Math.random()) * 0x10000)
+		.toString(16)
+		.substring(1);
+	}
+
+    window.onload = function(){
+        var t = new App()
+        };
+
 })();
