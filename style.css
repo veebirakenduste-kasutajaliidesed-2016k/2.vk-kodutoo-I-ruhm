@@ -89,12 +89,12 @@ main {
 }
 .title,
 .description {
-    
+    width: 100%;
     margin-bottom: 10px;
     margin-top: 4px;
     padding: 4px;
-    border: 1px solid rgb(146, 168, 209);
-    
+    border: 0;
+    border-bottom: 1px solid rgb(146, 168, 209);
 }
 .add-new-task {
     background-color: #fff;
@@ -109,14 +109,14 @@ td {
     padding: 2px;
 }
 .letter {
-    padding: 0px;
+    padding: 9px;
     text-transform: uppercase;
-    margin-right: 0px;
-    width: 2px;
+    margin-right: 9px;
+    width: 19px;
     text-align: center;
     display: inline-block;
     color: rgb(146, 168, 209);
-    border: 0;
+    border: 1px solid rgb(146, 168, 209);
 }
 .list-of-tasks {
     list-style-type: none;
@@ -130,4 +130,17 @@ td {
 input {
     -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
     -webkit-tap-highlight-color: transparent;
+}
+#clock{
+    height: 100px;
+    position: relative;
+    top: 0; left: 0; bottom: 0; right: 0;
+    padding-top: 70px;
+    font-family: monospace, monospace;
+    text-align: center;
+    color: rgb(146, 168, 209);
+    font-size: 8vw;
+    display: flex;
+    width:100%;
+    /*https://googlecreativelab.github.io/coder-projects/projects/digital_clock with some changes from me*/
 }
