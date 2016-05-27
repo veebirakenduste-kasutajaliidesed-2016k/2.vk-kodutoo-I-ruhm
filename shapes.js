@@ -1,8 +1,5 @@
 (function(){
 	"use strict";
-	//Moosipurk = List
-	//Jar = Item
-	//jars = items
 	var List = function(){
 		if(List.instance){
 			return List.instance;
@@ -50,7 +47,7 @@
 			if(localStorage.items){
 				this.items = JSON.parse(localStorage.items);
 				this.items.forEach(function(item){
-					var new_item = new Item(item.id, item.activity, item.time);
+					var new_item = new Item(item.id, item.shape, item.color, item.size);
 
 					List.instance.item_id = item.id;
 					var li = new_item.createHtmlElement();
@@ -61,8 +58,7 @@
 			this.bindEvents();
 		},
 		bindEvents: function(){
-			document.querySelector('.add-new-item').addEventListener('click', this.addNewClick.bind(this));
-			document.querySelector('#search').addEventListener('keyup', this.search.bind(this));
+			document.querySelector('.new_shape').addEventListener('click', this.addNewClick.bind(this));
 		},
 		deleteItem: function(event){
 			console.log(event.target.parentNode);
@@ -78,9 +74,10 @@
 			localStorage.setItem('items', JSON.stringify(this.items));
 		},
 		addNewClick: function(event){
-			var activity = document.querySelector('.activity').value;
-			var time = document.querySelector('.time').value;
-			var new_item = new Item(this.item_id, activity, time);
+			var shape = document.querySelector('.shape').value;
+			var color = document.querySelector('.color').value;
+			var size = document.querySelector('.size').value;
+			var new_item = new Item(this.item_id, shape, color, size);
 			this.item_id++;
 			this.items.push(new_item);
 			console.log(JSON.stringify(this.items));
@@ -106,27 +103,44 @@
 		}
 	};
 	//End of list
-	var Item = function(new_id, new_activity, new_time){
+	var Item = function(new_id, new_shape, new_color, new_size){
 		this.id = new_id;
-		this.activity = new_activity;
-		this.time = new_time;
-		console.log('New list item created');
+		this.shape = new_shape;
+		this.color = new_color;
+		this.size = new_size;
+		console.log('New shape created');
 
 	};
 
 	Item.prototype = {
 		createHtmlElement: function(){
+			function randomInt(min,max){
+    			return Math.floor(Math.random()*(max-min+1)+min);
+			}
+			
 			var li = document.createElement('li');
-			var span = document.createElement('span');
+			/*var span = document.createElement('span');
 			li.appendChild(span);
 			var span_with_content = document.createElement('span');
 			span_with_content.className = 'content';
 			var content = document.createTextNode(this.activity + ' | ' + this.time);
 			span_with_content.appendChild(content);
 			li.appendChild(span_with_content);
-
+			*/
+			var shape = document.createElement("img");
+			shape.src=(this.shape).toString()+".png";
+			shape.style.opacity=".5";
+			shape.style.background=this.color;
+			var imageSize = 100/this.size
+			shape.style.width=imageSize.toString() + "%";
+			shape.style.height=imageSize.toString() + "%";
+			shape.style.position="relative";
+			shape.style.position="LEFT: "+/*randomInt(100, 1000).toString()*/ 500+"px";
+			shape.style.position="TOP: "+randomInt(100, 1000).toString()+"px";
+			/*TOP:"+randomInt()+"px; LEFT:"+randomInt()+"px";*/
+			//li.appendChild(shape);
 			//delete
-			var delete_span = document.createElement('span');
+			/*var delete_span = document.createElement('span');
 			delete_span.appendChild(document.createTextNode(' Delete'));
 
 			delete_span.style.color = 'red';
@@ -137,9 +151,9 @@
 
 			delete_span.addEventListener('click', List.instance.deleteItem.bind(List.instance));
 
-			li.appendChild(delete_span);
+			li.appendChild(delete_span);*/
 
-				return li;
+			return shape;
 
 		}
 	};

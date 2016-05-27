@@ -1,18 +1,17 @@
  <html>
 	<head>
-		<title>To-do list</title>
-		<link rel="stylesheet" type="text/css" href="todo.css">
-		<script src="todo.js"></script>
+		<title>localStorage Shapes</title>
+		<link rel="stylesheet" type="text/css" href="shapes.css">
+		<script src="shapes.js"></script>
 		
 	</head>
 	<body>
-	<!---
+    <!--
 		<h1>To-do list</h1>
 		<input type="submit" id="send_item" text="Add">
 		<ul id="todo_list">
 			<li><input type="checkbox">First item</li>
-			
-	--->
+			-->
 		  <nav class="menu">
     <ul class="menu-list">
       <li class="menu-item"><a href="#list-view" class="menu-link list-view">List</a></li>
@@ -25,18 +24,21 @@
     <div id="list-view">
       <h1>List</h1>
       <br>
-      <ul class="list-of-items"></ul>
+      <div class="list-of-items"></div>
     </div>
     <div id="manage-view">
       <h1>Add</h1>
 
-      <label for="activity">Activity: </label><br>
-      <input type="text" name="activity" class="activity"><br>
+      <label for="Shape">Shape: </label><br>
+      <input type="text" name="Shape" class="Shape"><br>
 
-      <label for="time">Time: </label><br>
-      <input type="text" name="time" class="time"><br>
+      <label for="Color">Color: </label><br>
+      <input type="text" name="Color" class="Color"><br>
 
-      <button class="add-new-item pull-right">Add activity</button>
+      <label for="Color">Size: </label><br>
+      <input type="text" name="Size" class="Size"><br>
+
+      <button class="new_shape">Add Shape</button>
     </div>
 
   </main>
