@@ -1,3 +1,19 @@
+//Kujundite kustutamine (pildid ja localStorage) JQuery abil
+$(document).ready(function(){
+	$('body').on('click','img',function(){
+		$(this).toggle(1000);
+		var allItems = JSON.parse(localStorage.getItem("items"));
+		for(i=0;i<allItems.length;i++){
+			console.log(JSON.stringify(allItems));
+			if(allItems[i].id == $(this).attr('id')){
+				localStorage.removeItem("items");
+				console.log("Removing: "+ JSON.stringify(i));
+				allItems.splice(allItems.indexOf((allItems[i])),1);				
+				localStorage.items = JSON.stringify(allItems);
+			}			
+		}
+	})
+});
 (function(){
 	"use strict";
 	var List = function(){
@@ -61,17 +77,12 @@
 			document.querySelector('.new_shape').addEventListener('click', this.addNewClick.bind(this));
 		},
 		deleteItem: function(event){
-			console.log(event.target.parentNode);
-			console.log(event.target.dataset.id);
+			console.log("delete");
 
-			var clicked_li = event.target.parentNode;
-			document.querySelector('.list-of-items').removeChild(clicked_li);
-			this.items.forEach(function(item, i){
-				if(item.id == event.target.dataset.id){
-					List.instance.items.splice(i, 1);
+			/*		List.instance.items.splice(i, 1);
 				}
 			});
-			localStorage.setItem('items', JSON.stringify(this.items));
+			localStorage.setItem('items', JSON.stringify(this.items));*/
 		},
 		addNewClick: function(event){
 			var shape = document.querySelector('.shape').value;
@@ -86,14 +97,11 @@
 			document.querySelector('.list-of-items').appendChild(li);
 		},
 		routeChange: function(event){
-			this.currentRoute = location.hash.slice(1);
+			this.currentRoute = location.hash.slice(1);JSON
 			console.log(this.currentRoute);
 			if(this.routes[this.currentroute]){
 				this.updateMenu();
 				this.routes[this.currentRoute].render();
-			}
-			else{
-				console.log("404");
 			}
 		},
 		updateMenu: function(){
@@ -102,7 +110,7 @@
 
 		}
 	};
-	//End of list
+	//Kujundi objekti loomine
 	var Item = function(new_id, new_shape, new_color, new_size){
 		this.id = new_id;
 		this.shape = new_shape;
@@ -118,18 +126,10 @@
     			return Math.floor(Math.random()*(max-min+1)+min);
 			}
 			
-			var li = document.createElement('li');
-			/*var span = document.createElement('span');
-			li.appendChild(span);
-			var span_with_content = document.createElement('span');
-			span_with_content.className = 'content';
-			var content = document.createTextNode(this.activity + ' | ' + this.time);
-			span_with_content.appendChild(content);
-			li.appendChild(span_with_content);
-			*/
 			var shape = document.createElement("img");
 			shape.src=(this.shape).toString()+".png";
 			shape.style.opacity=".5";
+			shape.id = this.id;
 			shape.style.background=this.color;
 			var imageSize = 100/this.size
 			shape.style.width=imageSize.toString() + "%";
@@ -137,22 +137,6 @@
 			shape.style.position="relative";
 			shape.style.position="LEFT: "+/*randomInt(100, 1000).toString()*/ 500+"px";
 			shape.style.position="TOP: "+randomInt(100, 1000).toString()+"px";
-			/*TOP:"+randomInt()+"px; LEFT:"+randomInt()+"px";*/
-			//li.appendChild(shape);
-			//delete
-			/*var delete_span = document.createElement('span');
-			delete_span.appendChild(document.createTextNode(' Delete'));
-
-			delete_span.style.color = 'red';
-			delete_span.style.cursor = 'pointer';
-
-			//panen külge id
-			delete_span.setAttribute('data-id', this.id);
-
-			delete_span.addEventListener('click', List.instance.deleteItem.bind(List.instance));
-
-			li.appendChild(delete_span);*/
-
 			return shape;
 
 		}
