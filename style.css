@@ -91,7 +91,8 @@ main {
     float: right;
 }
 .title,
-.repeats {
+.repeats,
+.trainD {
     width: 100%;
     margin-bottom: 10px;
     margin-top: 4px;
@@ -134,7 +135,7 @@ input {
     -webkit-tap-highlight-color: transparent;
 }
 #calendar {
-	/*width: 100%;*/
+	width: 20%;
 	font: monospace;
 	line-height: 1.2em;
 	font-size: 15px;
