@@ -20,14 +20,39 @@
 
     <div id="list-view">
       <h1>Trenniplaan</h1>
+      <input type="search" placeholder="Enter keyword" id="search"><br>
+      <ul class="list-of-jars"></ul>
+    </div>
+	
+    <div id="manage-view">
+      <h1>Plaani koostamine</h1>
 	  <table id="calendar">
 			<thead>
 				<tr><td>‹<td colspan="5"><td>›
 				<tr><td>E<td>T<td>K<td>N<td>R<td>L<td>P
 			<tbody>
 		</table><br><br>
-		
-		<script>
+
+      <label for="title">Nimi: </label><br>
+      <input type="text" name="title" class="title"><br>
+
+      <label for="repeats">Kordused: </label><br>
+      <input type="text" name="repeats" class="repeats"><br>
+	  
+	  <label for="trainD">Päev: </label><br>
+      <input type="text" name="trainD" class="trainD"><br>
+
+
+      <button class="add-new-jar pull-right">Lisa</button>
+    </div>
+
+    <div id="home-view">
+      <h1>Avaleht</h1>
+    </div>
+
+  </main>
+  
+  <script>
 		function Calendar(id, year, month) {
 		var Dlast = new Date(year,month+1,0).getDate(),
 			D = new Date(year,month,Dlast),
@@ -69,31 +94,6 @@
 		  Calendar("calendar", document.querySelector('#calendar thead td:nth-child(2)').dataset.year, parseFloat(document.querySelector('#calendar thead td:nth-child(2)').dataset.month)+1);
 		}
 		</script>
-      <input type="search" placeholder="Enter keyword" id="search"><br>
-      <ul class="list-of-jars"></ul>
-    </div>
-	
-    <div id="manage-view">
-      <h1>Plaani koostamine</h1>
-
-      <label for="title">Nimi: </label><br>
-      <input type="text" name="title" class="title"><br>
-
-      <label for="repeats">Kordused: </label><br>
-      <input type="text" name="repeats" class="repeats"><br>
-	  
-	  <label for="trainD">Päev: </label><br>
-      <input type="trainD" name="trainD" class="trainD"><br>
-
-
-      <button class="add-new-jar pull-right">Lisa</button>
-    </div>
-
-    <div id="home-view">
-      <h1>Avaleht</h1>
-    </div>
-
-  </main>
 
 </body>
 </html>

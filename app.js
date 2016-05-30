@@ -46,7 +46,7 @@
 
          //simulatsioon laeb kaua
          window.setTimeout(function(){
-           document.querySelector('.loading').innerHTML = 'laetud!';
+           //document.querySelector('.loading').innerHTML = 'laetud!';
          }, 3000);
 
        }
@@ -86,7 +86,7 @@
            //tekitan loendi htmli
            this.jars.forEach(function(jar){
 
-               var new_jar = new Jar(jar.id, jar.title, jar.repeats);
+               var new_jar = new Jar(jar.id, jar.title, jar.repeats, jar.trainD);
 				
 				//uuendad trenniplaani id'd et hiljem jatkata kus pooleli jai
 				Trenniplaan.instance.jar_id = jar.id;
@@ -155,10 +155,12 @@
 		 var li = event.target.parentNode;
 		 
 		 var new_title = prompt("Uus pealkiri");
-		 //var new_repeats = prompt("Uus koostis");
+		 var new_repeats = prompt("Kordused");
+		 var new_trainD = prompt("Kuupäev");
 		 
 		 li.querySelector(".content").innerHTML = new_title;
-		 //li.querySelectror(".content").innerHTML = new_repeats;
+		 li.querySelector(".content").innerHTML = new_repeats;
+		 li.querySelector(".content").innerHTML = new_trainD;
 
 		 
 		 this.jars.forEach(function(jar, i){
@@ -166,9 +168,10 @@
 			 if(jar.id == event.target.dataset.id){
 				 
 				 jar.title = new_title;
-				 //jar.repeats = new_repeats;
+				 jar.repeats = new_repeats;
+				 jar.trainD = new_trainD;
 				 
-				 Moosipurk.instance.jars.splice(i, 1, jar);
+				 Trenniplaan.instance.jars.splice(i, 1, jar);
 			 }
 		 });
 		 
@@ -210,10 +213,11 @@
 
        var title = document.querySelector('.title').value;
        var repeats = document.querySelector('.repeats').value;
-
+	   var trainD = document.querySelector('.trainD').value;
+	   
        //console.log(title + ' ' + repeats);
        //1) tekitan uue Jar'i
-       var new_jar = new Jar(this.jar_id, title, repeats);
+       var new_jar = new Jar(this.jar_id, title, repeats, trainD);
 	   
 	   //suurenda id'd
 	   this.jar_id++;
@@ -266,10 +270,11 @@
 
    }; // TRENNIPLAANI LOPP
 
-   var Jar = function(new_id, new_title, new_repeats){
+   var Jar = function(new_id, new_title, new_repeats, new_trainD){
 	 this.id = new_id;
      this.title = new_title;
      this.repeats = new_repeats;
+	 this.trainD = new_trainD
      console.log('created new jar');
    };
 
@@ -290,7 +295,7 @@
        var span = document.createElement('span');
        span.className = 'letter';
 
-       var letter = document.createTextNode(this.title.charAt(0));
+       var letter = document.createTextNode(this.trainD.charAt(0));
        span.appendChild(letter);
 
        li.appendChild(span);
@@ -298,7 +303,7 @@
        var span_with_content = document.createElement('span');
        span_with_content.className = 'content';
 
-       var content = document.createTextNode(this.title + ' | ' + this.repeats);
+       var content = document.createTextNode(this.trainD + ' | ' + this.title + ' | ' + this.repeats);
        span_with_content.appendChild(content);
 
        li.appendChild(span_with_content);
