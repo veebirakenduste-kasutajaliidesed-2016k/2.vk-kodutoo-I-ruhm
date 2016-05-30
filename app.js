@@ -142,6 +142,22 @@
         document.querySelector('.cheese-list').appendChild(li);
     },
         
+    changeCheese: function(event){
+        var  c = confirm('Kas soovid muuta?');
+        if(!c){ return; }
+        var name = window.prompt("Palun sisesta uus nimi");
+        var type = window.prompt("Palun sisesta uus tüüp");
+        var origin = window.prompt("palun sisesta uus päritolu");
+        var newCheese = new cheeseObject(guid(), name, type, origin);
+        this.cheeseArray.forEach(function(cheeseObject, i){
+          if(cheeseObject.id == event.target.dataset.id){
+            App.instance.cheeseArray.splice(i, 1, newCheese);
+          }});
+        localStorage.setItem('cheeseArray', JSON.stringify(this.cheeseArray));
+        location.reload();
+
+    },
+        
     routeChange: function(event){
         this.currentRoute = location.hash.slice(1);
         console.log(this.currentRoute);
@@ -202,13 +218,17 @@
 	   
 	   li.appendChild(delete_span);
             
-       var change_span = document.createElement('span');
-	   change_span.appendChild(document.createTextNode(' muuda'));
-            
-       change_span.style.color = 'blue';
-       change_span.style.cursor = 'pointer';
-	   change_span.addEventListener('click', App.instance.changeCheese.bind(App.instance));
-	   
+        var change_span = document.createElement('span');
+    	   change_span.appendChild(document.createTextNode(' muuda'));
+
+         change_span.style.color = 'blue';
+         change_span.style.cursor = 'pointer';
+
+         change_span.setAttribute('data-id', this.id);
+            console.log('set id');
+
+    	   change_span.addEventListener('click', App.instance.changeCheese.bind(App.instance));
+
 	   li.appendChild(change_span);
 
 
