@@ -4,6 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <title>ToDoList v0.1</title>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script src="app.js" charset="utf-8"></script>
   <link rel="stylesheet" href="style.css">
 </head>
@@ -14,6 +15,8 @@
       <li class="menu-item"><a href="#home-view" class="menu-link home-view active-menu">Avaleht</a></li>
       <li class="menu-item"><a href="#list-view" class="menu-link list-view">Loend</a></li>
       <li class="menu-item"><a href="#manage-view" class="menu-link manage-view">Haldus</a></li>
+      <li class="menu-item"><a href="#postimees-view" class="menu-link postimees-view">Postimees RSS</a></li>
+      <li class="menu-item"><a href="#delfi-view" class="menu-link delfi-view">Delfi RSS</a></li>
     </ul>
   </nav>
 
@@ -34,7 +37,7 @@
       <label for="description">Kirjeldus: </label><br>
       <input type="text" name="description" class="description"><br>
 
-      <button class="add-new-task pull-right">Lisa uus ülesanne</button>
+      <button class="add-new-task pull-right">Lisa uus ï¿½lesanne</button>
     </div>
 
     <div id="home-view">
@@ -43,6 +46,34 @@
 
 
     </div>
+
+	<div id="postimees-view">
+	
+      <h1>Postimees RSS</h1>
+		<div id="postimees">
+		<div id="content">
+		  <h1>Uudised</h1>
+		  <div id="postimees" class="feedcontainer"></div>
+		</div>
+	</div>
+
+    </div>
+
+	<div id="delfi-view">
+	
+      <h1>Delfi RSS</h1>
+		<div id="one">
+		<div id="content">
+		  <h1>Uudised</h1>
+		  <div id="delfi" class="feedcontainer"></div>
+		</div>
+		
+	</div>
+
+    </div>
+
+	
+
 
 
   </main>

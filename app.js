@@ -8,6 +8,7 @@
      }
 
      ToDoList.instance = this;
+	 
      this.routes = ToDoList.routes;
 
 
@@ -18,6 +19,8 @@
 
      this.tasks = [];
      this.init();
+	 this.parseRSS()
+	 
    };
 
    window.ToDoList = ToDoList;
@@ -32,7 +35,14 @@
      'manage-view': {
        'render': function(){
         }
-     }
+     },
+	 'postimees-view': {
+		 'render': function(){
+		 }
+	 },'delfi-view': {
+		 'render': function(){
+		 }
+	 }
    };
 
    ToDoList.prototype = {
@@ -155,6 +165,27 @@
       window.location.hash = 'list-view';
 
      },
+
+    parseRSS: function(url, container) {  /* Parseb RSS'i lÃƒÆ’Ã‚Â¤bi Google ja annab JSON data */
+       $.ajax({
+         url: document.location.protocol + '//ajax.googleapis.com/ajax/services/feed/load?v=1.0&num=10&callback=?&q=' + encodeURIComponent(url),
+         dataType: 'json',
+         success: function(data) {
+           $(container).html('<h2>'+ToDoList.instance.capitaliseFirstLetter(data.responseData.feed.title)+'</h2>');
+           $.each(data.responseData.feed.entries, function(key, value){
+             var thehtml = '<h3><a href="'+value.link+'" target="_blank">'+value.title+'</a></h3>';
+             console.log(thehtml + "thehtml");
+             $(container).append(thehtml);
+           });
+         }
+       });
+        console.log(url);
+     },
+     
+    capitaliseFirstLetter: function(string, url, container) { /* PÃƒÂ¤rineb stackoverflow.com'st*/
+         return string.charAt(0).toUpperCase() + string.slice(1);
+     },
+
 
      routeChange: function(event){
 
