@@ -11,8 +11,8 @@
   <nav class = "menu">
     <ul class = "menu-list">
       <li class = "menu-item"><a href="#home-view" class = "menu-link home-view active-menu">Avaleht</a></li>
-      <li class = "menu-item"><a href="#list-view" class = "menu-link list-view">Loend</a></li>
-      <li class = "menu-item"><a href="#manage-view" class = "menu-link manage-view">Haldus</a></li>
+      <li class = "menu-item"><a href="#list-view" class = "menu-link list-view">Meeldetuletused</a></li>
+      <li class = "menu-item"><a href="#manage-view" class = "menu-link manage-view">Lisa uus</a></li>
 
     </ul>
   </nav>
@@ -24,25 +24,21 @@
       <ul class="list-of-jars"></ul>
     </div>
     <div id = "manage-view">
-      <h1>Haldus</h1>
+      <h1>Lisa uus</h1>
 
-      <!--<label for="dropdown">Kategooria: </label><br>
-      <select name="dropdown" id="dropdown">
-        <option value="1">Töö</option>
-        <option value="2">Vaba aeg</option>
-        <option value="3">Muu</option>
-      </select><br>-->
-
-      <label for="description">Täpsem kirjeldus: </label><br>
+      <label for="description">Meeldetuletus: </label><br>
       <input type="text" name="description" class="description"><br>
 
-      <label for="time">Aeg: </label><br>
-      <input type="date" name="time" class="time"><br>
+      <label for="priority">Prioriteet(1-madal, 2-keskmine, 3-kõrge): </label><br>
+      <input type="text" name="priority" class="priority"><br>
 
       <button class="add-new-notification pull-right">Lisa meeldetuletus</button>
     </div>
     <div id = "home-view">
       <h1>Avaleht</h1>
+      <div id="highPriority"></div><br>
+      <div id="mediumPriority"></div><br>
+      <div id="lowPriority"></div><br>
     </div>
   </main>
 

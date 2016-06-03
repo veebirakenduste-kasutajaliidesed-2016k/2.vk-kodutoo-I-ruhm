@@ -1,16 +1,16 @@
 (function(){
    "use strict";
 
-   var Moosipurk = function(){
+   var Notification = function(){
 
      // SEE ON SINGLETON PATTERN
-     if(Moosipurk.instance){
-       return Moosipurk.instance;
+     if(Notification.instance){
+       return Notification.instance;
      }
      //this viitab Moosipurk fn
-     Moosipurk.instance = this;
+     Notification.instance = this;
 
-     this.routes = Moosipurk.routes;
+     this.routes = Notification.routes;
      // this.routes['home-view'].render()
 
      console.log('moosipurgi sees');
@@ -20,6 +20,9 @@
      this.currentRoute = null;
      console.log(this);
 
+     //id, mis läheb purgile kaasa
+     this.jar_id = 0;
+
      // hakkan hoidma kÃµiki purke
      this.jars = [];
 
@@ -27,9 +30,9 @@
      this.init();
    };
 
-   window.Moosipurk = Moosipurk; // Paneme muuutja kÃ¼lge
+   window.Notification = Notification; // Paneme muuutja kÃ¼lge
 
-   Moosipurk.routes = {
+   Notification.routes = {
      'home-view': {
        'render': function(){
          // kÃ¤ivitame siis kui lehte laeme
@@ -56,7 +59,7 @@
    };
 
    // KÃµik funktsioonid lÃ¤hevad Moosipurgi kÃ¼lge
-   Moosipurk.prototype = {
+   Notification.prototype = {
 
      init: function(){
        console.log('Rakendus lÃ¤ks tÃ¶Ã¶le');
@@ -82,13 +85,18 @@
            //tekitan loendi htmli
            this.jars.forEach(function(jar){
 
-               var new_jar = new Jar(jar.id, jar.time, jar.description);
+               var new_jar = new Jar(jar.id, jar.description, jar.priority);
 
+               //uuendad moosipurgi id'd et hiljem jätkata kus pooleli jäi
+               Notification.instance.jar_id = jar.id;
 
                var li = new_jar.createHtmlElement();
                document.querySelector('.list-of-jars').appendChild(li);
 
            });
+
+           //suurendame id'd järgmise purgi jaoks ühe võrra
+           this.jar_id++;
 
        }
 
@@ -99,7 +107,7 @@
      },
 
      bindEvents: function(){
-       document.querySelector('.add-new-jar').addEventListener('click', this.addNewClick.bind(this));
+       document.querySelector('.add-new-notification').addEventListener('click', this.addNewClick.bind(this));
 
        //kuulan trÃ¼kkimist otsikastis
        document.querySelector('#search').addEventListener('keyup', this.search.bind(this));
@@ -130,7 +138,7 @@
 
 				//mis index ja mitu. + lisaks saab asendada vajadusel
 				//http://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_splice1
-				Moosipurk.instance.jars.splice(i, 1);
+				Notification.instance.jars.splice(i, 1);
 			}
 
         });
@@ -168,18 +176,36 @@
          }
      },
 
+     changeJar: function(event){
+       var li = event.target.parentNode;
+       var new_description = prompt("Uus teade");
+       var new_priority = prompt("Uus prioriteet");
+
+       li.querySelector(".content").innerHTML = new_description;
+       li.querySelector(".content").innerHTML = new_priority;
+
+       this.jars.forEach(function(jar, i){
+         if(jar.id == event.target.dataset.id){
+           jar.description = new_description;
+           jar.priority = new_priority;
+           Notification.instance.jars.splice(i, 1, jar);
+         }
+       });
+       localStorage.setItem('jars', JSON.stringify(this.jars));
+     },
+
      addNewClick: function(event){
        //salvestame purgi
        //console.log(event);
 
-       var time = document.querySelector('.time').value;
        var description = document.querySelector('.description').value;
+       var priority = document.querySelector('.priority').value;
 
        //console.log(time + ' ' + description);
        //1) tekitan uue Jar'i
-       var new_jar = new Jar(guid(), time, description);
+       var new_jar = new Jar(this.jar_id, description, priority);
 
-
+        this.jar_id++;
        //lisan massiiivi purgi
        this.jars.push(new_jar);
        console.log(JSON.stringify(this.jars));
@@ -189,6 +215,23 @@
        // 2) lisan selle htmli listi juurde
        var li = new_jar.createHtmlElement();
        document.querySelector('.list-of-jars').appendChild(li);
+
+       var high = 0;
+       var medium = 0;
+       var low = 0;
+       for(var j = 0; j < this.jars.length; j++){
+         if(this.jars[j].priority == "3"){
+           high++;
+         }if(this.jars[j].priority == "2"){
+           medium++;
+         }if(this.jars[j].priority == "1"){
+           low++;
+         }
+       }
+
+       document.querySelector('#highPriority').innerHTML = "Kõrge prioriteet: " + high;
+       document.querySelector('#mediumPriority').innerHTML = "Keskmine prioriteet: " + medium;
+       document.querySelector('#lowPriority').innerHTML = "Madal prioriteet: " + low;
 
 
      },
@@ -228,10 +271,10 @@
 
    }; // MOOSIPURGI LÃ•PP
 
-   var Jar = function(new_id, new_time, new_description){
-	 this.id = new_id;
-     this.time = new_time;
+   var Jar = function(new_id, new_description, new_priority){
+	    this.id = new_id;
      this.description = new_description;
+     this.priority = new_priority;
      console.log('created new jar');
    };
 
@@ -252,15 +295,25 @@
        var span = document.createElement('span');
        span.className = 'letter';
 
-       /*var letter = document.createTextNode(this.time.charAt(0));
-       span.appendChild(letter);*/
+       var letter = document.createTextNode(this.priority.charAt(0));
+       if(this.priority.charAt(0) == "3"){
+         span.style.color = "#FF0000"; //punane
+         span.style.borderColor = "#FF0000";
+       }else if(this.priority.charAt(0) == "2"){
+         span.style.color = "#FFFF00"; //kollane
+         span.style.borderColor = "#FFFF00";
+       }else{
+         span.style.color = "#00FF00"; //roheline
+         span.style.borderColor = "#00FF00";
+       }
+       span.appendChild(letter);
 
        li.appendChild(span);
 
        var span_with_content = document.createElement('span');
        span_with_content.className = 'content';
 
-       var content = document.createTextNode(this.time + ' | ' + this.description);
+       var content = document.createTextNode(this.description);
        span_with_content.appendChild(content);
 
        li.appendChild(span_with_content);
@@ -269,16 +322,23 @@
 
 	   var delete_span = document.createElement('span');
 	   delete_span.appendChild(document.createTextNode(' kustuta'));
+     var change_span = document.createElement('span');
+     change_span.appendChild(document.createTextNode(' muuda'));
 
 	   delete_span.style.color = 'red';
 	   delete_span.style.cursor = 'pointer';
+     change_span.style.color = 'green';
+     change_span.style.cursor = 'pointer';
 
 	   //panen kÃ¼lge id
 	   delete_span.setAttribute('data-id', this.id);
+     change_span.setAttribute('data-id', this.id);
 
-	   delete_span.addEventListener('click', Moosipurk.instance.deleteJar.bind(Moosipurk.instance));
+	   delete_span.addEventListener('click', Notification.instance.deleteJar.bind(Notification.instance));
+     change_span.addEventListener('click', Notification.instance.changeJar.bind(Notification.instance));
 
-	   li.appendChild(delete_span);
+     li.appendChild(delete_span);
+     li.appendChild(change_span);
 
        return li;
 
@@ -289,7 +349,7 @@
 
    // kui leht laetud kÃ¤ivitan Moosipurgi rakenduse
    window.onload = function(){
-     var app = new Moosipurk();
+     var app = new Notification();
    };
 
 })();
