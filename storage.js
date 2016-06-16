@@ -107,7 +107,8 @@ var FunList = function (selectorID){
             console.log(itemid, itemtext);
             var output = document.createElement('div');
                 output.setAttribute('id', itemid);
-            var itemText = document.createElement('div');
+                output.setAttribute('class', 'midagi');
+            var itemText = document.createElement('p');
                 itemText.setAttribute('class','itemText');
                 textOutput = document.createTextNode(itemtext);
                 itemText.appendChild(textOutput);
