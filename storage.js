@@ -105,9 +105,13 @@ var FunList = function (selectorID){
         draw: function(itemid, itemtext){
             //joonistab välja kogu manti, mis on
             console.log(itemid, itemtext);
-            var output = document.createElement('div'),
-                outputText = document.createTextNode(itemtext);
+            var output = document.createElement('div');
                 output.setAttribute('id', itemid);
+            var itemText = document.createElement('div');
+                itemText.setAttribute('class','itemText');
+                textOutput = document.createTextNode(itemtext);
+                itemText.appendChild(textOutput);
+
             var deletebutton = document.createElement("BUTTON"),
                 deletebuttontext = document.createTextNode('Delete');
                 deletebutton.appendChild(deletebuttontext);
@@ -120,7 +124,7 @@ var FunList = function (selectorID){
                 editbutton.setAttribute('id', itemid);
             output.appendChild(deletebutton);
             output.appendChild(editbutton);
-            output.appendChild(outputText);
+            output.appendChild(itemText);
             this.listEl.appendChild(output);
 
         },
@@ -142,21 +146,62 @@ var FunList = function (selectorID){
             localStorage.setItem("item", JSON.stringify(this.itemsList));
         },
         edit: function(itemid){
-            console.log(itemid);
+            //console.log(itemid);
 
             for(var f in this.itemsList){
                 if(this.itemsList[f].id === itemid){
                     var editbox = document.createElement("INPUT");
                         editbox.type = "text";
-                        var value = document.get.getElementById(itemid).className = 'editbox';
-                        editbox.value = value.textContent;
+                        editbox.setAttribute('class', 'input');
+                        var value = document.getElementById(itemid).className;
+                        console.log(document.getElementById(itemid).childNodes[2].innerHTML);
+                        editbox.value = document.getElementById(itemid).childNodes[2].innerHTML;
                         editbox.setAttribute('id', itemid);
-                        editbox.setAttribute('class', 'editbox');
-                    document.getElementById(itemid).appendChild(editbox);
+                        //editbox.setAttribute('class', 'editbox');
+                        //console.log(document.getElementById(itemid).textContent);
+
+                        var savebutton = document.createElement("BUTTON"),
+                            savebuttontext = document.createTextNode('Save');
+                            savebutton.appendChild(savebuttontext);
+                            savebutton.setAttribute('class', 'savebutton');
+                            savebutton.setAttribute('id', itemid);
+                            console.log(document.getElementById(itemid).childNodes.length);
+                            if(document.getElementById(itemid).childNodes.length <4){
+                                console.log("pole olemas");
+
+                                document.getElementById(itemid).appendChild(editbox);
+                                document.getElementById(itemid).appendChild(savebutton);
+                            }else{
+                                console.log("on olemas");
+                            }
+
+
             }
 
 
             }
+        },
+        save: function(itemid){
+            console.log(itemid);
+            var list = document.getElementById(itemid);
+                console.log(list.childNodes[3].value);
+
+                console.log(this.itemsList);
+
+                for (var i = 0; i < this.itemsList.length; i++) {
+                    if(this.itemsList[i].id == itemid){
+
+                        this.itemsList[i].item = list.childNodes[3].value;
+                        console.log(this.itemsList[i].item);
+                        list.childNodes[2].innerHTML = list.childNodes[3].value;
+                        localStorage.setItem("item", JSON.stringify(this.itemsList));
+                    }
+                }
+
+
+                list.removeChild(list.childNodes[4]);
+                list.removeChild(list.childNodes[3]);
+
         }
 
 
@@ -178,5 +223,12 @@ document.getElementById('eventBinder').addEventListener("click",function(e){
         window.myItemList.remove(e.target.id);
     }else if(e.target.className ==='editbutton'){
         window.myItemList.edit(e.target.id);
+    }else if(e.target.className ==='savebutton'){
+        window.myItemList.save(e.target.id);
     }
 });
+document.getElementById('eventBinder').addEventListener("click",function(e){
+
+}
+
+);
